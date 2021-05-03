@@ -22,6 +22,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 // CraftBukkit end
@@ -206,7 +207,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         if (this.noDamageTicks > 0) {
             --this.noDamageTicks;
         }
-        
+
         // PaperSpigot start - Configurable container update tick rate
         if (--containerUpdateDelay <= 0) {
             this.activeContainer.b();
@@ -429,7 +430,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         if (this.dead) {
             return;
         }
-        java.util.List<org.bukkit.inventory.ItemStack> loot = new java.util.ArrayList<org.bukkit.inventory.ItemStack>();
+        java.util.List<org.bukkit.inventory.ItemStack> loot = new java.util.ArrayList<>();
         boolean keepInventory = this.world.getGameRules().getBoolean("keepInventory");
 
         if (!keepInventory) {
@@ -489,6 +490,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         this.b(StatisticList.y);
         this.a(StatisticList.h);
         this.bs().g();
+        if (this.getWorld().getGameRules().getBoolean("forceRespawn")) {
+            getBukkitEntity().spigot().respawn();
+        }
     }
 
     public boolean damageEntity(DamageSource damagesource, float f) {
