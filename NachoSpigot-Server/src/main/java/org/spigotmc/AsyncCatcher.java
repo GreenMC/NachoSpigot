@@ -11,7 +11,10 @@ public class AsyncCatcher
     {
         if ( enabled && Thread.currentThread() != MinecraftServer.getServer().primaryThread )
         {
-            throw new IllegalStateException( "Asynchronous " + reason + "!" );
+            // Green start
+            //throw new IllegalStateException( "Asynchronous " + reason + "!" );
+            // Green end
+            // we want to break minecraft, soo
         }
     }
 }
