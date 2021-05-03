@@ -112,9 +112,9 @@ public class Chunk {
             case 1:
                 final int mask =
                         //       x        z   offset          x        z   offset          x         z   offset
-                        (0x1 << (1 * 5 +  1 + 12)) | (0x1 << (0 * 5 +  1 + 12)) | (0x1 << (-1 * 5 +  1 + 12)) |
-                        (0x1 << (1 * 5 +  0 + 12)) | (0x1 << (0 * 5 +  0 + 12)) | (0x1 << (-1 * 5 +  0 + 12)) |
-                        (0x1 << (1 * 5 + -1 + 12)) | (0x1 << (0 * 5 + -1 + 12)) | (0x1 << (-1 * 5 + -1 + 12));
+                        (0x1 << (5 +  1 + 12)) | (0x1 << (1 + 12)) | (0x1 << (-1 * 5 +  1 + 12)) |
+                        (0x1 << (5 + 12)) | (0x1 << (12)) | (0x1 << (-1 * 5 + 12)) |
+                        (0x1 << (5 + -1 + 12)) | (0x1 << (-1 + 12)) | (0x1 << (-1 * 5 + -1 + 12));
                 return (this.neighbors & mask) == mask;
             default:
                 throw new UnsupportedOperationException(String.valueOf(radius));

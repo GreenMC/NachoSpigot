@@ -3,6 +3,9 @@
 #### NachoSpigot is a fork of TacoSpigot 1.8.9.
 NachoSpigot offers a number of enhancements to performance as well as bug fixes such as a built-in Anti-Crash system and being able to perform well with a large number of players.
 
+## This fork
+GreenMC team just wants to break Minecraft and do what they want to do. This fork is not suitable for production.
+
 ## Current State
 Java 15 is now natively supported, and ProtocolLib and Citizens are patched at runtime to work with Nacho's patches.
 Nacho can now be used in production environments.

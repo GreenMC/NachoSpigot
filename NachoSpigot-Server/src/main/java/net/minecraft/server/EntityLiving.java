@@ -122,10 +122,12 @@ public abstract class EntityLiving extends Entity {
     }
 
     protected void h() {
-        this.datawatcher.a(7, Integer.valueOf(0));
-        this.datawatcher.a(8, Byte.valueOf((byte) 0));
-        this.datawatcher.a(9, Byte.valueOf((byte) 0));
-        this.datawatcher.a(6, Float.valueOf(1.0F));
+        // GreenMC start - remove unnecessary boxes
+        this.datawatcher.a(7, 0);
+        this.datawatcher.a(8, (byte) 0);
+        this.datawatcher.a(9, (byte) 0);
+        this.datawatcher.a(6, 1.0F);
+        // GreenMC end
     }
 
     protected void initAttributes() {
@@ -145,7 +147,7 @@ public abstract class EntityLiving extends Entity {
             float f = (float) MathHelper.f(this.fallDistance - 3.0F);
 
             if (block1.getMaterial() != Material.AIR) {
-                double d1 = (double) Math.min(0.2F + f / 15.0F, 10.0F);
+                double d1 = Math.min(0.2F + f / 15.0F, 10.0F);
 
                 if (d1 > 2.5D) {
                     d1 = 2.5D;

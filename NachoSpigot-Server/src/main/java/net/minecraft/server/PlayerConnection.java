@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import dev.cobblesword.nachospigot.Nacho;
+import io.github.greenmc.greenspigot.events.PlayerJumpEvent;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -24,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.HashSet;
 
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
@@ -436,7 +438,31 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                     boolean flag = worldserver.getCubes(this.player, this.player.getBoundingBox().shrink((double) f4, (double) f4, (double) f4)).isEmpty();
 
                     if (this.player.onGround && !packetplayinflying.f() && d12 > 0.0D) {
-                        this.player.bF();
+                        // Paper (GreenMC) start - Add player jump event - credit goes to https://github.com/PaperMC/Paper/blob/master/Spigot-Server-Patches/0170-Add-PlayerJumpEvent.patch
+
+                        // If the packet contains movement information then we update the To location with the correct XYZ.
+                        if (packetplayinflying.hasPos) {
+                            to.setX(packetplayinflying.x);
+                            to.setY(packetplayinflying.y);
+                            to.setZ(packetplayinflying.z);
+                        }
+
+                        // If the packet contains look information then we update the To location with the correct Yaw & Pitch.
+                        if (packetplayinflying.hasLook) {
+                            to.setYaw(packetplayinflying.yaw);
+                            to.setPitch(packetplayinflying.pitch);
+                        }
+
+                        PlayerJumpEvent event = new PlayerJumpEvent(player, from, to);
+
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (!event.isCancelled()) {
+                            this.player.bF(); //this.player.jump()
+                        } else {
+                            this.internalTeleport(from.getX(), from.getY(), from.getZ(), from.getYaw(), from.getPitch(), Collections.emptySet());
+                            return;
+                        }
+                        // Paper (GreenMC) end
                     }
 
                     this.player.world.movementCache.clear(); // IonSpigot - Movement Cache

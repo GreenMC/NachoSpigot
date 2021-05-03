@@ -1,0 +1,16 @@
+{
+  "saveEmptyScoreboardTeams": false,
+  "enableVersionCommand": true,
+  "enablePluginsCommand": true,
+  "enableReloadCommand": true,
+  "useFastOperators": false,
+  "patchProtocolLib": true,
+  "stopNotifyBungee": false,
+  "checkForMalware": false,
+  "shouldTickEnchantmentTables": true,
+  "usePandaWire": true,
+  "constantExplosions": false,
+  "explosionProtectedRegions": true,
+  "playerTimeStatisticsInterval": 20,
+  "serverBrandName": "NachoSpigot"
+}
