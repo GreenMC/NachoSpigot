@@ -17,7 +17,7 @@ jobs:
         settings-path: ${{ github.workspace }}
 
     - name: Build with Maven
-      run: mvn clean package --file $GITHUB_WORKSPACE/pom.xml
+      run: mvn clean package -DskipTests --file $GITHUB_WORKSPACE/pom.xml
       
     - name: Upload Server Artifact
       uses: actions/upload-artifact@v2.2.0
