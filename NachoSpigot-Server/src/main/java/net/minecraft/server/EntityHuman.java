@@ -551,8 +551,8 @@ public abstract class EntityHuman extends EntityLiving {
         return Lists.newArrayList();
     }
 
-    public EntityItem a(boolean flag) {
-        // Called only when dropped by Q or CTRL-Q
+    public EntityItem a(boolean flag) { // DROP ALL ITEMS
+        // Called when dropped by Q or CTRL-Q
         return this.a(this.inventory.splitStack(this.inventory.itemInHandIndex, flag && this.inventory.getItemInHand() != null ? this.inventory.getItemInHand().count : 1), false, true);
     }
 
@@ -976,7 +976,7 @@ public abstract class EntityHuman extends EntityLiving {
                     f1 = EnchantmentManager.a(this.bA(), EnumMonsterType.UNDEFINED);
                 }
 
-                int i = b0 + EnchantmentManager.a((EntityLiving) this);
+                int i = b0 + EnchantmentManager.a(this);
 
                 if (this.isSprinting()) {
                     ++i;

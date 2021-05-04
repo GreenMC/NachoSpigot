@@ -204,11 +204,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
         this.a(chatcomponenttext); // CraftBukkit - fire quit instantly
         this.networkManager.k();
         // CraftBukkit - Don't wait
-        this.minecraftServer.postToMainThread(new Runnable() {
-             public void run() {
-                 PlayerConnection.this.networkManager.l();
-            }
-        });
+        this.minecraftServer.postToMainThread(() -> PlayerConnection.this.networkManager.l());
     }
 
     public void a(PacketPlayInSteerVehicle packetplayinsteervehicle) {
@@ -291,33 +287,32 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                     this.lastPitch = to.getPitch();
 
                     // Skip the first time we do this
-                    if (true) { // Spigot - don't skip any move events
-                        Location oldTo = to.clone();
-                        PlayerMoveEvent event = new PlayerMoveEvent(player, from, to);
-                        this.server.getPluginManager().callEvent(event);
+                    // Spigot - don't skip any move events
+                    Location oldTo = to.clone();
+                    PlayerMoveEvent event = new PlayerMoveEvent(player, from, to);
+                    this.server.getPluginManager().callEvent(event);
 
-                        // If the event is cancelled we move the player back to their old location.
-                        if (event.isCancelled())
-                        {
-                            this.player.playerConnection.sendPacket(new PacketPlayOutPosition(from.getX(), from.getY(), from.getZ(), from.getYaw(), from.getPitch(), Collections.<PacketPlayOutPosition.EnumPlayerTeleportFlags>emptySet()));
-                            return;
-                        }
+                    // If the event is cancelled we move the player back to their old location.
+                    if (event.isCancelled())
+                    {
+                        this.player.playerConnection.sendPacket(new PacketPlayOutPosition(from.getX(), from.getY(), from.getZ(), from.getYaw(), from.getPitch(), Collections.<PacketPlayOutPosition.EnumPlayerTeleportFlags>emptySet()));
+                        return;
+                    }
 
                         /* If a Plugin has changed the To destination then we teleport the Player
                         there to avoid any 'Moved wrongly' or 'Moved too quickly' errors.
                         We only do this if the Event was not cancelled. */
-                        if (!oldTo.equals(event.getTo()) && !event.isCancelled()) {
-                            this.player.getBukkitEntity().teleport(event.getTo(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
-                            return;
-                        }
+                    if (!oldTo.equals(event.getTo()) && !event.isCancelled()) {
+                        this.player.getBukkitEntity().teleport(event.getTo(), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                        return;
+                    }
 
                         /* Check to see if the Players Location has some how changed during the call of the event.
                         This can happen due to a plugin teleporting the player instead of using .setTo() */
-                        if (!from.equals(this.getPlayer().getLocation()) && this.justTeleported)
-                        {
-                            this.justTeleported = false;
-                            return;
-                        }
+                    if (!from.equals(this.getPlayer().getLocation()) && this.justTeleported)
+                    {
+                        this.justTeleported = false;
+                        return;
                     }
                 }
 
@@ -644,7 +639,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                     // Else we increment the drop count and check the amount.
                     this.dropCount++;
                     if (this.dropCount >= 20) {
-                        this.c.warn(this.player.getName() + " dropped their items too quickly!");
+                        c.warn(this.player.getName() + " dropped their items too quickly!");
                         this.disconnect("You dropped your items too quickly (Hacking?)");
                         return;
                     }

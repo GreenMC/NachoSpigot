@@ -1800,7 +1800,7 @@ public abstract class EntityLiving extends Entity {
         return !this.world.isClientSide;
     }
 
-    public boolean ad() {
+    public boolean ad() { // isDead
         return !this.dead;
     }
 

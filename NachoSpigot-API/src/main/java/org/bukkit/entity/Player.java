@@ -1412,6 +1412,28 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     NachoPlayer nacho();
 
+    class GreenPlayer {
+
+        public void dropItem(boolean all) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void sendTitle(String title, int fadeIn, int stay, int fadeOut) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void sendTitle(int fadeIn, int stay, int fadeOut, String subtitle) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+    }
+
+    GreenPlayer green();
+
     class Unsafe {
         /**
          * Send a packet to a player

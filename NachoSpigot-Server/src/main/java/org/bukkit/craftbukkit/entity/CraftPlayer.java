@@ -1663,6 +1663,46 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         return nacho;
     }
 
+    // GreenMC start
+
+    private final GreenPlayer green = new GreenPlayer() {
+
+        @Override
+        public void dropItem(boolean all) {
+            getHandle().a(all);
+        }
+
+        @Override
+        public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+            if (title != null) {
+                PacketPlayOutTitle packetTitle = new PacketPlayOutTitle(EnumTitleAction.TITLE, CraftChatMessage.fromString(title)[0], fadeIn, stay, fadeOut);
+                getHandle().playerConnection.sendPacket(packetTitle);
+            }
+
+            if (subtitle != null) {
+                PacketPlayOutTitle packetSubtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, CraftChatMessage.fromString(subtitle)[0], fadeIn, stay, fadeOut);
+                getHandle().playerConnection.sendPacket(packetSubtitle);
+            }
+        }
+
+        @Override
+        public void sendTitle(String title, int fadeIn, int stay, int fadeOut) {
+            sendTitle(title, null, fadeIn, stay, fadeOut);
+        }
+
+        @Override
+        public void sendTitle(int fadeIn, int stay, int fadeOut, String subtitle) {
+            sendTitle(null, subtitle, fadeIn, stay, fadeOut);
+        }
+
+    };
+
+    public GreenPlayer green() {
+        return green;
+    }
+
+    // GreenMC end
+
     private final Unsafe unsafe = new Unsafe() {
         @Override
         public void sendPacket(Object o) {

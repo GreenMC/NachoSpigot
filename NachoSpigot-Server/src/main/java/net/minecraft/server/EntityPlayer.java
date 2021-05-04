@@ -22,7 +22,6 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 // CraftBukkit end
@@ -228,7 +227,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 
             while (iterator.hasNext() && j < i)
             {
-                aint[j++] = (iterator.next()).intValue();
+                aint[j++] = iterator.next();
                 iterator.remove();
             }
 
