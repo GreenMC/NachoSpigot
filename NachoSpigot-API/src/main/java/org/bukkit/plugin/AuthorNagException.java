@@ -1,6 +1,5 @@
 package org.bukkit.plugin;
 
-@SuppressWarnings("serial")
 public class AuthorNagException extends RuntimeException {
     private final String message;
 

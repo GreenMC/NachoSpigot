@@ -16,13 +16,6 @@ public class InvalidPluginException extends Exception {
     }
 
     /**
-     * Constructs a new InvalidPluginException
-     */
-    public InvalidPluginException() {
-
-    }
-
-    /**
      * Constructs a new InvalidPluginException with the specified detail
      * message and cause.
      *

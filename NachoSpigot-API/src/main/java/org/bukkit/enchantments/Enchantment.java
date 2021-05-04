@@ -209,14 +209,14 @@ public abstract class Enchantment {
         if (obj == null) {
             return false;
         }
+
         if (!(obj instanceof Enchantment)) {
             return false;
         }
+
         final Enchantment other = (Enchantment) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+
+        return this.id == other.id;
     }
 
     @Override
@@ -292,6 +292,6 @@ public abstract class Enchantment {
      * @return Array of enchantments
      */
     public static Enchantment[] values() {
-        return byId.values().toArray(new Enchantment[byId.size()]);
+        return byId.values().toArray(new Enchantment[0]);
     }
 }

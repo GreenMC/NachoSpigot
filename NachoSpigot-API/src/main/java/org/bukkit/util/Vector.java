@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
-import static org.bukkit.util.NumberConversions.checkFinite;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,
@@ -17,9 +16,8 @@ import static org.bukkit.util.NumberConversions.checkFinite;
  */
 @SerializableAs("Vector")
 public class Vector implements Cloneable, ConfigurationSerializable {
-    private static final long serialVersionUID = -2657651106777219169L;
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     /**
      * Threshold for fuzzy equals().
@@ -639,13 +637,11 @@ public class Vector implements Cloneable, ConfigurationSerializable {
     }
 
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
-
-        result.put("x", getX());
-        result.put("y", getY());
-        result.put("z", getZ());
-
-        return result;
+        return new LinkedHashMap<String, Object>() {{
+            put("x", getX());
+            put("y", getY());
+            put("z", getZ());
+        }};
     }
 
     public static Vector deserialize(Map<String, Object> args) {

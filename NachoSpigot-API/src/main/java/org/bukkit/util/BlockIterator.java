@@ -16,27 +16,21 @@ import java.util.NoSuchElementException;
  */
 public class BlockIterator implements Iterator<Block> {
 
-    private final World world;
     private final int maxDistance;
 
     private static final int gridSize = 1 << 24;
 
     private boolean end = false;
 
-    private Block[] blockQueue = new Block[3];
-    private int currentBlock = 0;
-    private int currentDistance = 0;
-    private int maxDistanceInt;
+    private final Block[] blockQueue = new Block[3];
+    private int currentBlock, currentDistance;
+    private final int maxDistanceInt;
 
-    private int secondError;
-    private int thirdError;
+    private int secondError, thirdError;
 
-    private int secondStep;
-    private int thirdStep;
+    private final int secondStep, thirdStep;
 
-    private BlockFace mainFace;
-    private BlockFace secondFace;
-    private BlockFace thirdFace;
+    private BlockFace mainFace, secondFace, thirdFace;
 
     /**
      * Constructs the BlockIterator
@@ -52,7 +46,6 @@ public class BlockIterator implements Iterator<Block> {
      *
      */
     public BlockIterator(World world, Vector start, Vector direction, double yOffset, int maxDistance) {
-        this.world = world;
         this.maxDistance = maxDistance;
 
         Vector startClone = start.clone();
@@ -69,7 +62,7 @@ public class BlockIterator implements Iterator<Block> {
         double secondPosition = 0;
         double thirdPosition = 0;
 
-        Block startBlock = this.world.getBlockAt(floor(startClone.getX()), floor(startClone.getY()), floor(startClone.getZ()));
+        Block startBlock = world.getBlockAt(floor(startClone.getX()), floor(startClone.getY()), floor(startClone.getZ()));
 
         if (getXLength(direction) > mainDirection) {
             mainFace = getXFace(direction);
@@ -335,23 +328,19 @@ public class BlockIterator implements Iterator<Block> {
             thirdError -= gridSize;
             secondError -= gridSize;
             currentBlock = 2;
-            return;
         } else if (secondError > 0) {
             blockQueue[1] = blockQueue[0].getRelative(mainFace);
             blockQueue[0] = blockQueue[1].getRelative(secondFace);
             secondError -= gridSize;
             currentBlock = 1;
-            return;
         } else if (thirdError > 0) {
             blockQueue[1] = blockQueue[0].getRelative(mainFace);
             blockQueue[0] = blockQueue[1].getRelative(thirdFace);
             thirdError -= gridSize;
             currentBlock = 1;
-            return;
         } else {
             blockQueue[0] = blockQueue[0].getRelative(mainFace);
             currentBlock = 0;
-            return;
         }
     }
 }

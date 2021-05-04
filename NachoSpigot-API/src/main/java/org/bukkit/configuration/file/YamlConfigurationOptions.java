@@ -7,6 +7,7 @@ import org.apache.commons.lang.Validate;
  * YamlConfiguration}
  */
 public class YamlConfigurationOptions extends FileConfigurationOptions {
+
     private int indent = 2;
 
     protected YamlConfigurationOptions(YamlConfiguration configuration) {

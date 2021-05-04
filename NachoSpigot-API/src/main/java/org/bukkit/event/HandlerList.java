@@ -27,7 +27,7 @@ public class HandlerList {
     /**
      * List of all HandlerLists which have been created, for use in bakeAll()
      */
-    private static final ArrayList<HandlerList> allLists = new ArrayList<HandlerList>();
+    private static final ArrayList<HandlerList> allLists = new ArrayList<>();
 
     /**
      * Bake all handler lists. Best used just after all normal event
@@ -174,11 +174,11 @@ public class HandlerList {
      */
     public synchronized void bake() {
         if (handlers != null) return; // don't re-bake when still valid
-        List<RegisteredListener> entries = new ArrayList<RegisteredListener>();
+        List<RegisteredListener> entries = new ArrayList<>();
         for (Entry<EventPriority, ArrayList<RegisteredListener>> entry : handlerslots.entrySet()) {
             entries.addAll(entry.getValue());
         }
-        handlers = entries.toArray(new RegisteredListener[entries.size()]);
+        handlers = entries.toArray(new RegisteredListener[0]);
     }
 
     /**
@@ -200,7 +200,7 @@ public class HandlerList {
      * @return the list of registered listeners
      */
     public static ArrayList<RegisteredListener> getRegisteredListeners(Plugin plugin) {
-        ArrayList<RegisteredListener> listeners = new ArrayList<RegisteredListener>();
+        ArrayList<RegisteredListener> listeners = new ArrayList<>();
         synchronized (allLists) {
             for (HandlerList h : allLists) {
                 synchronized (h) {

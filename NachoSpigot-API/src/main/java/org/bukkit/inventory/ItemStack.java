@@ -227,7 +227,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
      */
     public MaterialData getData() {
         Material mat = getType();
-        if (data == null && mat != null && mat.getData() != null) {
+        if (data == null && mat != null) {
             data = mat.getNewData((byte) this.getDurability());
         }
 
@@ -242,7 +242,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
     public void setData(MaterialData data) {
         Material mat = getType();
 
-        if (data == null || mat == null || mat.getData() == null) {
+        if (data == null || mat == null) {
             this.data = data;
         } else {
             if ((data.getClass() == mat.getData()) || (data.getClass() == MaterialData.class)) {
@@ -335,7 +335,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
         if (stack == this) {
             return true;
         }
-        return getTypeId() == stack.getTypeId() && getDurability() == stack.getDurability() && hasItemMeta() == stack.hasItemMeta() && (hasItemMeta() ? Bukkit.getItemFactory().equals(getItemMeta(), stack.getItemMeta()) : true);
+        return getTypeId() == stack.getTypeId() && getDurability() == stack.getDurability() && hasItemMeta() == stack.hasItemMeta() && (!hasItemMeta() || Bukkit.getItemFactory().equals(getItemMeta(), stack.getItemMeta()));
     }
 
     @Override
@@ -377,7 +377,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
      * @return True if this has the given enchantment
      */
     public boolean containsEnchantment(Enchantment ench) {
-        return meta == null ? false : meta.hasEnchant(ench);
+        return meta != null && meta.hasEnchant(ench);
     }
 
     /**
@@ -396,7 +396,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
      * @return Map of enchantments.
      */
     public Map<Enchantment, Integer> getEnchantments() {
-        return meta == null ? ImmutableMap.<Enchantment, Integer>of() : meta.getEnchants();
+        return meta == null ? ImmutableMap.of() : meta.getEnchants();
     }
 
     /**
@@ -493,24 +493,23 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
 
     @Utility
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        return new LinkedHashMap<String, Object>() {{
+            put("type", getType().name());
 
-        result.put("type", getType().name());
+            if (getDurability() != 0) {
+                put("damage", getDurability());
+            }
 
-        if (getDurability() != 0) {
-            result.put("damage", getDurability());
-        }
+            if (getAmount() != 1) {
+                put("amount", getAmount());
+            }
 
-        if (getAmount() != 1) {
-            result.put("amount", getAmount());
-        }
+            ItemMeta meta = getItemMeta();
 
-        ItemMeta meta = getItemMeta();
-        if (!Bukkit.getItemFactory().equals(meta, null)) {
-            result.put("meta", meta);
-        }
-
-        return result;
+            if (!Bukkit.getItemFactory().equals(meta, null)) {
+                put("meta", meta);
+            }
+        }};
     }
 
     /**

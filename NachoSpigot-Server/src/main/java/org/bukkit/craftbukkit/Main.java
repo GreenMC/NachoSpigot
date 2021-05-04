@@ -235,7 +235,8 @@ public class Main {
         }
     }
 
-    private static List<String> asList(String... params) {
-        return Arrays.asList(params);
+    @SafeVarargs
+    public static <T> List<T> asList(T... a) {
+        return Arrays.asList(a);
     }
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.NumberConversions;
-import static org.bukkit.util.NumberConversions.checkFinite;
 import org.bukkit.util.Vector;
 
 /**
@@ -512,10 +511,7 @@ public class Location implements Cloneable, ConfigurationSerializable {
         if (Float.floatToIntBits(this.pitch) != Float.floatToIntBits(other.pitch)) {
             return false;
         }
-        if (Float.floatToIntBits(this.yaw) != Float.floatToIntBits(other.yaw)) {
-            return false;
-        }
-        return true;
+        return Float.floatToIntBits(this.yaw) == Float.floatToIntBits(other.yaw);
     }
 
     @Override
@@ -568,17 +564,16 @@ public class Location implements Cloneable, ConfigurationSerializable {
 
 	@Utility
 	public Map<String, Object> serialize() {
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("world", this.world.getName());
+		return new HashMap<String, Object>() {{
+            put("world", world.getName());
 
-		data.put("x", this.x);
-		data.put("y", this.y);
-		data.put("z", this.z);
+            put("x", x);
+            put("y", y);
+            put("z", z);
 
-		data.put("yaw", this.yaw);
-		data.put("pitch", this.pitch);
-
-		return data;
+            put("yaw", yaw);
+            put("pitch", pitch);
+		}};
 	}
 	
 	 /**

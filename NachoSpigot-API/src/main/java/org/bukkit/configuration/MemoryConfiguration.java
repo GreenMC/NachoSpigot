@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
  * This is useful for temporary Configurations for providing defaults.
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
+
     protected Configuration defaults;
     protected MemoryConfigurationOptions options;
 

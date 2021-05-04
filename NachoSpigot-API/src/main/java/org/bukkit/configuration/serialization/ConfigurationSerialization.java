@@ -24,9 +24,10 @@ import org.bukkit.util.Vector;
  * Utility class for storing and retrieving classes for {@link Configuration}.
  */
 public class ConfigurationSerialization {
+
     public static final String SERIALIZED_TYPE_KEY = "==";
     private final Class<? extends ConfigurationSerializable> clazz;
-    private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+    private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
 
     static {
         registerClass(Vector.class);
@@ -55,9 +56,7 @@ public class ConfigurationSerialization {
             }
 
             return method;
-        } catch (NoSuchMethodException ex) {
-            return null;
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
             return null;
         }
     }
@@ -65,9 +64,7 @@ public class ConfigurationSerialization {
     protected Constructor<? extends ConfigurationSerializable> getConstructor() {
         try {
             return clazz.getConstructor(Map.class);
-        } catch (NoSuchMethodException ex) {
-            return null;
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException ex) {
             return null;
         }
     }
@@ -108,14 +105,12 @@ public class ConfigurationSerialization {
         Validate.notNull(args, "Args must not be null");
 
         ConfigurationSerializable result = null;
-        Method method = null;
+        Method method;
 
-        if (result == null) {
-            method = getMethod("deserialize", true);
+        method = getMethod("deserialize", true);
 
-            if (method != null) {
-                result = deserializeViaMethod(method, args);
-            }
+        if (method != null) {
+            result = deserializeViaMethod(method, args);
         }
 
         if (result == null) {
@@ -171,7 +166,7 @@ public class ConfigurationSerialization {
      * @return New instance of the specified class
      */
     public static ConfigurationSerializable deserializeObject(Map<String, ?> args) {
-        Class<? extends ConfigurationSerializable> clazz = null;
+        Class<? extends ConfigurationSerializable> clazz;
 
         if (args.containsKey(SERIALIZED_TYPE_KEY)) {
             try {
@@ -238,9 +233,9 @@ public class ConfigurationSerialization {
      * @param clazz Class to unregister
      */
     public static void unregisterClass(Class<? extends ConfigurationSerializable> clazz) {
-        while (aliases.values().remove(clazz)) {
-            ;
-        }
+//        while (aliases.values().remove(clazz)) {
+//
+//        }
     }
 
     /**
@@ -265,19 +260,13 @@ public class ConfigurationSerialization {
         DelegateDeserialization delegate = clazz.getAnnotation(DelegateDeserialization.class);
 
         if (delegate != null) {
-            if ((delegate.value() == null) || (delegate.value() == clazz)) {
-                delegate = null;
-            } else {
-                return getAlias(delegate.value());
-            }
+            return getAlias(delegate.value());
         }
 
-        if (delegate == null) {
-            SerializableAs alias = clazz.getAnnotation(SerializableAs.class);
+        SerializableAs alias = clazz.getAnnotation(SerializableAs.class);
 
-            if ((alias != null) && (alias.value() != null)) {
-                return alias.value();
-            }
+        if (alias != null) {
+            return alias.value();
         }
 
         return clazz.getName();

@@ -10,6 +10,7 @@ import java.util.List;
  * Represents a {@link Command} belonging to a plugin
  */
 public final class PluginCommand extends Command implements PluginIdentifiableCommand {
+
     private final Plugin owningPlugin;
     private CommandExecutor executor;
     private TabCompleter completer;
@@ -31,7 +32,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
      */
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-        boolean success = false;
+        boolean success;
 
         if (!owningPlugin.isEnabled()) {
             return false;

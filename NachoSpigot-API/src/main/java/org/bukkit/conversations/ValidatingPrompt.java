@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
  * a valid response.
  */
 public abstract class ValidatingPrompt implements Prompt {
+
     public ValidatingPrompt() {
         super();
     }

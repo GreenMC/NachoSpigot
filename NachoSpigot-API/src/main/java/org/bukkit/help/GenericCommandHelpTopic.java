@@ -5,9 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.defaults.VanillaCommand;
-import org.bukkit.help.HelpTopic;
 
 /**
  * Lacking an alternative, the help system will create instances of
@@ -37,7 +35,7 @@ public class GenericCommandHelpTopic extends HelpTopic {
         }
 
         // Build full text
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append(ChatColor.GOLD);
         sb.append("Description: ");
@@ -56,7 +54,7 @@ public class GenericCommandHelpTopic extends HelpTopic {
             sb.append(ChatColor.GOLD);
             sb.append("Aliases: ");
             sb.append(ChatColor.WHITE);
-            sb.append(ChatColor.WHITE + StringUtils.join(command.getAliases(), ", "));
+            sb.append(ChatColor.WHITE).append(StringUtils.join(command.getAliases(), ", "));
         }
         fullText = sb.toString();
     }

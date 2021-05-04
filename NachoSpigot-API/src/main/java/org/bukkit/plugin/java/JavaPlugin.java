@@ -254,7 +254,7 @@ public abstract class JavaPlugin extends PluginBase {
 
         File outFile = new File(dataFolder, resourcePath);
         int lastIndex = resourcePath.lastIndexOf('/');
-        File outDir = new File(dataFolder, resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+        File outDir = new File(dataFolder, resourcePath.substring(0, Math.max(lastIndex, 0)));
 
         if (!outDir.exists()) {
             outDir.mkdirs();
@@ -381,7 +381,7 @@ public abstract class JavaPlugin extends PluginBase {
      * @return List of Classes that are Ebeans
      */
     public List<Class<?>> getDatabaseClasses() {
-        return new ArrayList<Class<?>>();
+        return new ArrayList<>();
     }
 
     private String replaceDatabaseString(String input) {

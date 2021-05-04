@@ -37,16 +37,15 @@ public enum Achievement {
     FULL_BEACON (KILL_WITHER),
     BREED_COW (KILL_COW),
     DIAMONDS_TO_YOU (GET_DIAMONDS),
-    OVERPOWERED (BUILD_BETTER_PICKAXE)
-    ;
+    OVERPOWERED (BUILD_BETTER_PICKAXE);
 
     private final Achievement parent;
 
-    private Achievement() {
+    Achievement() {
         parent = null;
     }
 
-    private Achievement(Achievement parent) {
+    Achievement(Achievement parent) {
         this.parent = parent;
     }
 

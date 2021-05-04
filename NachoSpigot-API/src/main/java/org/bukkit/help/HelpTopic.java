@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
  * the methods in this class.
  */
 public abstract class HelpTopic {
+
     protected String name;
     protected String shortText;
     protected String fullText;

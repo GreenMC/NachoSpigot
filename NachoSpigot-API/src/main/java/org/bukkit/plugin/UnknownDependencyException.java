@@ -36,11 +36,4 @@ public class UnknownDependencyException extends RuntimeException {
     public UnknownDependencyException(final Throwable throwable, final String message) {
         super(message, throwable);
     }
-
-    /**
-     * Constructs a new UnknownDependencyException
-     */
-    public UnknownDependencyException() {
-
-    }
 }

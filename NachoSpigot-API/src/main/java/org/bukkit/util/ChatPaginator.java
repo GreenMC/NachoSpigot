@@ -2,6 +2,7 @@ package org.bukkit.util;
 
 import org.bukkit.ChatColor;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,10 +43,10 @@ public class ChatPaginator {
         String[] lines = wordWrap(unpaginatedString, lineLength);
 
         int totalPages = lines.length / pageHeight + (lines.length % pageHeight == 0 ? 0 : 1);
-        int actualPageNumber = pageNumber <= totalPages ? pageNumber : totalPages;
+        int actualPageNumber = Math.min(pageNumber, totalPages);
 
         int from = (actualPageNumber - 1) * pageHeight;
-        int to = from + pageHeight <= lines.length  ? from + pageHeight : lines.length;
+        int to = Math.min(from + pageHeight, lines.length);
         String[] selectedLines = Java15Compat.Arrays_copyOfRange(lines, from, to);
 
         return new ChatPage(selectedLines, actualPageNumber, totalPages);
@@ -73,7 +74,7 @@ public class ChatPaginator {
         char[] rawChars = (rawString + ' ').toCharArray(); // add a trailing space to trigger pagination
         StringBuilder word = new StringBuilder();
         StringBuilder line = new StringBuilder();
-        List<String> lines = new LinkedList<String>();
+        List<String> lines = new LinkedList<>();
         int lineColorChars = 0;
 
         for (int i = 0; i < rawChars.length; i++) {
@@ -88,17 +89,16 @@ public class ChatPaginator {
             }
 
             if (c == ' ' || c == '\n') {
+                String[] partialWords = word.toString().split("(?<=\\G.{" + lineLength + "})");
                 if (line.length() == 0 && word.length() > lineLength) { // special case: extremely long word begins a line
-                    for (String partialWord : word.toString().split("(?<=\\G.{" + lineLength + "})")) {
-                        lines.add(partialWord);
-                    }
+                    Collections.addAll(lines, partialWords);
                 } else if (line.length() + word.length() - lineColorChars == lineLength) { // Line exactly the correct length...newline
                     line.append(word);
                     lines.add(line.toString());
                     line = new StringBuilder();
                     lineColorChars = 0;
                 } else if (line.length() + 1 + word.length() - lineColorChars > lineLength) { // Line too long...break the line
-                    for (String partialWord : word.toString().split("(?<=\\G.{" + lineLength + "})")) {
+                    for (String partialWord : partialWords) {
                         lines.add(line.toString());
                         line = new StringBuilder(partialWord);
                     }
@@ -138,14 +138,13 @@ public class ChatPaginator {
             }
         }
 
-        return lines.toArray(new String[lines.size()]);
+        return lines.toArray(new String[0]);
     }
 
     public static class ChatPage {
 
-        private String[] lines;
-        private int pageNumber;
-        private int totalPages;
+        private final String[] lines;
+        private final int pageNumber, totalPages;
 
         public ChatPage(String[] lines, int pageNumber, int totalPages) {
             this.lines = lines;

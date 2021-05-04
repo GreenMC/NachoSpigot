@@ -8,7 +8,7 @@ import org.bukkit.plugin.PluginManager;
  * All events require a static method named getHandlerList() which returns the same {@link HandlerList} as {@link #getHandlers()}.
  *
  * @see PluginManager#callEvent(Event)
- * @see PluginManager#registerEvents(Listener,Plugin)
+ * @see PluginManager#registerEvents(Listener, org.bukkit.plugin.Plugin)
  */
 public abstract class Event {
     private String name;
@@ -93,6 +93,6 @@ public abstract class Event {
          * take place if possible, even if the server would not normally allow
          * the action. Some actions may not be allowed.
          */
-        ALLOW;
+        ALLOW
     }
 }

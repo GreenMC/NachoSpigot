@@ -47,16 +47,10 @@ public class BukkitObjectInputStream extends ObjectInputStream {
             try {
                 (obj = ConfigurationSerialization.deserializeObject(((Wrapper<?>) obj).map)).getClass(); // NPE
             } catch (Throwable ex) {
-                throw newIOException("Failed to deserialize object", ex);
+                throw new IOException("Failed to deserialize object", ex);
             }
         }
 
         return super.resolveObject(obj);
-    }
-
-    private static IOException newIOException(String string, Throwable cause) {
-        IOException exception = new IOException(string);
-        exception.initCause(cause);
-        return exception;
     }
 }

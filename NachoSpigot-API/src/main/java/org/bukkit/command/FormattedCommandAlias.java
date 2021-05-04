@@ -1,15 +1,11 @@
 package org.bukkit.command;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.server.RemoteServerCommandEvent;
-import org.bukkit.event.server.ServerCommandEvent;
 
 public class FormattedCommandAlias extends Command {
+
     private final String[] formatStrings;
 
     public FormattedCommandAlias(String alias, String[] formatStrings) {
@@ -21,7 +17,7 @@ public class FormattedCommandAlias extends Command {
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         boolean result = false;
-        ArrayList<String> commands = new ArrayList<String>();
+        ArrayList<String> commands = new ArrayList<>();
         for (String formatString : formatStrings) {
             try {
                 commands.add(buildCommand(formatString, args));
@@ -73,7 +69,7 @@ public class FormattedCommandAlias extends Command {
                 throw new IllegalArgumentException("Invalid replacement token");
             }
 
-            int position = Integer.valueOf(formatString.substring(argStart, index));
+            int position = Integer.parseInt(formatString.substring(argStart, index));
 
             // Arguments are not 0 indexed
             if (position == 0) {

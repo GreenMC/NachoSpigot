@@ -79,9 +79,8 @@ public class Rails extends MaterialData {
             return BlockFace.SOUTH;
 
         case 0x1:
-            return BlockFace.EAST;
 
-        case 0x2:
+         case 0x2:
             return BlockFace.EAST;
 
         case 0x3:
@@ -89,9 +88,6 @@ public class Rails extends MaterialData {
 
         case 0x4:
             return BlockFace.NORTH;
-
-        case 0x5:
-            return BlockFace.SOUTH;
 
         case 0x6:
             return BlockFace.NORTH_WEST;
