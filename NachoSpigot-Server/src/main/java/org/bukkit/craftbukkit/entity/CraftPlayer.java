@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.entity;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.commons.Constants;
@@ -57,19 +58,21 @@ import org.bukkit.map.MapView;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.StandardMessenger;
+import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Scoreboard;
 // PaperSpigot start
+import org.bukkit.scoreboard.Team;
 import org.github.paperspigot.Title;
 // PaperSpigot end
 
 @DelegateDeserialization(CraftOfflinePlayer.class)
 public class CraftPlayer extends CraftHumanEntity implements Player {
-    private long firstPlayed;
+    private long firstPlayed = 0;
     private long lastPlayed = 0;
     private boolean hasPlayedBefore = false;
     private final ConversationTracker conversationTracker = new ConversationTracker();
-    private final Set<String> channels = new HashSet<>();
-    private final Set<UUID> hiddenPlayers = new HashSet<>();
+    private final Set<String> channels = new HashSet<String>();
+    private final Set<UUID> hiddenPlayers = new HashSet<UUID>();
     private int hash = 0;
     private double health = 20;
     private boolean scaledHealth = false;
@@ -273,7 +276,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             name = getName();
         }
         getHandle().listName = name.equals(getName()) ? null : CraftChatMessage.fromString(name)[0];
-        for (EntityPlayer player : server.getHandle().players) {
+        for (EntityPlayer player : (List<EntityPlayer>)server.getHandle().players) {
             if (player.getBukkitEntity().canSee(this)) {
                 player.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_DISPLAY_NAME, getHandle()));
             }
@@ -499,7 +502,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (getHandle().playerConnection == null) return;
 
         RenderData data = ((CraftMapView) map).render(this);
-        Collection<MapIcon> icons = new ArrayList<>();
+        Collection<MapIcon> icons = new ArrayList<MapIcon>();
         for (MapCursor cursor : data.cursors) {
             if (cursor.isVisible()) {
                 icons.add(new MapIcon(cursor.getRawType(), cursor.getX(), cursor.getY(), cursor.getDirection()));
@@ -1009,9 +1012,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     @Override
     public Map<String, Object> serialize() {
-        return new LinkedHashMap<String, Object>() {{
-            put("name", getName());
-        }};
+        Map<String, Object> result = new LinkedHashMap<String, Object>();
+
+        result.put("name", getName());
+
+        return result;
     }
 
     @Override
@@ -1306,6 +1311,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public void setMaxHealth(double amount) {
         super.setMaxHealth(amount);
+        this.health = Math.min(this.health, health);
         getHandle().triggerHealthUpdate();
     }
 
@@ -1327,9 +1333,9 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (playerConnection == null) {
             throw new IllegalStateException("Cannot set scoreboard yet");
         }
-//        if (playerConnection.isDisconnected()) {
+        if (playerConnection.isDisconnected()) {
             // throw new IllegalStateException("Cannot set scoreboard for invalid CraftPlayer"); // Spigot - remove this as Mojang's semi asynchronous Netty implementation can lead to races
-//        }
+        }
 
         this.server.getScoreboardManager().setPlayerBoard(this, scoreboard);
     }
@@ -1374,11 +1380,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     public void updateScaledHealth() {
         AttributeMapServer attributemapserver = (AttributeMapServer) getHandle().getAttributeMap();
-        Set<AttributeInstance> set = attributemapserver.getAttributes();
+        Set set = attributemapserver.getAttributes();
 
         injectScaledMaxHealth(set, true);
 
-        getHandle().getDataWatcher().watch(6, getScaledHealth());
+        getHandle().getDataWatcher().watch(6, (float) getScaledHealth());
         getHandle().playerConnection.sendPacket(new PacketPlayOutUpdateHealth(getScaledHealth(), getHandle().getFoodData().getFoodLevel(), getHandle().getFoodData().getSaturationLevel()));
         getHandle().playerConnection.sendPacket(new PacketPlayOutUpdateAttributes(getHandle().getId(), set));
 
@@ -1386,7 +1392,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         getHandle().maxHealthCache = getMaxHealth();
     }
 
-    public void injectScaledMaxHealth(Collection<AttributeInstance> collection, boolean force) {
+    public void injectScaledMaxHealth(Collection collection, boolean force) {
         if (!scaledHealth && !force) {
             return;
         }
@@ -1399,7 +1405,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         }
         // Spigot start
         double healthMod = scaledHealth ? healthScale : getMaxHealth();
-        if (healthMod >= Float.MAX_VALUE || healthMod <= 0)
+        if ( healthMod >= Float.MAX_VALUE || healthMod <= 0 )
         {
             healthMod = 20; // Reset health
             getServer().getLogger().warning( getName() + " tried to crash the server with a large health attribute" );
@@ -1537,7 +1543,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         @Override
         public Set<Player> getHiddenPlayers()
         {
-            Set<Player> ret = new HashSet<>();
+            Set<Player> ret = new HashSet<Player>();
             for ( UUID u : hiddenPlayers )
             {
                 ret.add( getServer().getPlayer( u ) );
@@ -1689,6 +1695,37 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         @Override
         public void sendTitle(int fadeIn, int stay, int fadeOut, String subtitle) {
             sendTitle(null, subtitle, fadeIn, stay, fadeOut);
+        }
+
+        @Override
+        public void showNametag() {
+            CraftScoreboard scoreboard = getScoreboard();
+            Team team = scoreboard.getTeam("GreenHide");
+            if (team == null) return;
+            team.removeEntry(getPlayer().getName());
+        }
+
+        @Override
+        public void hideNametag() {
+            CraftScoreboard scoreboard = getScoreboard();
+            if (scoreboard == server.getScoreboardManager().getMainScoreboard()) {
+                scoreboard = server.getScoreboardManager().getNewScoreboard();
+            }
+            Team team = scoreboard.getTeam("GreenHide");
+            if (team == null) {
+                team = scoreboard.registerNewTeam("GreenHide");
+                team.setNameTagVisibility(NameTagVisibility.NEVER);
+            }
+            team.addEntry(getPlayer().getName());
+            for (CraftPlayer players : server.getOnlinePlayers()) {
+                players.setScoreboard(scoreboard);
+            }
+        }
+
+        @Override
+        public boolean isNametagVisible() {
+            Team team = getScoreboard().getTeam("GreenHide");
+            return team != null && team.hasEntry(getName());
         }
 
     };
