@@ -1,4 +1,4 @@
-# NachoSpigot ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/CobbleSword/NachoSpigot/NachoSpigot%20Build)
+# NachoSpigot ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/GreenMC/NachoSpigot/NachoSpigot%20Build)
 
 #### NachoSpigot is a fork of TacoSpigot 1.8.9.
 NachoSpigot offers a number of enhancements to performance as well as bug fixes such as a built-in Anti-Crash system and being able to perform well with a large number of players.
@@ -47,6 +47,7 @@ If you find any bugs, please create an issue or contact us in the Discord server
 [Paper-0152] Disable ticking of snow blocks by killme
 [Paper-0164] [MC-117075] TE Unload Lag Spike by mezz
 [Paper-0168] Cache user authenticator threads by vemacs
+[Paper-0170] Add PlayerJumpEvent
 [Paper-0207] Shame on you Mojang moves chunk loading off https thread by Aikar
 [Paper-0249] Improve BlockPosition inlining by Techcable
 [Paper-0254] Don't blindly send unlit chunks when lighting updates are allowed by Shane Freeder
@@ -62,8 +63,8 @@ If you find any bugs, please create an issue or contact us in the Discord server
 [Paper-0352] Optimize BlockPosition helper methods by Spottedleaf
 [Paper-0353] Send nearby packets from world player list not server list by Mystiflow
 [Paper-0389] performance improvement for Chunk.getEntities by wea_ondara
-[Paper-0539] Optimize NetworkManager Exception Handling by Andrew Steinborn
 [Paper-0451] Reduce memory footprint of NBTTagCompound by spottedleaf
+[Paper-0539] Optimize NetworkManager Exception Handling by Andrew Steinborn
 
 <--> by Heath
 [Nacho-0001] Remove stream usage when counting entities
