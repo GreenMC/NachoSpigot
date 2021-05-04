@@ -175,34 +175,39 @@ import com.google.common.collect.ImmutableSet;
  *</pre></blockquote>
  */
 public final class PluginDescriptionFile {
-    private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() -> new Yaml(new SafeConstructor() {
-        {
-            yamlConstructors.put(null, new AbstractConstruct() {
-                @Override
-                public Object construct(final Node node) {
-                    if (!node.getTag().startsWith("!@")) {
-                        // Unknown tag - will fail
-                        return SafeConstructor.undefinedConstructor.construct(node);
-                    }
-                    // Unknown awareness - provide a graceful substitution
-                    return new PluginAwareness() {
+    private static final ThreadLocal<Yaml> YAML = new ThreadLocal<Yaml>() {
+        @Override
+        protected Yaml initialValue() {
+            return new Yaml(new SafeConstructor() {
+                {
+                    yamlConstructors.put(null, new AbstractConstruct() {
                         @Override
-                        public String toString() {
-                            return node.toString();
+                        public Object construct(final Node node) {
+                            if (!node.getTag().startsWith("!@")) {
+                                // Unknown tag - will fail
+                                return SafeConstructor.undefinedConstructor.construct(node);
+                            }
+                            // Unknown awareness - provide a graceful substitution
+                            return new PluginAwareness() {
+                                @Override
+                                public String toString() {
+                                    return node.toString();
+                                }
+                            };
                         }
-                    };
+                    });
+                    for (final PluginAwareness.Flags flag : PluginAwareness.Flags.values()) {
+                        yamlConstructors.put(new Tag("!@" + flag.name()), new AbstractConstruct() {
+                            @Override
+                            public PluginAwareness.Flags construct(final Node node) {
+                                return flag;
+                            }
+                        });
+                    }
                 }
             });
-            for (final PluginAwareness.Flags flag : PluginAwareness.Flags.values()) {
-                yamlConstructors.put(new Tag("!@" + flag.name()), new AbstractConstruct() {
-                    @Override
-                    public PluginAwareness.Flags construct(final Node node) {
-                        return flag;
-                    }
-                });
-            }
         }
-    }));
+    };
     String rawName = null;
     private String name = null;
     private String main = null;
@@ -596,7 +601,7 @@ public final class PluginDescriptionFile {
      *         standard one if no specific message is defined. Without the
      *         permission node, no {@link
      *         PluginCommand#setExecutor(CommandExecutor) CommandExecutor} or
-     *         {@link PluginCommand#setTabCompleter(org.bukkit.command.TabCompleter)}
+     *         {@link PluginCommand#setTabCompleter(org.bukkit.command.TabCompleter)
      *         TabCompleter} will be called.</td>
      *     <td><blockquote><pre>permission: inferno.flagrate</pre></blockquote></td>
      * </tr><tr>
@@ -773,7 +778,7 @@ public final class PluginDescriptionFile {
      *</pre></blockquote>
      * Another example, with nested definitions, can be found <a
      * href="doc-files/permissions-example_plugin.yml">here</a>.
-     * 
+     *
      * @return the permissions this plugin will register
      */
     public List<Permission> getPermissions() {
@@ -816,7 +821,7 @@ public final class PluginDescriptionFile {
      * not included in the API. Any unrecognized
      * awareness (one unsupported or in a future version) will cause a dummy
      * object to be created instead of failing.
-     * 
+     *
      * <ul>
      * <li>Currently only supports the enumerated values in {@link
      *     PluginAwareness.Flags}.
