@@ -195,10 +195,8 @@ public class BlockChest extends BlockContainer {
 
     public IBlockData f(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag) {
         EnumDirection enumdirection = null;
-        Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
-        while (iterator.hasNext()) {
-            EnumDirection enumdirection1 = (EnumDirection) iterator.next();
+        for (EnumDirection enumdirection1 : EnumDirection.EnumDirectionLimit.HORIZONTAL) {
             IBlockData iblockdata1 = world.getType(blockposition.shift(enumdirection1));
 
             if (iblockdata1.getBlock() == this) {
@@ -353,15 +351,17 @@ public class BlockChest extends BlockContainer {
         if (!(tileentity instanceof TileEntityChest))
             return null;
 
-        Object object = (TileEntityChest) tileentity;
+        Object object = tileentity;
 
         if (flag && this.n(world, blockposition))
             return null;
 
-        Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
+        // Green - fix https://github.com/CobbleSword/NachoSpigot/issues/36
+        if (this.n(world, blockposition))
+            return null;
+        // Green
 
-        while (iterator.hasNext()) {
-            EnumDirection enumdirection = (EnumDirection) iterator.next();
+        for (EnumDirection enumdirection : EnumDirection.EnumDirectionLimit.HORIZONTAL) {
             BlockPosition blockposition1 = blockposition.shift(enumdirection);
             IBlockData typeIfLoaded = world.getTypeIfLoaded(blockposition1);
 
@@ -423,7 +423,8 @@ public class BlockChest extends BlockContainer {
     }
 
     private boolean o(World world, BlockPosition blockposition) {
-        return world.getType(blockposition.up()).getBlock().isOccluding();
+        BlockPosition up = blockposition.up();
+        return world.getType(up).getBlock().isOccluding();
     }
 
     private boolean p(World world, BlockPosition blockposition) {
@@ -432,7 +433,7 @@ public class BlockChest extends BlockContainer {
             return false;
         }
         // PaperSpigot end
-        Iterator iterator = world.a(EntityOcelot.class, new AxisAlignedBB((double) blockposition.getX(), (double) (blockposition.getY() + 1), (double) blockposition.getZ(), (double) (blockposition.getX() + 1), (double) (blockposition.getY() + 2), (double) (blockposition.getZ() + 1))).iterator();
+        Iterator<EntityOcelot> iterator = world.a(EntityOcelot.class, new AxisAlignedBB((double) blockposition.getX(), (double) (blockposition.getY() + 1), (double) blockposition.getZ(), (double) (blockposition.getX() + 1), (double) (blockposition.getY() + 2), (double) (blockposition.getZ() + 1))).iterator();
 
         EntityOcelot entityocelot;
 
@@ -441,9 +442,9 @@ public class BlockChest extends BlockContainer {
                 return false;
             }
 
-            Entity entity = (Entity) iterator.next();
+            EntityOcelot entity = iterator.next();
 
-            entityocelot = (EntityOcelot) entity;
+            entityocelot = entity;
         } while (!entityocelot.isSitting());
 
         return true;

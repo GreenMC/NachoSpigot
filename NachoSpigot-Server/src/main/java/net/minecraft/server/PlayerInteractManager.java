@@ -453,7 +453,7 @@ public class PlayerInteractManager {
 
             if (this.gamemode == WorldSettings.EnumGamemode.SPECTATOR) {
                 TileEntity tileentity = world.getTileEntity(blockposition);
-                cancelledBlock = !(tileentity instanceof ITileInventory || tileentity instanceof IInventory);
+                cancelledBlock = !(tileentity instanceof IInventory);
             }
 
             if (!entityhuman.getBukkitEntity().isOp() && itemstack != null && Block.asBlock(itemstack.getItem()) instanceof BlockCommand) {
