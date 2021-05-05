@@ -1412,7 +1412,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 
     NachoPlayer nacho();
 
-    class GreenPlayer {
+    class Green {
 
         public void dropItem(boolean all) {
             throw new UnsupportedOperationException("Not supported yet.");
@@ -1442,9 +1442,25 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
+        public boolean isInNether() {
+            throw new UnsupportedOperationException( "Not supported yet." );
+        }
+
+        public boolean isInEnd() {
+            throw new UnsupportedOperationException( "Not supported yet." );
+        }
+
+        public boolean isInWater() {
+            throw new UnsupportedOperationException( "Not supported yet." );
+        }
+
+        public boolean isInLava() {
+            throw new UnsupportedOperationException( "Not supported yet." );
+        }
+
     }
 
-    GreenPlayer green();
+    Green green();
 
     class Unsafe {
         /**

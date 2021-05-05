@@ -1067,7 +1067,7 @@ public abstract class Entity implements ICommandListener {
         }
     }
 
-    public boolean ab() {
+    public boolean ab() { // inLava
         return this.world.a(this.getBoundingBox().grow(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D), Material.LAVA);
     }
 

@@ -1667,7 +1667,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     // GreenMC start
 
-    private final GreenPlayer green = new GreenPlayer() {
+    private final Player.Green green = new Player.Green() {
 
         @Override
         public void dropItem(boolean all) {
@@ -1728,9 +1728,29 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
             return team != null && team.hasEntry(getName());
         }
 
+        @Override
+        public boolean isInNether() {
+            return getWorld().getEnvironment() == World.Environment.NETHER;
+        }
+
+        @Override
+        public boolean isInEnd() {
+            return getWorld().getEnvironment() == World.Environment.THE_END;
+        }
+
+        @Override
+        public boolean isInWater() {
+            return entity.inWater;
+        }
+
+        @Override
+        public boolean isInLava() {
+            return entity.ab();
+        }
+
     };
 
-    public GreenPlayer green() {
+    public Player.Green green() {
         return green;
     }
 
