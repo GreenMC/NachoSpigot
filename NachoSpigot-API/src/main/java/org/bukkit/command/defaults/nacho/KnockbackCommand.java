@@ -1,7 +1,7 @@
 package org.bukkit.command.defaults.nacho;
 
-import dev.cobblesword.nachospigot.CC;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -16,15 +16,19 @@ public class KnockbackCommand extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] str) {
+        // GreenMC - fixes https://github.com/CobbleSword/NachoSpigot/issues/37
+        if (!testPermission(sender)) return true;
+        // GreenMC
         if(str.length == 0) {
             sendHelp(sender);
             return false;
         }
+        Server server = sender.getServer();
         switch (str[0].toLowerCase()) {
             case "reload": {
-                sender.sendMessage(CC.gray + "Reloading KB config..");
-                Bukkit.getServer().reloadKB();
-                sender.sendMessage(CC.gray + "Reloaded KB config!");
+                sender.sendMessage("Reloading KB config..");
+                server.reloadKB();
+                sender.sendMessage(ChatColor.GRAY + "Reloaded KB config!");
                 break;
             }
             case "set": {
@@ -37,33 +41,33 @@ public class KnockbackCommand extends Command {
                 try {
                     value = Double.parseDouble(args[1]);
                 } catch (Exception ignored) {
-                    sender.sendMessage(CC.red + "Invalid value.");
+                    sender.sendMessage(ChatColor.RED + "Invalid value.");
                     break;
                 }
                 boolean success = true;
                 switch (args[0].toLowerCase()) {
                     case "f": {
-                        Bukkit.getServer().setKnockbackFriction(value);
+                        server.setKnockbackFriction(value);
                         break;
                     }
                     case "h": {
-                        Bukkit.getServer().setKnockbackHorizontal(value);
+                        server.setKnockbackHorizontal(value);
                         break;
                     }
                     case "v": {
-                        Bukkit.getServer().setKnockbackVertical(value);
+                        server.setKnockbackVertical(value);
                         break;
                     }
                     case "vl": {
-                        Bukkit.getServer().setKnockbackVerticalLimit(value);
+                        server.setKnockbackVerticalLimit(value);
                         break;
                     }
                     case "eh": {
-                        Bukkit.getServer().setKnockbackExtraHorizontal(value);
+                        server.setKnockbackExtraHorizontal(value);
                         break;
                     }
                     case "ev": {
-                        Bukkit.getServer().setKnockbackExtraVertical(value);
+                        server.setKnockbackExtraVertical(value);
                         break;
                     }
                     default: {
@@ -73,7 +77,7 @@ public class KnockbackCommand extends Command {
                     }
                 }
                 if (success) {
-                    sender.sendMessage(CC.gray + args[0].toLowerCase() + CC.aqua + "set to " + CC.gray + value);
+                    sender.sendMessage(ChatColor.GRAY + args[0].toLowerCase() + ChatColor.AQUA + " set to " + ChatColor.GRAY + value);
                 }
                 break;
             }
@@ -86,20 +90,20 @@ public class KnockbackCommand extends Command {
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage(CC.red + "Please specify a subcommand. Possible subcommands:");
-        sender.sendMessage(CC.gray + "<subcommand> | <description>");
-        sender.sendMessage(CC.red + "reload | reload the config");
-        sender.sendMessage(CC.red + "set <what to set> <value> | set a kb value to something and save to config");
+        sender.sendMessage(ChatColor.RED + "Please specify a subcommand. Possible subcommands:");
+        sender.sendMessage(ChatColor.RED + "<subcommand> | <description>");
+        sender.sendMessage(ChatColor.RED + "reload | reload the config");
+        sender.sendMessage(ChatColor.RED + "set <what to set> <value> | set a kb value to something and save to config");
     }
 
     private void sendHelpKB(CommandSender sender) {
-        sender.sendMessage(CC.red + "Please specify what to set. Possible values:");
-        sender.sendMessage(CC.gray + "<to type> | <description>");
-        sender.sendMessage(CC.red + "f | friction");
-        sender.sendMessage(CC.red + "h | horizontal");
-        sender.sendMessage(CC.red + "v | vertical");
-        sender.sendMessage(CC.red + "vl | vertical limit");
-        sender.sendMessage(CC.red + "eh | extra horizontal");
-        sender.sendMessage(CC.red + "ev | extra vertical");
+        sender.sendMessage(ChatColor.RED + "Please specify what to set. Possible values:");
+        sender.sendMessage(ChatColor.GRAY + "<to type> | <description>");
+        sender.sendMessage(ChatColor.RED + "f | friction");
+        sender.sendMessage(ChatColor.RED + "h | horizontal");
+        sender.sendMessage(ChatColor.RED + "v | vertical");
+        sender.sendMessage(ChatColor.RED + "vl | vertical limit");
+        sender.sendMessage(ChatColor.RED + "eh | extra horizontal");
+        sender.sendMessage(ChatColor.RED + "ev | extra vertical");
     }
 }
