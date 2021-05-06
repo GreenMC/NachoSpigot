@@ -187,7 +187,7 @@ public class Main {
             }
 
             try {
-                // Green start - Handled by TerminalConsoleAppender
+                // Green start - Handled by TerminalConsole
 
                 /*
                 // This trick bypasses Maven Shade's clever rewriting of our getProperty call when using String literals

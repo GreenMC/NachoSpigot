@@ -353,8 +353,13 @@ public class BlockChest extends BlockContainer {
 
         Object object = tileentity;
 
+        if (flag && this.n(world, blockposition))
+            return null;
+
+        // Green - fix https://github.com/CobbleSword/NachoSpigot/issues/36
         if (this.n(world, blockposition))
             return null;
+        // Green
 
         for (EnumDirection enumdirection : EnumDirection.EnumDirectionLimit.HORIZONTAL) {
             BlockPosition blockposition1 = blockposition.shift(enumdirection);

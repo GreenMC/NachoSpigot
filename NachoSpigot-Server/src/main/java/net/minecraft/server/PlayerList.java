@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.Nacho;
+import io.github.greenmc.greenspigot.console.TerminalConsoleCommandSender;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.net.SocketAddress;
@@ -70,7 +71,7 @@ public abstract class PlayerList {
         // Green Start
 //          minecraftserver.console = org.bukkit.craftbukkit.command.ColouredConsoleSender.getInstance();
 //          minecraftserver.reader.addCompleter(new org.bukkit.craftbukkit.command.ConsoleCommandCompleter(minecraftserver.server));
-        minecraftserver.console = new io.github.greenmc.greenspigot.TerminalConsoleCommandSender(); // Green
+        minecraftserver.console = new TerminalConsoleCommandSender(); // Green
         // CraftBukkit end
         
         this.k = new GameProfileBanList(PlayerList.a);
