@@ -1200,7 +1200,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
     }
 
     public void sendMessage(IChatBaseComponent ichatbasecomponent) {
-        MinecraftServer.LOGGER.info(ichatbasecomponent.c());
+        MinecraftServer.LOGGER.info(org.bukkit.craftbukkit.util.CraftChatMessage.fromComponent(ichatbasecomponent)); // Green - Log messages colored in console
     }
 
     public boolean a(int i, String s) {
