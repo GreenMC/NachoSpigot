@@ -11,8 +11,8 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.server.MinecraftServer;
 
+import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.apache.commons.lang3.SystemUtils;
-import org.fusesource.jansi.AnsiConsole;
 
 public class Main {
     public static boolean useJline = true;
@@ -187,6 +187,9 @@ public class Main {
             }
 
             try {
+                // Green start - Handled by TerminalConsoleAppender
+
+                /*
                 // This trick bypasses Maven Shade's clever rewriting of our getProperty call when using String literals
                 String jline_UnsupportedTerminal = new String(new char[] {'j','l','i','n','e','.','U','n','s','u','p','p','o','r','t','e','d','T','e','r','m','i','n','a','l'});
                 String jline_terminal = new String(new char[] {'j','l','i','n','e','.','t','e','r','m','i','n','a','l'});
@@ -204,11 +207,15 @@ public class Main {
                     // This ensures the terminal literal will always match the jline implementation
                     System.setProperty(jline.TerminalFactory.JLINE_TERMINAL, jline.UnsupportedTerminal.class.getName());
                 }
-
+                */
 
                 if (options.has("noconsole")) {
                     useConsole = false;
+                    useJline = false; // Green
+                    System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Green
                 }
+
+                // Green end
 
                 // Spigot Start
                 int maxPermGen = 0; // In kb

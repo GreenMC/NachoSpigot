@@ -67,11 +67,12 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
         Thread thread = new Thread("Server console handler") {
             public void run() {
                 // CraftBukkit start
-                if (!org.bukkit.craftbukkit.Main.useConsole) {
-                    return;
-                }
+
                 // CraftBukkit end
 
+                // Green start - Use TerminalConsoleAppender
+                new io.github.greenmc.greenspigot.GreenConsole(DedicatedServer.this).start();
+                /*
                 jline.console.ConsoleReader bufferedreader = reader; // CraftBukkit
                 String s;
 
@@ -91,7 +92,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 } catch (IOException ioexception) {
                     DedicatedServer.LOGGER.error("Exception handling console input", ioexception);
                 }
-
+                **/
             }
         };
 
@@ -103,6 +104,9 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
         }
         global.addHandler(new org.bukkit.craftbukkit.util.ForwardLogHandler());
 
+        final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
+
+        /*
         final org.apache.logging.log4j.core.Logger logger = ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger());
         for (org.apache.logging.log4j.core.Appender appender : logger.getAppenders().values()) {
             if (appender instanceof org.apache.logging.log4j.core.appender.ConsoleAppender) {
@@ -111,11 +115,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
         }
 
         new Thread(new org.bukkit.craftbukkit.util.TerminalConsoleWriterThread(System.out, this.reader)).start();
-
+        **/
+        // IoBuilder.forLogger(logger).build
         System.setOut(new PrintStream(new LoggerOutputStream(logger, Level.INFO), true));
         System.setErr(new PrintStream(new LoggerOutputStream(logger, Level.WARN), true));
         // CraftBukkit end
-
         thread.setDaemon(true);
         thread.start();
         DedicatedServer.LOGGER.info("Starting minecraft server version 1.8.8");

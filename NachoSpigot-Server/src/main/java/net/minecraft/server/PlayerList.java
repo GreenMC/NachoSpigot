@@ -67,8 +67,10 @@ public abstract class PlayerList {
 
     public PlayerList(MinecraftServer minecraftserver) {
         this.cserver = minecraftserver.server = new CraftServer(minecraftserver, this);
-        minecraftserver.console = org.bukkit.craftbukkit.command.ColouredConsoleSender.getInstance();
-        minecraftserver.reader.addCompleter(new org.bukkit.craftbukkit.command.ConsoleCommandCompleter(minecraftserver.server));
+        // Green Start
+//          minecraftserver.console = org.bukkit.craftbukkit.command.ColouredConsoleSender.getInstance();
+//          minecraftserver.reader.addCompleter(new org.bukkit.craftbukkit.command.ConsoleCommandCompleter(minecraftserver.server));
+        minecraftserver.console = new io.github.greenmc.greenspigot.TerminalConsoleCommandSender(); // Green
         // CraftBukkit end
         
         this.k = new GameProfileBanList(PlayerList.a);

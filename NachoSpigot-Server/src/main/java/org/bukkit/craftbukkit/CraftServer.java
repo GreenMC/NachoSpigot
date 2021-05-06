@@ -111,7 +111,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
-import jline.console.ConsoleReader;
+//import jline.console.ConsoleReader; // Green
 import net.md_5.bungee.api.chat.BaseComponent;
 
 public final class CraftServer implements Server {
@@ -1145,9 +1145,15 @@ public final class CraftServer implements Server {
         return logger;
     }
 
+    // Green start - JLine upate
+
+    /*
     public ConsoleReader getReader() {
         return console.reader;
     }
+    **/
+
+    // Green end
 
     @Override
     public PluginCommand getPluginCommand(String name) {
