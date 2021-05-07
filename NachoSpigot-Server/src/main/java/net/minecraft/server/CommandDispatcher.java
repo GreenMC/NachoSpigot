@@ -1,7 +1,5 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-
 public class CommandDispatcher extends CommandHandler implements ICommandDispatcher {
 
     public CommandDispatcher() {
@@ -25,7 +23,7 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
         this.a(new CommandHelp());
         this.a(new CommandDebug());
         this.a(new CommandTell());
-        this.a(new CommandSay());
+//        this.a(new CommandSay()); // Green - Fixed broken say command
         this.a(new CommandSpawnpoint());
         this.a(new CommandSetWorldSpawn());
         this.a(new CommandGamerule());

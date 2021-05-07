@@ -35,6 +35,8 @@ public class SimpleCommandMap implements CommandMap {
             if(server.versionCommandEnabled()) register("bukkit", new VersionCommand("version"));
             if(server.reloadCommandEnabled()) register("bukkit", new ReloadCommand("reload"));
             if(server.pluginsCommandEnabled()) register("bukkit", new PluginsCommand("plugins"));
+
+            register("bukkit", new SayCommand()); // Green - Fixed broken say command
         } catch (Exception e) {
             register("bukkit", new VersionCommand("version"));
             register("bukkit", new ReloadCommand("reload"));

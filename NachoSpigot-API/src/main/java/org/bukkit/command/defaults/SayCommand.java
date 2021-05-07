@@ -7,12 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableList;
 
-@Deprecated
-public class SayCommand extends VanillaCommand {
+public class SayCommand extends BukkitCommand {
+
     public SayCommand() {
         super("say");
         this.description = "Broadcasts the given message as the sender";
@@ -28,23 +27,10 @@ public class SayCommand extends VanillaCommand {
             return false;
         }
 
-        StringBuilder message = new StringBuilder();
-        message.append(ChatColor.LIGHT_PURPLE).append("[");
-        if (sender instanceof ConsoleCommandSender) {
-            message.append("Server");
-        } else if (sender instanceof Player) {
-            message.append(((Player) sender).getDisplayName());
-        } else {
-            message.append(sender.getName());
-        }
-        message.append(ChatColor.LIGHT_PURPLE).append("] ");
+        String message = ChatColor.LIGHT_PURPLE + "[" + (sender instanceof ConsoleCommandSender ? "Server" : sender.getName()) +
+                ChatColor.LIGHT_PURPLE + "] " + ChatColor.RESET + String.join(" ", args);
 
-        message.append(args[0]);
-        for (int i = 1; i < args.length; i++) {
-            message.append(" ").append(args[i]);
-        }
-
-        Bukkit.broadcastMessage(message.toString());
+        Bukkit.broadcastMessage(message);
         return true;
     }
 
@@ -56,6 +42,7 @@ public class SayCommand extends VanillaCommand {
         if (args.length >= 1) {
             return super.tabComplete(sender, alias, args);
         }
+
         return ImmutableList.of();
     }
 }
