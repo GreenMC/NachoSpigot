@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -23,7 +22,7 @@ public class CraftConsoleCommandSender extends ServerCommandSender implements Co
     }
 
     public void sendRawMessage(String message) {
-        System.out.println(ChatColor.stripColor(message));
+        System.out.println(message);
     }
 
     public void sendMessage(String[] messages) {

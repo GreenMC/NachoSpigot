@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.commons.IPUtils;
 import dev.cobblesword.nachospigot.knockback.Knockback;
-import io.github.greenmc.greenspigot.console.GreenConsole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,7 +70,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 
                 // Green start - Use TerminalConsole
 
-                new GreenConsole(DedicatedServer.this).start();
+                new io.github.greenmc.greenspigot.console.GreenConsole(DedicatedServer.this).start();
                 /*
                 jline.console.ConsoleReader bufferedreader = reader; // CraftBukkit
                 String s;

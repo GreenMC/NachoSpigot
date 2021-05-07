@@ -29,22 +29,7 @@ public class TerminalConsole extends AbstractAppender {
     private static boolean initialized;
     private static Terminal terminal;
     private static LineReader reader;
-
-    public static synchronized Terminal getTerminal() {
-        return terminal;
-    }
-
-    public static synchronized LineReader getReader() {
-        return reader;
-    }
-
-    public static synchronized void setReader(LineReader newReader) {
-        if (newReader != null && newReader.getTerminal() != terminal) {
-            throw new IllegalArgumentException("Reader was not created with TerminalConsole.getTerminal()");
-        } else {
-            reader = newReader;
-        }
-    }
+    private static final Boolean ANSI_OVERRIDE = getOptionalBooleanProperty("terminal.ansi");
 
     protected TerminalConsole(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions) {
         super(name, filter, layout, ignoreExceptions);
@@ -90,6 +75,14 @@ public class TerminalConsole extends AbstractAppender {
         }
     }
 
+    public static synchronized void setReader(LineReader newReader) {
+        if (newReader != null && newReader.getTerminal() != terminal) {
+            throw new IllegalArgumentException("Reader was not created with TerminalConsole.getTerminal()");
+        } else {
+            reader = newReader;
+        }
+    }
+
     public static synchronized void close() throws IOException {
         if (initialized) {
             initialized = false;
@@ -103,6 +96,10 @@ public class TerminalConsole extends AbstractAppender {
                 }
             }
         }
+    }
+
+    public static boolean isAnsiSupported() {
+        return ANSI_OVERRIDE != null ? ANSI_OVERRIDE : terminal != null;
     }
 
     @PluginFactory

@@ -11,7 +11,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.server.MinecraftServer;
 
-import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.apache.commons.lang3.SystemUtils;
 
 public class Main {
@@ -212,7 +211,7 @@ public class Main {
                 if (options.has("noconsole")) {
                     useConsole = false;
                     useJline = false; // Green
-                    System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Green
+                    System.setProperty("terminal.jline", "false"); // Green
                 }
 
                 // Green end
