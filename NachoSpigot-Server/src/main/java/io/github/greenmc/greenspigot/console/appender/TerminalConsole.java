@@ -14,7 +14,6 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.Serializable;
 
 /**
@@ -25,11 +24,9 @@ import java.io.Serializable;
 @Plugin(name = "TerminalConsole", category = "Core", elementType = "appender", printObject = true)
 public class TerminalConsole extends AbstractAppender {
 
-    private static final PrintStream stdout;
     private static boolean initialized;
     private static Terminal terminal;
     private static LineReader reader;
-    private static final Boolean ANSI_OVERRIDE = getOptionalBooleanProperty("terminal.ansi");
 
     protected TerminalConsole(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions) {
         super(name, filter, layout, ignoreExceptions);
@@ -71,7 +68,7 @@ public class TerminalConsole extends AbstractAppender {
                 terminal.writer().flush();
             }
         } else {
-            stdout.print(text);
+            System.out.print(text);
         }
     }
 
@@ -99,6 +96,7 @@ public class TerminalConsole extends AbstractAppender {
     }
 
     public static boolean isAnsiSupported() {
+        Boolean ANSI_OVERRIDE = getOptionalBooleanProperty("terminal.ansi");
         return ANSI_OVERRIDE != null ? ANSI_OVERRIDE : terminal != null;
     }
 
@@ -123,9 +121,5 @@ public class TerminalConsole extends AbstractAppender {
             LOGGER.warn("Invalid value for boolean input property '{}': {}", name, value);
             return null;
         }
-    }
-
-    static {
-        stdout = System.out;
     }
 }
