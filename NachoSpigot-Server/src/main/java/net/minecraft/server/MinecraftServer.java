@@ -2,7 +2,6 @@ package net.minecraft.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -43,7 +41,6 @@ import org.apache.logging.log4j.Logger;
 
 // CraftBukkit start
 
-//import jline.console.ConsoleReader; // Green
 import joptsimple.OptionSet;
 
 import co.aikar.timings.SpigotTimings; // Spigot
