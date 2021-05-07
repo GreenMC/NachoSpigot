@@ -1,5 +1,6 @@
 package org.bukkit.entity;
 
+import org.bukkit.DyeColor;
 import org.bukkit.material.Colorable;
 
 /**
@@ -10,10 +11,16 @@ public interface Sheep extends Animals, Colorable {
     /**
      * @return Whether the sheep is sheared.
      */
-    public boolean isSheared();
+    boolean isSheared();
 
     /**
      * @param flag Whether to shear the sheep
      */
-    public void setSheared(boolean flag);
+    void setSheared(boolean flag);
+
+    DyeColor getColor();
+
+    void setColor(DyeColor color);
+
+
 }

@@ -29,7 +29,7 @@ public class EntitySheep extends EntityAnimal {
     private PathfinderGoalEatTile bq = new PathfinderGoalEatTile(this);
 
     public static float[] a(EnumColor enumcolor) {
-        return (float[]) EntitySheep.bo.get(enumcolor);
+        return EntitySheep.bo.get(enumcolor);
     }
 
     public EntitySheep(World world) {
@@ -71,7 +71,7 @@ public class EntitySheep extends EntityAnimal {
 
     protected void h() {
         super.h();
-        this.datawatcher.a(16, new Byte((byte) 0));
+        this.datawatcher.a(16, (byte) 0);
     }
 
     protected void dropDeathLoot(boolean flag, int i) {
@@ -115,9 +115,9 @@ public class EntitySheep extends EntityAnimal {
                 for (int j = 0; j < i; ++j) {
                     EntityItem entityitem = this.a(new ItemStack(Item.getItemOf(Blocks.WOOL), 1, this.getColor().getColorIndex()), 1.0F);
 
-                    entityitem.motY += (double) (this.random.nextFloat() * 0.05F);
-                    entityitem.motX += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
-                    entityitem.motZ += (double) ((this.random.nextFloat() - this.random.nextFloat()) * 0.1F);
+                    entityitem.motY += this.random.nextFloat() * 0.05F;
+                    entityitem.motX += (this.random.nextFloat() - this.random.nextFloat()) * 0.1F;
+                    entityitem.motZ += (this.random.nextFloat() - this.random.nextFloat()) * 0.1F;
                 }
             }
 
@@ -163,7 +163,7 @@ public class EntitySheep extends EntityAnimal {
     public void setColor(EnumColor enumcolor) {
         byte b0 = this.datawatcher.getByte(16);
 
-        this.datawatcher.watch(16, Byte.valueOf((byte) (b0 & 240 | enumcolor.getColorIndex() & 15)));
+        this.datawatcher.watch(16, (byte) (b0 & 240 | enumcolor.getColorIndex() & 15));
     }
 
     public boolean isSheared() {
@@ -174,9 +174,9 @@ public class EntitySheep extends EntityAnimal {
         byte b0 = this.datawatcher.getByte(16);
 
         if (flag) {
-            this.datawatcher.watch(16, Byte.valueOf((byte) (b0 | 16)));
+            this.datawatcher.watch(16, (byte) (b0 | 16));
         } else {
-            this.datawatcher.watch(16, Byte.valueOf((byte) (b0 & -17)));
+            this.datawatcher.watch(16, (byte) (b0 & -17));
         }
 
     }
@@ -191,7 +191,7 @@ public class EntitySheep extends EntityAnimal {
         EntitySheep entitysheep = (EntitySheep) entityageable;
         EntitySheep entitysheep1 = new EntitySheep(this.world);
 
-        entitysheep1.setColor(this.a((EntityAnimal) this, (EntityAnimal) entitysheep));
+        entitysheep1.setColor(this.a(this, entitysheep));
         return entitysheep1;
     }
 
@@ -222,7 +222,7 @@ public class EntitySheep extends EntityAnimal {
 
         this.bm.getItem(0).setData(i);
         this.bm.getItem(1).setData(j);
-        ItemStack itemstack = CraftingManager.getInstance().craft(this.bm, ((EntitySheep) entityanimal).world);
+        ItemStack itemstack = CraftingManager.getInstance().craft(this.bm, entityanimal.world);
         int k;
 
         if (itemstack != null && itemstack.getItem() == Items.DYE) {
