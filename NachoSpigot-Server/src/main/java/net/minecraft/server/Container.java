@@ -27,7 +27,7 @@ public abstract class Container {
     private int g;
     private final Set<Slot> h = Sets.newHashSet();
     protected List<ICrafting> listeners = Lists.newArrayList();
-    private Set<EntityHuman> i = Sets.newHashSet();
+    private final Set<EntityHuman> i = Sets.newHashSet();
     private int tickCount; // Spigot
 
     // CraftBukkit start
@@ -65,7 +65,7 @@ public abstract class Container {
         ArrayList arraylist = Lists.newArrayList();
 
         for (int i = 0; i < this.c.size(); ++i) {
-            arraylist.add(((Slot) this.c.get(i)).getItem());
+            arraylist.add(this.c.get(i).getItem());
         }
 
         return arraylist;
@@ -73,15 +73,15 @@ public abstract class Container {
 
     public void b() {
         for (int i = 0; i < this.c.size(); ++i) {
-            ItemStack itemstack = ((Slot) this.c.get(i)).getItem();
-            ItemStack itemstack1 = (ItemStack) this.b.get(i);
+            ItemStack itemstack = this.c.get(i).getItem();
+            ItemStack itemstack1 = this.b.get(i);
 
             if (!ItemStack.fastMatches(itemstack1, itemstack) || (tickCount % 20 == 0 && !ItemStack.matches(itemstack1, itemstack))) { // Spigot
                 itemstack1 = itemstack == null ? null : itemstack.cloneItemStack();
                 this.b.set(i, itemstack1);
 
                 for (int j = 0; j < this.listeners.size(); ++j) {
-                    ((ICrafting) this.listeners.get(j)).a(this, i, itemstack1);
+                    this.listeners.get(j).a(this, i, itemstack1);
                 }
             }
         }
@@ -227,7 +227,7 @@ public abstract class Container {
                     if (playerinventory.getCarried() != null) {
                         if (j == 0) {
                             entityhuman.drop(playerinventory.getCarried(), true);
-                            playerinventory.setCarried((ItemStack) null);
+                            playerinventory.setCarried(null);
                         }
 
                         if (j == 1) {
@@ -239,7 +239,7 @@ public abstract class Container {
 
                             if (itemstack4.count == 0) {
                                 // CraftBukkit end
-                                playerinventory.setCarried((ItemStack) null);
+                                playerinventory.setCarried(null);
                             }
                         }
                     }
@@ -248,7 +248,7 @@ public abstract class Container {
                         return null;
                     }
 
-                    slot2 = (Slot) this.c.get(i);
+                    slot2 = this.c.get(i);
                     if (slot2 != null && slot2.isAllowed(entityhuman)) {
                         itemstack1 = this.b(entityhuman, i);
                         if (itemstack1 != null) {
@@ -265,7 +265,7 @@ public abstract class Container {
                         return null;
                     }
 
-                    slot2 = (Slot) this.c.get(i);
+                    slot2 = this.c.get(i);
                     if (slot2 != null) {
                         itemstack1 = slot2.getItem();
                         ItemStack itemstack4 = playerinventory.getCarried();
@@ -286,7 +286,7 @@ public abstract class Container {
                                 }
 
                                 if (itemstack4.count == 0) {
-                                    playerinventory.setCarried((ItemStack) null);
+                                    playerinventory.setCarried(null);
                                 // CraftBukkit start - Update client cursor if we didn't empty it
                                 } else if (entityhuman instanceof EntityPlayer) {
                                     ((EntityPlayer) entityhuman).playerConnection.sendPacket(new PacketPlayOutSetSlot(-1, -1, entityhuman.inventory.getCarried()));
@@ -299,7 +299,7 @@ public abstract class Container {
                                 itemstack3 = slot2.a(k1);
                                 playerinventory.setCarried(itemstack3);
                                 if (itemstack1.count == 0) {
-                                    slot2.set((ItemStack) null);
+                                    slot2.set(null);
                                 }
 
                                 slot2.a(entityhuman, playerinventory.getCarried());
@@ -316,7 +316,7 @@ public abstract class Container {
 
                                     itemstack4.cloneAndSubtract(k1);
                                     if (itemstack4.count == 0) {
-                                        playerinventory.setCarried((ItemStack) null);
+                                        playerinventory.setCarried(null);
                                     // CraftBukkit start - Update client cursor if we didn't empty it
                                     } else if (entityhuman instanceof EntityPlayer) {
                                         ((EntityPlayer) entityhuman).playerConnection.sendPacket(new PacketPlayOutSetSlot(-1, -1, entityhuman.inventory.getCarried()));
@@ -336,7 +336,7 @@ public abstract class Container {
                                     itemstack4.count += k1;
                                     itemstack1 = slot2.a(k1);
                                     if (itemstack1.count == 0) {
-                                        slot2.set((ItemStack) null);
+                                        slot2.set(null);
                                     }
 
                                     slot2.a(entityhuman, playerinventory.getCarried());
@@ -361,7 +361,7 @@ public abstract class Container {
                     }
                 }
             } else if (k == 2 && j >= 0 && j < 9) {
-                slot2 = (Slot) this.c.get(i);
+                slot2 = this.c.get(i);
                 if (slot2.isAllowed(entityhuman)) {
                     itemstack1 = playerinventory.getItem(j);
                     boolean flag = itemstack1 == null || slot2.inventory == playerinventory && slot2.isAllowed(itemstack1);
@@ -379,7 +379,7 @@ public abstract class Container {
                             if (k1 > -1) {
                                 playerinventory.pickup(itemstack1);
                                 slot2.a(itemstack3.count);
-                                slot2.set((ItemStack) null);
+                                slot2.set(null);
                                 slot2.a(entityhuman, itemstack3);
                             }
                         } else {
@@ -388,26 +388,26 @@ public abstract class Container {
                             slot2.a(entityhuman, itemstack3);
                         }
                     } else if (!slot2.hasItem() && itemstack1 != null && slot2.isAllowed(itemstack1)) {
-                        playerinventory.setItem(j, (ItemStack) null);
+                        playerinventory.setItem(j, null);
                         slot2.set(itemstack1);
                     }
                 }
             } else if (k == 3 && entityhuman.abilities.canInstantlyBuild && playerinventory.getCarried() == null && i >= 0) {
-                slot2 = (Slot) this.c.get(i);
+                slot2 = this.c.get(i);
                 if (slot2 != null && slot2.hasItem()) {
                     itemstack1 = slot2.getItem().cloneItemStack();
                     itemstack1.count = itemstack1.getMaxStackSize();
                     playerinventory.setCarried(itemstack1);
                 }
             } else if (k == 4 && playerinventory.getCarried() == null && i >= 0) {
-                slot2 = (Slot) this.c.get(i);
+                slot2 = this.c.get(i);
                 if (slot2 != null && slot2.hasItem() && slot2.isAllowed(entityhuman)) {
                     itemstack1 = slot2.a(j == 0 ? 1 : slot2.getItem().count);
                     slot2.a(entityhuman, itemstack1);
                     entityhuman.drop(itemstack1, true);
                 }
             } else if (k == 6 && i >= 0) {
-                slot2 = (Slot) this.c.get(i);
+                slot2 = this.c.get(i);
                 itemstack1 = playerinventory.getCarried();
                 if (itemstack1 != null && (slot2 == null || !slot2.hasItem() || !slot2.isAllowed(entityhuman))) {
                     l = j == 0 ? 0 : this.c.size() - 1;
@@ -415,7 +415,7 @@ public abstract class Container {
 
                     for (int l1 = 0; l1 < 2; ++l1) {
                         for (int i2 = l; i2 >= 0 && i2 < this.c.size() && itemstack1.count < itemstack1.getMaxStackSize(); i2 += k1) {
-                            Slot slot3 = (Slot) this.c.get(i2);
+                            Slot slot3 = this.c.get(i2);
 
                             if (slot3.hasItem() && a(slot3, itemstack1, true) && slot3.isAllowed(entityhuman) && this.a(itemstack1, slot3) && (l1 != 0 || slot3.getItem().count != slot3.getItem().getMaxStackSize())) {
                                 int j2 = Math.min(itemstack1.getMaxStackSize() - itemstack1.count, slot3.getItem().count);
@@ -423,7 +423,7 @@ public abstract class Container {
 
                                 itemstack1.count += j2;
                                 if (itemstack5.count <= 0) {
-                                    slot3.set((ItemStack) null);
+                                    slot3.set(null);
                                 }
 
                                 slot3.a(entityhuman, itemstack5);
@@ -452,7 +452,7 @@ public abstract class Container {
 
         if (playerinventory.getCarried() != null) {
             entityhuman.drop(playerinventory.getCarried(), false);
-            playerinventory.setCarried((ItemStack) null);
+            playerinventory.setCarried(null);
         }
 
     }
@@ -493,7 +493,7 @@ public abstract class Container {
 
         if (itemstack.isStackable()) {
             while (itemstack.count > 0 && (!flag && k < j || flag && k >= i)) {
-                slot = (Slot) this.c.get(k);
+                slot = this.c.get(k);
                 itemstack1 = slot.getItem();
                 if (itemstack1 != null && itemstack1.getItem() == itemstack.getItem() && (!itemstack.usesData() || itemstack.getData() == itemstack1.getData()) && ItemStack.equals(itemstack, itemstack1)) {
                     int l = itemstack1.count + itemstack.count;
@@ -530,7 +530,7 @@ public abstract class Container {
             }
 
             while (!flag && k < j || flag && k >= i) {
-                slot = (Slot) this.c.get(k);
+                slot = this.c.get(k);
                 itemstack1 = slot.getItem();
                 if (itemstack1 == null) {
                     slot.set(itemstack.cloneItemStack());
@@ -560,7 +560,7 @@ public abstract class Container {
     }
 
     public static boolean a(int i, EntityHuman entityhuman) {
-        return i == 0 ? true : (i == 1 ? true : i == 2 && entityhuman.abilities.canInstantlyBuild);
+        return i == 0 || (i == 1 || i == 2 && entityhuman.abilities.canInstantlyBuild);
     }
 
     protected void d() {

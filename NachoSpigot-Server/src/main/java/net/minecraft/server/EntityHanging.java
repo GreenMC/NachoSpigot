@@ -60,9 +60,9 @@ public abstract class EntityHanging extends Entity {
 
             d0 += d4 * (double) enumdirection.getAdjacentX();
             d2 += d4 * (double) enumdirection.getAdjacentZ();
-            double d6 = (double) width;
-            double d7 = (double) height;
-            double d8 = (double) width;
+            double d6 = width;
+            double d7 = height;
+            double d8 = width;
 
             if (direction.k() == EnumDirection.EnumAxis.Z) {
                 d8 = 1.0D;
@@ -174,7 +174,7 @@ public abstract class EntityHanging extends Entity {
     }
 
     public boolean l(Entity entity) {
-        return entity instanceof EntityHuman ? this.damageEntity(DamageSource.playerAttack((EntityHuman) entity), 0.0F) : false;
+        return entity instanceof EntityHuman && this.damageEntity(DamageSource.playerAttack((EntityHuman) entity), 0.0F);
     }
 
     public EnumDirection getDirection() {

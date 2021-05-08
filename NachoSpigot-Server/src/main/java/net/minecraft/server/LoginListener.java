@@ -194,7 +194,7 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
                 GameProfile gameprofile = LoginListener.this.i;
                 try {
                     String s = (new BigInteger(MinecraftEncryption.a(LoginListener.this.j, LoginListener.this.server.Q().getPublic(), LoginListener.this.loginKey))).toString(16);
-                    LoginListener.this.i = LoginListener.this.server.aD().hasJoinedServer(new GameProfile((UUID) null, gameprofile.getName()), s);
+                    LoginListener.this.i = LoginListener.this.server.aD().hasJoinedServer(new GameProfile(null, gameprofile.getName()), s);
                     if (LoginListener.this.i != null) {
                         // CraftBukkit start - fire PlayerPreLoginEvent
                         if (!networkManager.g()) return;
@@ -275,10 +275,10 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
         return new GameProfile(uuid, gameprofile.getName());
     }
 
-    static enum EnumProtocolState {
+    enum EnumProtocolState {
 
         HELLO, KEY, AUTHENTICATING, READY_TO_ACCEPT, e, ACCEPTED;
 
-        private EnumProtocolState() {}
+        EnumProtocolState() {}
     }
 }

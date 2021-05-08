@@ -39,7 +39,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
     public Entity target;
     public int by;
     public EntityEnderCrystal bz;
-    private Explosion explosionSource = new Explosion(null, this, Double.NaN, Double.NaN, Double.NaN, Float.NaN, true, true); // CraftBukkit - reusable source for CraftTNTPrimed.getSource()
+    private final Explosion explosionSource = new Explosion(null, this, Double.NaN, Double.NaN, Double.NaN, Float.NaN, true, true); // CraftBukkit - reusable source for CraftTNTPrimed.getSource()
 
     public EntityEnderDragon(World world) {
         super(world);
@@ -117,7 +117,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
             } else {
                 if (this.bl < 0) {
                     for (int i = 0; i < this.bk.length; ++i) {
-                        this.bk[i][0] = (double) this.yaw;
+                        this.bk[i][0] = this.yaw;
                         this.bk[i][1] = this.locY;
                     }
                 }
@@ -126,7 +126,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
                     this.bl = 0;
                 }
 
-                this.bk[this.bl][0] = (double) this.yaw;
+                this.bk[this.bl][0] = this.yaw;
                 this.bk[this.bl][1] = this.locY;
                 double d0;
                 double d1;
@@ -175,9 +175,9 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
                         this.cf();
                     }
 
-                    d0 /= (double) MathHelper.sqrt(d3 * d3 + d1 * d1);
+                    d0 /= MathHelper.sqrt(d3 * d3 + d1 * d1);
                     f3 = 0.6F;
-                    d0 = MathHelper.a(d0, (double) (-f3), (double) f3);
+                    d0 = MathHelper.a(d0, -f3, f3);
                     this.motY += d0 * 0.10000000149011612D;
                     this.yaw = MathHelper.g(this.yaw);
                     double d8 = 180.0D - MathHelper.b(d3, d1) * 180.0D / 3.1415927410125732D;
@@ -193,8 +193,8 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
                     Vec3D vec3d = (new Vec3D(this.a - this.locX, this.b - this.locY, this.c - this.locZ)).a();
 
-                    d4 = (double) (-MathHelper.cos(this.yaw * 3.1415927F / 180.0F));
-                    Vec3D vec3d1 = (new Vec3D((double) MathHelper.sin(this.yaw * 3.1415927F / 180.0F), this.motY, d4)).a();
+                    d4 = -MathHelper.cos(this.yaw * 3.1415927F / 180.0F);
+                    Vec3D vec3d1 = (new Vec3D(MathHelper.sin(this.yaw * 3.1415927F / 180.0F), this.motY, d4)).a();
                     float f4 = ((float) vec3d1.b(vec3d) + 0.5F) / 1.5F;
 
                     if (f4 < 0.0F) {
@@ -225,8 +225,8 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
                     float f8 = ((float) vec3d2.b(vec3d1) + 1.0F) / 2.0F;
 
                     f8 = 0.8F + 0.15F * f8;
-                    this.motX *= (double) f8;
-                    this.motZ *= (double) f8;
+                    this.motX *= f8;
+                    this.motZ *= f8;
                     this.motY *= 0.9100000262260437D;
                 }
 
@@ -308,7 +308,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
             if (this.bz.dead) {
                 if (!this.world.isClientSide) {
                     CraftEventFactory.entityDamage = this.bz; // CraftBukkit
-                    this.a(this.bn, DamageSource.explosion((Explosion) null), 10.0F);
+                    this.a(this.bn, DamageSource.explosion(null), 10.0F);
                     CraftEventFactory.entityDamage = null; // CraftBukkit
                 }
 
@@ -327,7 +327,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
         if (this.random.nextInt(10) == 0) {
             float f = 32.0F;
-            List list = this.world.a(EntityEnderCrystal.class, this.getBoundingBox().grow((double) f, (double) f, (double) f));
+            List list = this.world.a(EntityEnderCrystal.class, this.getBoundingBox().grow(f, f, f));
             EntityEnderCrystal entityendercrystal = null;
             double d0 = Double.MAX_VALUE;
             Iterator iterator = list.iterator();
@@ -368,11 +368,11 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
     private void b(List<Entity> list) {
         for (int i = 0; i < list.size(); ++i) {
-            Entity entity = (Entity) list.get(i);
+            Entity entity = list.get(i);
 
             if (entity instanceof EntityLiving) {
                 entity.damageEntity(DamageSource.mobAttack(this), 10.0F);
-                this.a((EntityLiving) this, entity);
+                this.a(this, entity);
             }
         }
 
@@ -391,7 +391,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
         if (this.random.nextInt(2) == 0 && !arraylist.isEmpty()) {
             // CraftBukkit start
-            Entity target = (Entity) this.world.players.get(this.random.nextInt(this.world.players.size()));
+            Entity target = this.world.players.get(this.random.nextInt(this.world.players.size()));
             EntityTargetEvent event = new EntityTargetEvent(this.getBukkitEntity(), target.getBukkitEntity(), EntityTargetEvent.TargetReason.RANDOM_TARGET);
             this.world.getServer().getPluginManager().callEvent(event);
 
@@ -408,10 +408,10 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
             do {
                 this.a = 0.0D;
-                this.b = (double) (70.0F + this.random.nextFloat() * 50.0F);
+                this.b = 70.0F + this.random.nextFloat() * 50.0F;
                 this.c = 0.0D;
-                this.a += (double) (this.random.nextFloat() * 120.0F - 60.0F);
-                this.c += (double) (this.random.nextFloat() * 120.0F - 60.0F);
+                this.a += this.random.nextFloat() * 120.0F - 60.0F;
+                this.c += this.random.nextFloat() * 120.0F - 60.0F;
                 double d0 = this.locX - this.a;
                 double d1 = this.locY - this.b;
                 double d2 = this.locZ - this.c;
@@ -574,8 +574,8 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
             if (this.by == 1) {
                 // CraftBukkit start - Use relative location for far away sounds
                 // this.world.a(1018, new BlockPosition(this), 0);
-                int viewDistance = ((WorldServer) this.world).getServer().getViewDistance() * 16;
-                for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().getPlayerList().players) {
+                int viewDistance = this.world.getServer().getViewDistance() * 16;
+                for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
                     double deltaX = this.locX - player.locX;
                     double deltaZ = this.locZ - player.locZ;
                     double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
@@ -623,7 +623,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
         for (int i = -1; i <= 32; ++i) {
             for (int j = -4; j <= 4; ++j) {
                 for (int k = -4; k <= 4; ++k) {
-                    double d2 = (double) (j * j + k * k);
+                    double d2 = j * j + k * k;
 
                     if (d2 <= 12.25D) {
                         BlockPosition blockposition1 = blockposition.a(j, i, k);

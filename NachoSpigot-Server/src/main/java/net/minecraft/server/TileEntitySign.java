@@ -93,7 +93,7 @@ public class TileEntitySign extends TileEntity {
                 // CraftBukkit end
 
                 try {
-                    this.lines[i] = ChatComponentUtils.filterForDisplay(icommandlistener, ichatbasecomponent, (Entity) null);
+                    this.lines[i] = ChatComponentUtils.filterForDisplay(icommandlistener, ichatbasecomponent, null);
                 } catch (CommandException commandexception) {
                     this.lines[i] = ichatbasecomponent;
                 }
@@ -178,7 +178,7 @@ public class TileEntitySign extends TileEntity {
                 if (chatclickable.a() == ChatClickable.EnumClickAction.RUN_COMMAND) {
                     // CraftBukkit start
                     // MinecraftServer.getServer().getCommandHandler().a(tileentitysignplayerwrapper, chatclickable.b());
-                    CommandBlockListenerAbstract.executeCommand(entityhuman, (org.bukkit.entity.Player) entityhuman.getBukkitEntity(), chatclickable.b());
+                    CommandBlockListenerAbstract.executeCommand(entityhuman, entityhuman.getBukkitEntity(), chatclickable.b());
                     // CraftBukkit end
                 }
             }

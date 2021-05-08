@@ -69,7 +69,7 @@ public abstract class BlockPressurePlateAbstract extends Block {
     }
 
     private boolean m(World world, BlockPosition blockposition) {
-        return World.a((IBlockAccess) world, blockposition) || world.getType(blockposition).getBlock() instanceof BlockFence;
+        return World.a(world, blockposition) || world.getType(blockposition).getBlock() instanceof BlockFence;
     }
 
     public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {}
@@ -128,7 +128,7 @@ public abstract class BlockPressurePlateAbstract extends Block {
         }
 
         if (flag1) {
-            world.a(blockposition, (Block) this, this.a(world));
+            world.a(blockposition, this, this.a(world));
         }
 
     }
@@ -136,7 +136,7 @@ public abstract class BlockPressurePlateAbstract extends Block {
     protected AxisAlignedBB getBoundingBox(BlockPosition blockposition) {
         float f = 0.125F;
 
-        return new AxisAlignedBB((double) ((float) blockposition.getX() + 0.125F), (double) blockposition.getY(), (double) ((float) blockposition.getZ() + 0.125F), (double) ((float) (blockposition.getX() + 1) - 0.125F), (double) blockposition.getY() + 0.25D, (double) ((float) (blockposition.getZ() + 1) - 0.125F));
+        return new AxisAlignedBB((float) blockposition.getX() + 0.125F, blockposition.getY(), (float) blockposition.getZ() + 0.125F, (float) (blockposition.getX() + 1) - 0.125F, (double) blockposition.getY() + 0.25D, (float) (blockposition.getZ() + 1) - 0.125F);
     }
 
     public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {

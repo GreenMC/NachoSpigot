@@ -67,7 +67,7 @@ public class EntityEnderPearl extends EntityProjectile {
                         }
 
                         if (entityliving.au()) {
-                            entityliving.mount((Entity) null);
+                            entityliving.mount(null);
                         }
 
                         entityplayer.playerConnection.teleport(teleEvent.getTo());

@@ -21,7 +21,7 @@ public class StatisticsAndAchievementsTest extends AbstractTestingBase {
     @SuppressWarnings("unchecked")
     public void verifyAchievementMapping() throws Throwable {
         List<Achievement> achievements = Lists.newArrayList(Achievement.values());
-        for (net.minecraft.server.Achievement achievement : (List<net.minecraft.server.Achievement>) AchievementList.e) {
+        for (net.minecraft.server.Achievement achievement : AchievementList.e) {
             String name = achievement.name;
 
             String message = String.format("org.bukkit.Achievement is missing: '%s'", name);
@@ -39,7 +39,7 @@ public class StatisticsAndAchievementsTest extends AbstractTestingBase {
     @SuppressWarnings("unchecked")
     public void verifyStatisticMapping() throws Throwable {
         HashMultiset<Statistic> statistics = HashMultiset.create();
-        for (net.minecraft.server.Statistic statistic : (List<net.minecraft.server.Statistic>) StatisticList.stats) {
+        for (net.minecraft.server.Statistic statistic : StatisticList.stats) {
             if (statistic instanceof net.minecraft.server.Achievement) {
                 continue;
             }

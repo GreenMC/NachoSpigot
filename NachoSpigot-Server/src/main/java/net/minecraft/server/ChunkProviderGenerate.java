@@ -5,29 +5,29 @@ import java.util.Random;
 
 public class ChunkProviderGenerate implements IChunkProvider {
 
-    private Random h;
-    private NoiseGeneratorOctaves i;
-    private NoiseGeneratorOctaves j;
-    private NoiseGeneratorOctaves k;
-    private NoiseGenerator3 l;
+    private final Random h;
+    private final NoiseGeneratorOctaves i;
+    private final NoiseGeneratorOctaves j;
+    private final NoiseGeneratorOctaves k;
+    private final NoiseGenerator3 l;
     public NoiseGeneratorOctaves a;
     public NoiseGeneratorOctaves b;
     public NoiseGeneratorOctaves c;
-    private World m;
+    private final World m;
     private final boolean n;
-    private WorldType o;
+    private final WorldType o;
     private final double[] p;
     private final float[] q;
     private CustomWorldSettingsFinal r;
     private Block s;
     private double[] t;
-    private WorldGenBase u;
-    private WorldGenStronghold v;
-    private WorldGenVillage w;
-    private WorldGenMineshaft x;
-    private WorldGenLargeFeature y;
-    private WorldGenBase z;
-    private WorldGenMonument A;
+    private final WorldGenBase u;
+    private final WorldGenStronghold v;
+    private final WorldGenVillage w;
+    private final WorldGenMineshaft x;
+    private final WorldGenLargeFeature y;
+    private final WorldGenBase z;
+    private final WorldGenMonument A;
     private BiomeBase[] B;
     double[] d;
     double[] e;
@@ -137,7 +137,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
     public void a(int i, int j, ChunkSnapshot chunksnapshot, BiomeBase[] abiomebase) {
         double d0 = 0.03125D;
 
-        this.t = this.l.a(this.t, (double) (i * 16), (double) (j * 16), 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
+        this.t = this.l.a(this.t, i * 16, j * 16, 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
 
         for (int k = 0; k < 16; ++k) {
             for (int l = 0; l < 16; ++l) {
@@ -196,13 +196,13 @@ public class ChunkProviderGenerate implements IChunkProvider {
     }
 
     private void a(int i, int j, int k) {
-        this.g = this.b.a(this.g, i, k, 5, 5, (double) this.r.e, (double) this.r.f, (double) this.r.g);
+        this.g = this.b.a(this.g, i, k, 5, 5, this.r.e, this.r.f, this.r.g);
         float f = this.r.a;
         float f1 = this.r.b;
 
-        this.d = this.k.a(this.d, i, j, k, 5, 33, 5, (double) (f / this.r.h), (double) (f1 / this.r.i), (double) (f / this.r.j));
-        this.e = this.i.a(this.e, i, j, k, 5, 33, 5, (double) f, (double) f1, (double) f);
-        this.f = this.j.a(this.f, i, j, k, 5, 33, 5, (double) f, (double) f1, (double) f);
+        this.d = this.k.a(this.d, i, j, k, 5, 33, 5, f / this.r.h, f1 / this.r.i, f / this.r.j);
+        this.e = this.i.a(this.e, i, j, k, 5, 33, 5, f, f1, f);
+        this.f = this.j.a(this.f, i, j, k, 5, 33, 5, f, f1, f);
         boolean flag = false;
         boolean flag1 = false;
         int l = 0;
@@ -267,8 +267,8 @@ public class ChunkProviderGenerate implements IChunkProvider {
                 }
 
                 ++i1;
-                double d1 = (double) f3;
-                double d2 = (double) f2;
+                double d1 = f3;
+                double d2 = f2;
 
                 d1 += d0 * 0.2D;
                 d1 = d1 * (double) this.r.k / 8.0D;
@@ -287,7 +287,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
                     double d8 = MathHelper.b(d5, d6, d7) - d4;
 
                     if (j2 > 29) {
-                        double d9 = (double) ((float) (j2 - 29) / 3.0F);
+                        double d9 = (float) (j2 - 29) / 3.0F;
 
                         d8 = d8 * (1.0D - d9) + -10.0D * d9;
                     }
@@ -445,23 +445,23 @@ public class ChunkProviderGenerate implements IChunkProvider {
 
     public void recreateStructures(Chunk chunk, int i, int j) {
         if (this.r.w && this.n && this.m.paperSpigotConfig.generateMineshaft) { // PaperSpigot
-            this.x.a(this, this.m, i, j, (ChunkSnapshot) null);
+            this.x.a(this, this.m, i, j, null);
         }
 
         if (this.r.v && this.n && this.m.paperSpigotConfig.generateVillage) { // PaperSpigot
-            this.w.a(this, this.m, i, j, (ChunkSnapshot) null);
+            this.w.a(this, this.m, i, j, null);
         }
 
         if (this.r.u && this.n && this.m.paperSpigotConfig.generateStronghold) { // PaperSpigot
-            this.v.a(this, this.m, i, j, (ChunkSnapshot) null);
+            this.v.a(this, this.m, i, j, null);
         }
 
         if (this.r.x && this.n && this.m.paperSpigotConfig.generateTemple) { // PaperSpigot
-            this.y.a(this, this.m, i, j, (ChunkSnapshot) null);
+            this.y.a(this, this.m, i, j, null);
         }
 
         if (this.r.y && this.n && this.m.paperSpigotConfig.generateMonument) { // PaperSpigot
-            this.A.a(this, this.m, i, j, (ChunkSnapshot) null);
+            this.A.a(this, this.m, i, j, null);
         }
 
     }

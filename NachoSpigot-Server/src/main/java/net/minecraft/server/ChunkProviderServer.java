@@ -169,7 +169,7 @@ public class ChunkProviderServer implements IChunkProvider {
     }
     public Chunk originalGetChunkAt(int i, int j) {
         this.unloadQueue.remove(LongHash.toLong(i, j)); // TacoSpigot - directly invoke LongHash
-        Chunk chunk = (Chunk) this.chunks.get(LongHash.toLong(i, j));
+        Chunk chunk = this.chunks.get(LongHash.toLong(i, j));
         boolean newChunk = false;
         // CraftBukkit end
 
@@ -200,9 +200,9 @@ public class ChunkProviderServer implements IChunkProvider {
                         CrashReport crashreport = CrashReport.a(throwable, "Exception generating new chunk");
                         CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Chunk to be generated");
 
-                        crashreportsystemdetails.a("Location", (Object) String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j)}));
-                        crashreportsystemdetails.a("Position hash", (Object) Long.valueOf(LongHash.toLong(i, j))); // CraftBukkit - Use LongHash
-                        crashreportsystemdetails.a("Generator", (Object) this.chunkProvider.getName());
+                        crashreportsystemdetails.a("Location", String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j)}));
+                        crashreportsystemdetails.a("Position hash", Long.valueOf(LongHash.toLong(i, j))); // CraftBukkit - Use LongHash
+                        crashreportsystemdetails.a("Generator", this.chunkProvider.getName());
                         throw new ReportedException(crashreport);
                     }
                 }
@@ -247,7 +247,7 @@ public class ChunkProviderServer implements IChunkProvider {
 
     public Chunk getOrCreateChunk(int i, int j) {
         // CraftBukkit start
-        Chunk chunk = (Chunk) this.chunks.get(LongHash.toLong(i, j));
+        Chunk chunk = this.chunks.get(LongHash.toLong(i, j));
 
         chunk = chunk == null ? (!this.world.ad() && !this.forceChunkLoad ? this.emptyChunk : this.getChunkAt(i, j)) : chunk;
 
@@ -282,7 +282,7 @@ public class ChunkProviderServer implements IChunkProvider {
 
                 return chunk;
             } catch (Exception exception) {
-                ChunkProviderServer.b.error("Couldn\'t load chunk", exception);
+                ChunkProviderServer.b.error("Couldn't load chunk", exception);
                 return null;
             }
         }
@@ -293,7 +293,7 @@ public class ChunkProviderServer implements IChunkProvider {
             try {
                 this.chunkLoader.b(this.world, chunk);
             } catch (Exception exception) {
-                ChunkProviderServer.b.error("Couldn\'t save entities", exception);
+                ChunkProviderServer.b.error("Couldn't save entities", exception);
             }
 
         }
@@ -305,9 +305,9 @@ public class ChunkProviderServer implements IChunkProvider {
                 chunk.setLastSaved(this.world.getTime());
                 this.chunkLoader.a(this.world, chunk);
             } catch (IOException ioexception) {
-                ChunkProviderServer.b.error("Couldn\'t save chunk", ioexception);
+                ChunkProviderServer.b.error("Couldn't save chunk", ioexception);
             } catch (ExceptionWorldConflict exceptionworldconflict) {
-                ChunkProviderServer.b.error("Couldn\'t save chunk; already in use by another instance of Minecraft?", exceptionworldconflict);
+                ChunkProviderServer.b.error("Couldn't save chunk; already in use by another instance of Minecraft?", exceptionworldconflict);
             }
 
         }

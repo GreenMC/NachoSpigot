@@ -7,11 +7,11 @@ import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 
 public class ContainerChest extends Container {
 
-    private IInventory container;
-    private int f;
+    private final IInventory container;
+    private final int f;
     // CraftBukkit start
     private CraftInventoryView bukkitEntity = null;
-    private PlayerInventory player;
+    private final PlayerInventory player;
 
     @Override
     public CraftInventoryView getBukkitView() {
@@ -72,7 +72,7 @@ public class ContainerChest extends Container {
 
     public ItemStack b(EntityHuman entityhuman, int i) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.c.get(i);
+        Slot slot = this.c.get(i);
 
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
@@ -87,7 +87,7 @@ public class ContainerChest extends Container {
             }
 
             if (itemstack1.count == 0) {
-                slot.set((ItemStack) null);
+                slot.set(null);
             } else {
                 slot.f();
             }

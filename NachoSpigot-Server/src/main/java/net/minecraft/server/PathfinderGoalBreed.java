@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class PathfinderGoalBreed extends PathfinderGoal {
 
-    private EntityAnimal d;
+    private final EntityAnimal d;
     World a;
     private EntityAnimal e;
     int b;
@@ -41,7 +41,7 @@ public class PathfinderGoalBreed extends PathfinderGoal {
 
     public void e() {
         this.d.getControllerLook().a(this.e, 10.0F, (float) this.d.bQ());
-        this.d.getNavigation().a((Entity) this.e, this.c);
+        this.d.getNavigation().a(this.e, this.c);
         ++this.b;
         if (this.b >= 60 && this.d.h(this.e) < 9.0D) {
             this.g();
@@ -51,7 +51,7 @@ public class PathfinderGoalBreed extends PathfinderGoal {
 
     private EntityAnimal f() {
         float f = 8.0F;
-        List list = this.a.a(this.d.getClass(), this.d.getBoundingBox().grow((double) f, (double) f, (double) f));
+        List list = this.a.a(this.d.getClass(), this.d.getBoundingBox().grow(f, f, f));
         double d0 = Double.MAX_VALUE;
         EntityAnimal entityanimal = null;
         Iterator iterator = list.iterator();
@@ -86,7 +86,7 @@ public class PathfinderGoalBreed extends PathfinderGoal {
             if (entityhuman != null) {
                 entityhuman.b(StatisticList.A);
                 if (this.d instanceof EntityCow) {
-                    entityhuman.b((Statistic) AchievementList.H);
+                    entityhuman.b(AchievementList.H);
                 }
             }
 

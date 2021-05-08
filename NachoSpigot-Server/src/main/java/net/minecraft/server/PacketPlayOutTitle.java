@@ -41,7 +41,7 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
     }
 
     public void a(PacketDataSerializer packetdataserializer) throws IOException {
-        this.a = (EnumTitleAction) packetdataserializer.a(EnumTitleAction.class);
+        this.a = packetdataserializer.a(EnumTitleAction.class);
         if (this.a == EnumTitleAction.TITLE || this.a == EnumTitleAction.SUBTITLE) {
             this.b = packetdataserializer.d();
         }
@@ -55,7 +55,7 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
     }
 
     public void b(PacketDataSerializer packetdataserializer) throws IOException {
-        packetdataserializer.a((Enum) this.a);
+        packetdataserializer.a(this.a);
         if (this.a == EnumTitleAction.TITLE || this.a == EnumTitleAction.SUBTITLE) {
             // Paper start
             if (this.components != null) {
@@ -86,11 +86,11 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
     */
     // PaperSpigot end
 
-    public static enum EnumTitleAction {
+    public enum EnumTitleAction {
 
         TITLE, SUBTITLE, TIMES, CLEAR, RESET;
 
-        private EnumTitleAction() {}
+        EnumTitleAction() {}
 
         public static EnumTitleAction a(String s) {
             EnumTitleAction[] apacketplayouttitle_enumtitleaction = values();

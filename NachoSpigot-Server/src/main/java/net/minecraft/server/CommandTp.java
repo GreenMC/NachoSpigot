@@ -21,7 +21,7 @@ public class CommandTp extends CommandAbstract {
 
     public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 1) {
-            throw new ExceptionUsage("commands.tp.usage", new Object[0]);
+            throw new ExceptionUsage("commands.tp.usage");
         } else {
             byte b0 = 0;
             Object object;
@@ -35,14 +35,14 @@ public class CommandTp extends CommandAbstract {
 
             if (astring.length != 1 && astring.length != 2) {
                 if (astring.length < b0 + 3) {
-                    throw new ExceptionUsage("commands.tp.usage", new Object[0]);
+                    throw new ExceptionUsage("commands.tp.usage");
                 } else if (((Entity) object).world != null) {
                     int i = b0 + 1;
                     CommandAbstract.CommandNumber commandabstract_commandnumber = a(((Entity) object).locX, astring[b0], true);
                     CommandAbstract.CommandNumber commandabstract_commandnumber1 = a(((Entity) object).locY, astring[i++], 0, 0, false);
                     CommandAbstract.CommandNumber commandabstract_commandnumber2 = a(((Entity) object).locZ, astring[i++], true);
-                    CommandAbstract.CommandNumber commandabstract_commandnumber3 = a((double) ((Entity) object).yaw, astring.length > i ? astring[i++] : "~", false);
-                    CommandAbstract.CommandNumber commandabstract_commandnumber4 = a((double) ((Entity) object).pitch, astring.length > i ? astring[i] : "~", false);
+                    CommandAbstract.CommandNumber commandabstract_commandnumber3 = a(((Entity) object).yaw, astring.length > i ? astring[i++] : "~", false);
+                    CommandAbstract.CommandNumber commandabstract_commandnumber4 = a(((Entity) object).pitch, astring.length > i ? astring[i] : "~", false);
                     float f;
 
                     if (object instanceof EntityPlayer) {
@@ -84,7 +84,7 @@ public class CommandTp extends CommandAbstract {
                             f = MathHelper.g(f + 180.0F);
                         }
 
-                        ((Entity) object).mount((Entity) null);
+                        ((Entity) object).mount(null);
                         ((EntityPlayer) object).playerConnection.a(commandabstract_commandnumber.b(), commandabstract_commandnumber1.b(), commandabstract_commandnumber2.b(), f, f1, enumset);
                         ((Entity) object).f(f);
                     } else {
@@ -100,7 +100,7 @@ public class CommandTp extends CommandAbstract {
                         ((Entity) object).f(f2);
                     }
 
-                    a(icommandlistener, this, "commands.tp.success.coordinates", new Object[] { ((Entity) object).getName(), Double.valueOf(commandabstract_commandnumber.a()), Double.valueOf(commandabstract_commandnumber1.a()), Double.valueOf(commandabstract_commandnumber2.a())});
+                    a(icommandlistener, this, "commands.tp.success.coordinates", ((Entity) object).getName(), Double.valueOf(commandabstract_commandnumber.a()), Double.valueOf(commandabstract_commandnumber1.a()), Double.valueOf(commandabstract_commandnumber2.a()));
                 }
             } else {
                 Entity entity = b(icommandlistener, astring[astring.length - 1]);
@@ -108,7 +108,7 @@ public class CommandTp extends CommandAbstract {
                 // CraftBukkit Start
                 // Use Bukkit teleport method in all cases. It has cross dimensional handling, events
                 if (((Entity) object).getBukkitEntity().teleport(entity.getBukkitEntity(), org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.COMMAND)) {
-                    a(icommandlistener, this, "commands.tp.success", new Object[]{((Entity) object).getName(), entity.getName()});
+                    a(icommandlistener, this, "commands.tp.success", ((Entity) object).getName(), entity.getName());
                     // CraftBukkit End
                 }
             }
@@ -126,7 +126,7 @@ public class CommandTp extends CommandAbstract {
     // CraftBukkit start - fix decompile error
     @Override
     public int compareTo(ICommand o) {
-        return a((ICommand) o);
+        return a(o);
     }
     // CraftBukkit end
 }

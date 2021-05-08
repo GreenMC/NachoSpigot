@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PathfinderGoalHurtByTarget extends PathfinderGoalTarget {
 
-    private boolean a;
+    private final boolean a;
     private int b;
     private final Class[] c;
 

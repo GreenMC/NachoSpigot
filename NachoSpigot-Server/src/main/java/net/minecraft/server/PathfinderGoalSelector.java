@@ -11,11 +11,11 @@ import org.bukkit.craftbukkit.util.UnsafeList; // CraftBukkit
 public class PathfinderGoalSelector {
 
     private static final Logger a = LogManager.getLogger();
-    private List<PathfinderGoalSelector.PathfinderGoalSelectorItem> b = new UnsafeList<PathfinderGoalSelector.PathfinderGoalSelectorItem>();
-    private List<PathfinderGoalSelector.PathfinderGoalSelectorItem> c = new UnsafeList<PathfinderGoalSelector.PathfinderGoalSelectorItem>();
+    private final List<PathfinderGoalSelector.PathfinderGoalSelectorItem> b = new UnsafeList<PathfinderGoalSelector.PathfinderGoalSelectorItem>();
+    private final List<PathfinderGoalSelector.PathfinderGoalSelectorItem> c = new UnsafeList<PathfinderGoalSelector.PathfinderGoalSelectorItem>();
     private final MethodProfiler d;
     private int e;
-    private int f = 3;
+    private final int f = 3;
 
     public PathfinderGoalSelector(MethodProfiler methodprofiler) {
         this.d = methodprofiler;

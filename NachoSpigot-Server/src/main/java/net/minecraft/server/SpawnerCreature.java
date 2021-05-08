@@ -180,7 +180,7 @@ public final class SpawnerCreature {
                                                 float f = (float) j3 + 0.5F;
                                                 float f1 = (float) l3 + 0.5F;
 
-                                                if (!worldserver.isPlayerNearbyWhoAffectsSpawning((double) f, (double) k3, (double) f1, 24.0D) && blockposition.c((double) f, (double) k3, (double) f1) >= 576.0D) { // PaperSpigot - Affects Spawning API
+                                                if (!worldserver.isPlayerNearbyWhoAffectsSpawning(f, k3, f1, 24.0D) && blockposition.c(f, k3, f1) >= 576.0D) { // PaperSpigot - Affects Spawning API
                                                     if (biomebase_biomemeta == null) {
                                                         biomebase_biomemeta = worldserver.a(enumcreaturetype, blockposition2);
                                                         if (biomebase_biomemeta == null) {
@@ -192,13 +192,13 @@ public final class SpawnerCreature {
                                                         EntityInsentient entityinsentient;
 
                                                         try {
-                                                            entityinsentient = (EntityInsentient) biomebase_biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { worldserver});
+                                                            entityinsentient = biomebase_biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { worldserver});
                                                         } catch (Exception exception) {
                                                             exception.printStackTrace();
                                                             return j1;
                                                         }
 
-                                                        entityinsentient.setPositionRotation((double) f, (double) k3, (double) f1, worldserver.random.nextFloat() * 360.0F, 0.0F);
+                                                        entityinsentient.setPositionRotation(f, k3, f1, worldserver.random.nextFloat() * 360.0F, 0.0F);
                                                         if (entityinsentient.bR() && entityinsentient.canSpawn()) {
                                                             groupdataentity = entityinsentient.prepare(worldserver.E(new BlockPosition(entityinsentient)), groupdataentity);
                                                             if (entityinsentient.canSpawn()) {
@@ -262,7 +262,7 @@ public final class SpawnerCreature {
             } else {
                 BlockPosition blockposition1 = blockposition.down();
 
-                if (!World.a((IBlockAccess) world, blockposition1)) {
+                if (!World.a(world, blockposition1)) {
                     return false;
                 } else {
                     Block block1 = world.getType(blockposition1).getBlock();
@@ -297,13 +297,13 @@ public final class SpawnerCreature {
                             EntityInsentient entityinsentient;
 
                             try {
-                                entityinsentient = (EntityInsentient) biomebase_biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
+                                entityinsentient = biomebase_biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                                 continue;
                             }
 
-                            entityinsentient.setPositionRotation((double) ((float) j1 + 0.5F), (double) blockposition.getY(), (double) ((float) k1 + 0.5F), random.nextFloat() * 360.0F, 0.0F);
+                            entityinsentient.setPositionRotation((float) j1 + 0.5F, blockposition.getY(), (float) k1 + 0.5F, random.nextFloat() * 360.0F, 0.0F);
                             // CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.prepare(groupdataentity) up
                             groupdataentity = entityinsentient.prepare(world.E(new BlockPosition(entityinsentient)), groupdataentity);
                             world.addEntity(entityinsentient, SpawnReason.CHUNK_GEN);

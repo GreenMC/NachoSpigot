@@ -23,11 +23,10 @@ public class BlockCactus extends Block {
             int i;
 
             for (i = 1; world.getType(blockposition.down(i)).getBlock() == this; ++i) {
-                ;
             }
 
             if (i < world.paperSpigotConfig.cactusMaxHeight) { // PaperSpigot - Configurable max growth height for cactus blocks) {
-                int j = ((Integer) iblockdata.get(BlockCactus.AGE)).intValue();
+                int j = iblockdata.get(BlockCactus.AGE).intValue();
 
                 if (j >= (byte) range(3, (world.growthOdds / world.spigotConfig.cactusModifier * 15) + 0.5F, 15)) { // Spigot
                     // world.setTypeUpdate(blockposition1, this.getBlockData()); // CraftBukkit
@@ -47,7 +46,7 @@ public class BlockCactus extends Block {
     public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
         float f = 0.0625F;
 
-        return new AxisAlignedBB((double) ((float) blockposition.getX() + f), (double) blockposition.getY(), (double) ((float) blockposition.getZ() + f), (double) ((float) (blockposition.getX() + 1) - f), (double) ((float) (blockposition.getY() + 1) - f), (double) ((float) (blockposition.getZ() + 1) - f));
+        return new AxisAlignedBB((float) blockposition.getX() + f, blockposition.getY(), (float) blockposition.getZ() + f, (float) (blockposition.getX() + 1) - f, (float) (blockposition.getY() + 1) - f, (float) (blockposition.getZ() + 1) - f);
     }
 
     public boolean d() {
@@ -59,7 +58,7 @@ public class BlockCactus extends Block {
     }
 
     public boolean canPlace(World world, BlockPosition blockposition) {
-        return super.canPlace(world, blockposition) ? this.e(world, blockposition) : false;
+        return super.canPlace(world, blockposition) && this.e(world, blockposition);
     }
 
     public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
@@ -96,10 +95,10 @@ public class BlockCactus extends Block {
     }
 
     public int toLegacyData(IBlockData iblockdata) {
-        return ((Integer) iblockdata.get(BlockCactus.AGE)).intValue();
+        return iblockdata.get(BlockCactus.AGE).intValue();
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockCactus.AGE});
+        return new BlockStateList(this, BlockCactus.AGE);
     }
 }

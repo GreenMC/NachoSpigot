@@ -5,7 +5,7 @@ import java.util.List;
 
 public class VillageSiege {
 
-    private World a;
+    private final World a;
     private boolean b;
     private int c = -1;
     private int d;
@@ -132,7 +132,7 @@ public class VillageSiege {
 
             try {
                 entityzombie = new EntityZombie(this.a);
-                entityzombie.prepare(this.a.E(new BlockPosition(entityzombie)), (GroupDataEntity) null);
+                entityzombie.prepare(this.a.E(new BlockPosition(entityzombie)), null);
                 entityzombie.setVillager(false);
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -153,7 +153,7 @@ public class VillageSiege {
             BlockPosition blockposition1 = blockposition.a(this.a.random.nextInt(16) - 8, this.a.random.nextInt(6) - 3, this.a.random.nextInt(16) - 8);
 
             if (this.f.a(blockposition1) && SpawnerCreature.a(EntityInsentient.EnumEntityPositionType.ON_GROUND, this.a, blockposition1)) {
-                return new Vec3D((double) blockposition1.getX(), (double) blockposition1.getY(), (double) blockposition1.getZ());
+                return new Vec3D(blockposition1.getX(), blockposition1.getY(), blockposition1.getZ());
             }
         }
 

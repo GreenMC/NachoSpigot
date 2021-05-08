@@ -113,7 +113,7 @@ public class EntityFallingBlock extends Entity {
                     if (this.world.getType(blockposition).getBlock() != Blocks.PISTON_EXTENSION) {
                         this.die();
                         if (!this.e) {
-                            if (this.world.a(block, blockposition, true, EnumDirection.UP, (Entity) null, (ItemStack) null) && !BlockFalling.canFall(this.world, blockposition.down()) /* mimic the false conditions of setTypeIdAndData */ && blockposition.getX() >= -30000000 && blockposition.getZ() >= -30000000 && blockposition.getX() < 30000000 && blockposition.getZ() < 30000000 && blockposition.getY() >= 0 && blockposition.getY() < (this.world.tacoSpigotConfig.disableFallingBlockStackingAt256 ? 255 : 256) && this.world.getType(blockposition) != this.block) {
+                            if (this.world.a(block, blockposition, true, EnumDirection.UP, null, null) && !BlockFalling.canFall(this.world, blockposition.down()) /* mimic the false conditions of setTypeIdAndData */ && blockposition.getX() >= -30000000 && blockposition.getZ() >= -30000000 && blockposition.getX() < 30000000 && blockposition.getZ() < 30000000 && blockposition.getY() >= 0 && blockposition.getY() < (this.world.tacoSpigotConfig.disableFallingBlockStackingAt256 ? 255 : 256) && this.world.getType(blockposition) != this.block) {
                                 if (CraftEventFactory.callEntityChangeBlockEvent(this, blockposition.getX(), blockposition.getY(), blockposition.getZ(), this.block.getBlock(), this.block.getBlock().toLegacyData(this.block)).isCancelled()) {
                                     return;
                                 }
@@ -184,7 +184,7 @@ public class EntityFallingBlock extends Entity {
                 }
 
                 if (flag && (double) this.random.nextFloat() < 0.05000000074505806D + (double) i * 0.05D) {
-                    int j = ((Integer) this.block.get(BlockAnvil.DAMAGE)).intValue();
+                    int j = this.block.get(BlockAnvil.DAMAGE).intValue();
 
                     ++j;
                     if (j > 2) {
@@ -200,7 +200,7 @@ public class EntityFallingBlock extends Entity {
 
     protected void b(NBTTagCompound nbttagcompound) {
         Block block = this.block != null ? this.block.getBlock() : Blocks.AIR;
-        MinecraftKey minecraftkey = (MinecraftKey) Block.REGISTRY.c(block);
+        MinecraftKey minecraftkey = Block.REGISTRY.c(block);
 
         nbttagcompound.setString("Block", minecraftkey == null ? "" : minecraftkey.toString());
         nbttagcompound.setByte("Data", (byte) block.toLegacyData(this.block));
@@ -273,8 +273,8 @@ public class EntityFallingBlock extends Entity {
         if (this.block != null) {
             Block block = this.block.getBlock();
 
-            crashreportsystemdetails.a("Immitating block ID", (Object) Integer.valueOf(Block.getId(block)));
-            crashreportsystemdetails.a("Immitating block data", (Object) Integer.valueOf(block.toLegacyData(this.block)));
+            crashreportsystemdetails.a("Immitating block ID", Integer.valueOf(Block.getId(block)));
+            crashreportsystemdetails.a("Immitating block data", Integer.valueOf(block.toLegacyData(this.block)));
         }
 
     }
@@ -292,7 +292,7 @@ public class EntityFallingBlock extends Entity {
         double d4 = this.locY + this.getHeadHeight() - d1;
         double d5 = this.locZ - d2;
 
-        return (double) MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
+        return MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
     }
 
     @Override

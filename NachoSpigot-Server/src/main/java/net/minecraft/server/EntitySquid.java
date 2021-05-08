@@ -111,16 +111,16 @@ public class EntitySquid extends EntityWaterAnimal {
             }
 
             if (!this.world.isClientSide) {
-                this.motX = (double) (this.bs * this.bp);
-                this.motY = (double) (this.bt * this.bp);
-                this.motZ = (double) (this.bu * this.bp);
+                this.motX = this.bs * this.bp;
+                this.motY = this.bt * this.bp;
+                this.motZ = this.bu * this.bp;
             }
 
             f = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
             this.aI += (-((float) MathHelper.b(this.motX, this.motZ)) * 180.0F / 3.1415927F - this.aI) * 0.1F;
             this.yaw = this.aI;
             this.c = (float) ((double) this.c + 3.141592653589793D * (double) this.br * 1.5D);
-            this.a += (-((float) MathHelper.b((double) f, this.motY)) * 180.0F / 3.1415927F - this.a) * 0.1F;
+            this.a += (-((float) MathHelper.b(f, this.motY)) * 180.0F / 3.1415927F - this.a) * 0.1F;
         } else {
             this.bn = MathHelper.e(MathHelper.sin(this.bl)) * 3.1415927F * 0.25F;
             if (!this.world.isClientSide) {
@@ -141,7 +141,7 @@ public class EntitySquid extends EntityWaterAnimal {
 
     public boolean bR() {
         // PaperSpigot - Configurable squid spawn range
-        return this.locY > this.world.paperSpigotConfig.squidMinSpawnHeight && this.locY < (double) this.world.paperSpigotConfig.squidMaxSpawnHeight && super.bR();
+        return this.locY > this.world.paperSpigotConfig.squidMinSpawnHeight && this.locY < this.world.paperSpigotConfig.squidMaxSpawnHeight && super.bR();
     }
 
     public void b(float f, float f1, float f2) {
@@ -156,7 +156,7 @@ public class EntitySquid extends EntityWaterAnimal {
 
     static class PathfinderGoalSquid extends PathfinderGoal {
 
-        private EntitySquid a;
+        private final EntitySquid a;
 
         public PathfinderGoalSquid(EntitySquid entitysquid) {
             this.a = entitysquid;

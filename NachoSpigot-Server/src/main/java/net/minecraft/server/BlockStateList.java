@@ -78,7 +78,7 @@ public class BlockStateList {
         while (iterator.hasNext()) {
             BlockStateList.BlockData blockstatelist_blockdata1 = (BlockStateList.BlockData) iterator.next();
 
-            blockstatelist_blockdata1.a((Map) linkedhashmap);
+            blockstatelist_blockdata1.a(linkedhashmap);
         }
 
         this.e = ImmutableList.copyOf(arraylist);
@@ -92,14 +92,14 @@ public class BlockStateList {
         ArrayList arraylist = Lists.newArrayList();
 
         for (int i = 0; i < this.d.size(); ++i) {
-            arraylist.add(((IBlockState) this.d.get(i)).c());
+            arraylist.add(this.d.get(i).c());
         }
 
         return arraylist;
     }
 
     public IBlockData getBlockData() {
-        return (IBlockData) this.e.get(0);
+        return this.e.get(0);
     }
 
     public Block getBlock() {
@@ -139,7 +139,7 @@ public class BlockStateList {
             // TacoSpigot start - runtime check -> assertion
             assert this.b.containsKey(iblockstate) : "Cannot get property " + iblockstate + " as it does not exist in " + this.a.P();
             Object value = this.b.get(iblockstate);
-            assert value == bAsImmutableMap.get(iblockstate) : "Array map gave data " + String.valueOf(value) + " and regular map gave data " + String.valueOf(bAsImmutableMap.get(iblockstate));
+            assert value == bAsImmutableMap.get(iblockstate) : "Array map gave data " + value + " and regular map gave data " + bAsImmutableMap.get(iblockstate);
             assert value != null : "Null value for state " + iblockstate + " and data " + this;
             assert iblockstate.b().isInstance(value) : "Value " + value + " for state " + iblockstate + " and data " + this + " not instanceof " + iblockstate.b().getTypeName();
             return (T) value;
@@ -152,7 +152,7 @@ public class BlockStateList {
             assert v0 != null : "Null value for block state " + iblockstate;
             assert this.b.containsKey(iblockstate) : "Cannot set property " + iblockstate + " as it does not exist in " + this.a.P();
             assert  iblockstate.c().contains(v0) : "Cannot set property " + iblockstate + " to " + v0 + " on block " + Block.REGISTRY.c(this.a) + ", it is not an allowed value";
-            IBlockData data = (IBlockData) (this.b.get(iblockstate) == v0 ? this : (IBlockData) this.c.get(iblockstate, v0));
+            IBlockData data = this.b.get(iblockstate) == v0 ? this : this.c.get(iblockstate, v0);
             assert data != null : "No block data with property " + iblockstate + " and value " + v0 + " for block data " + this;
             return data;
             // TacoSpigot end

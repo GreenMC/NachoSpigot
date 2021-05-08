@@ -99,7 +99,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
     private final GameProfileRepository Y;
     private final UserCache Z;
     protected final Queue<FutureTask<?>> j = new java.util.concurrent.ConcurrentLinkedQueue<FutureTask<?>>(); // Spigot, PAIL: Rename
-    private Thread serverThread;
+    private final Thread serverThread;
     private long ab = az();
 
     // CraftBukkit start
@@ -414,11 +414,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
                 if (worldserver != null) {
                     if (!flag) {
-                        MinecraftServer.LOGGER.info("Saving chunks for level \'" + worldserver.getWorldData().getName() + "\'/" + worldserver.worldProvider.getName());
+                        MinecraftServer.LOGGER.info("Saving chunks for level '" + worldserver.getWorldData().getName() + "'/" + worldserver.worldProvider.getName());
                     }
 
                     try {
-                        worldserver.save(true, (IProgressUpdate) null);
+                        worldserver.save(true, null);
                         worldserver.saveLevel(); // CraftBukkit
                     } catch (ExceptionWorldConflict exceptionworldconflict) {
                         MinecraftServer.LOGGER.warn(exceptionworldconflict.getMessage());
@@ -672,14 +672,14 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
             try {
                 BufferedImage bufferedimage = ImageIO.read(file);
 
-                Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", new Object[0]);
-                Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
+                Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
+                Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
                 ImageIO.write(bufferedimage, "PNG", new ByteBufOutputStream(bytebuf));
                 /*ByteBuf*/ bytebuf1 = Base64.encode(bytebuf); // Paper - cleanup favicon bytebuf
 
                 serverping.setFavicon("data:image/png;base64," + bytebuf1.toString(Charsets.UTF_8));
             } catch (Exception exception) {
-                MinecraftServer.LOGGER.error("Couldn\'t load server icon", exception);
+                MinecraftServer.LOGGER.error("Couldn't load server icon", exception);
             } finally {
                 bytebuf.release();
                 // Paper start - cleanup favicon bytebuf
@@ -720,7 +720,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
             int j = MathHelper.nextInt(this.s, 0, this.I() - agameprofile.length);
 
             for (int k = 0; k < agameprofile.length; ++k) {
-                agameprofile[k] = ((EntityPlayer) this.v.v().get(j + k)).getProfile();
+                agameprofile[k] = this.v.v().get(j + k).getProfile();
             }
 
             Collections.shuffle(Arrays.asList(agameprofile));

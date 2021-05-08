@@ -25,7 +25,7 @@ public class CommandExecute extends CommandAbstract {
 
     public void execute(final ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 5) {
-            throw new ExceptionUsage("commands.execute.usage", new Object[0]);
+            throw new ExceptionUsage("commands.execute.usage");
         } else {
             final Entity entity = a(icommandlistener, astring[0], Entity.class);
             final double d0 = b(entity.locX, astring[1], false);
@@ -45,7 +45,7 @@ public class CommandExecute extends CommandAbstract {
                 IBlockData iblockdata = world.getType(blockposition1);
 
                 if (iblockdata.getBlock() != block || i >= 0 && iblockdata.getBlock().toLegacyData(iblockdata) != i) {
-                    throw new CommandException("commands.execute.failed", new Object[] { "detect", entity.getName()});
+                    throw new CommandException("commands.execute.failed", "detect", entity.getName());
                 }
 
                 b0 = 10;
@@ -109,13 +109,13 @@ public class CommandExecute extends CommandAbstract {
                 }else if (icommandlistener.f() != null) {
                     sender = icommandlistener.f().getBukkitEntity();
                 } else {
-                    throw new CommandException("Unhandled executor " + icommandlistener.getClass().getSimpleName(), new Object[0]);
+                    throw new CommandException("Unhandled executor " + icommandlistener.getClass().getSimpleName());
                 }
                 int j = CommandBlockListenerAbstract.executeCommand(icommandlistener1, new ProxiedNativeCommandSender(icommandlistener1, sender, entity.getBukkitEntity()), s); 
                 // CraftBukkit end
 
                 if (j < 1) {
-                    throw new CommandException("commands.execute.allInvocationsFailed", new Object[] { s});
+                    throw new CommandException("commands.execute.allInvocationsFailed", s);
                 }
             } catch (Throwable throwable) {
                 // CraftBukkit start
@@ -123,13 +123,13 @@ public class CommandExecute extends CommandAbstract {
                     throw (CommandException) throwable;
                 }
                 // CraftBukkit end
-                throw new CommandException("commands.execute.failed", new Object[] { s, entity.getName()});
+                throw new CommandException("commands.execute.failed", s, entity.getName());
             }
         }
     }
 
     public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
-        return astring.length == 1 ? a(astring, MinecraftServer.getServer().getPlayers()) : (astring.length > 1 && astring.length <= 4 ? a(astring, 1, blockposition) : (astring.length > 5 && astring.length <= 8 && "detect".equals(astring[4]) ? a(astring, 5, blockposition) : (astring.length == 9 && "detect".equals(astring[4]) ? a(astring, (Collection) Block.REGISTRY.keySet()) : null)));
+        return astring.length == 1 ? a(astring, MinecraftServer.getServer().getPlayers()) : (astring.length > 1 && astring.length <= 4 ? a(astring, 1, blockposition) : (astring.length > 5 && astring.length <= 8 && "detect".equals(astring[4]) ? a(astring, 5, blockposition) : (astring.length == 9 && "detect".equals(astring[4]) ? a(astring, Block.REGISTRY.keySet()) : null)));
     }
 
     public boolean isListStart(String[] astring, int i) {
@@ -139,7 +139,7 @@ public class CommandExecute extends CommandAbstract {
     // CraftBukkit start - fix decompiler error
     @Override
     public int compareTo(ICommand o) {
-        return a((ICommand) o);
+        return a(o);
     }
     // CraftBukkit end
 }

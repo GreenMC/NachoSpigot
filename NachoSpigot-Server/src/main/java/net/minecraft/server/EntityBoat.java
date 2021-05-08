@@ -15,7 +15,7 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
 
 public class EntityBoat extends Entity {
 
-    private boolean a;
+    private final boolean a;
     private double b;
     private int c;
     private double d;
@@ -103,7 +103,7 @@ public class EntityBoat extends Entity {
                 Vehicle vehicle = (Vehicle) this.getBukkitEntity();
                 org.bukkit.entity.Entity attacker = (damagesource.getEntity() == null) ? null : damagesource.getEntity().getBukkitEntity();
 
-                VehicleDamageEvent event = new VehicleDamageEvent(vehicle, attacker, (double) f);
+                VehicleDamageEvent event = new VehicleDamageEvent(vehicle, attacker, f);
                 this.world.getServer().getPluginManager().callEvent(event);
 
                 if (event.isCancelled()) {
@@ -193,7 +193,7 @@ public class EntityBoat extends Entity {
             d5 = Math.sin((double) this.yaw * 3.141592653589793D / 180.0D);
 
             for (j = 0; (double) j < 1.0D + d3 * 60.0D; ++j) {
-                double d6 = (double) (this.random.nextFloat() * 2.0F - 1.0F);
+                double d6 = this.random.nextFloat() * 2.0F - 1.0F;
                 double d7 = (double) (this.random.nextInt(2) * 2 - 1) * 0.7D;
                 double d8;
                 double d9;
@@ -256,8 +256,8 @@ public class EntityBoat extends Entity {
                 EntityLiving entityliving = (EntityLiving) this.passenger;
                 float f = this.passenger.yaw + -entityliving.aZ * 90.0F;
 
-                this.motX += -Math.sin((double) (f * 3.1415927F / 180.0F)) * this.b * (double) entityliving.ba * 0.05000000074505806D;
-                this.motZ += Math.cos((double) (f * 3.1415927F / 180.0F)) * this.b * (double) entityliving.ba * 0.05000000074505806D;
+                this.motX += -Math.sin(f * 3.1415927F / 180.0F) * this.b * (double) entityliving.ba * 0.05000000074505806D;
+                this.motZ += Math.cos(f * 3.1415927F / 180.0F) * this.b * (double) entityliving.ba * 0.05000000074505806D;
             }
             // CraftBukkit start - Support unoccupied deceleration
             else if (unoccupiedDeceleration >= 0) {
@@ -352,11 +352,11 @@ public class EntityBoat extends Entity {
             }
 
             this.pitch = 0.0F;
-            d5 = (double) this.yaw;
+            d5 = this.yaw;
             d10 = this.lastX - this.locX;
             d11 = this.lastZ - this.locZ;
             if (d10 * d10 + d11 * d11 > 0.001D) {
-                d5 = (double) ((float) (MathHelper.b(d11, d10) * 180.0D / 3.141592653589793D));
+                d5 = (float) (MathHelper.b(d11, d10) * 180.0D / 3.141592653589793D);
             }
 
             double d12 = MathHelper.g(d5 - (double) this.yaw);

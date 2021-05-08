@@ -10,8 +10,8 @@ public class BiomeMesa extends BiomeBase {
     private NoiseGenerator3 aF;
     private NoiseGenerator3 aG;
     private NoiseGenerator3 aH;
-    private boolean aI;
-    private boolean aJ;
+    private final boolean aI;
+    private final boolean aJ;
 
     public BiomeMesa(int i, boolean flag, boolean flag1) {
         super(i);

@@ -9,7 +9,7 @@ import net.minecraft.server.World;
 
 public interface HopperPusher {
 
-    public default TileEntityHopper findHopper() {
+    default TileEntityHopper findHopper() {
         BlockPosition pos = new BlockPosition(getX(), getY(), getZ());
         int startX = pos.getX() - 1;
         int endX = pos.getX() + 1;
@@ -36,29 +36,29 @@ public interface HopperPusher {
         return null;
     }
 
-    public boolean acceptItem(TileEntityHopper hopper);
+    boolean acceptItem(TileEntityHopper hopper);
 
-    public default boolean tryPutInHopper() {
+    default boolean tryPutInHopper() {
         if (!getWorld().tacoSpigotConfig.isHopperPushBased) return false;
         TileEntityHopper hopper = findHopper();
         return hopper != null && hopper.canAcceptItems() && acceptItem(hopper);
     }
 
-    public AxisAlignedBB getBoundingBox();
+    AxisAlignedBB getBoundingBox();
 
-    public World getWorld();
+    World getWorld();
 
     // Default implementations for entities
 
-    public default double getX() {
+    default double getX() {
         return ((Entity) this).locX;
     }
 
-    public default double getY() {
+    default double getY() {
         return ((Entity) this).locY;
     }
 
-    public default double getZ() {
+    default double getZ() {
         return ((Entity) this).locZ;
     }
 

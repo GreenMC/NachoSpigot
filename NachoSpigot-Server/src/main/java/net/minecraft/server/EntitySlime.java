@@ -32,8 +32,8 @@ public class EntitySlime extends EntityInsentient implements IMonster {
         this.datawatcher.watch(16, Byte.valueOf((byte) i));
         this.setSize(0.51000005F * (float) i, 0.51000005F * (float) i);
         this.setPosition(this.locX, this.locY, this.locZ);
-        this.getAttributeInstance(GenericAttributes.maxHealth).setValue((double) (i * i));
-        this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue((double) (0.2F + 0.1F * (float) i));
+        this.getAttributeInstance(GenericAttributes.maxHealth).setValue(i * i);
+        this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.2F + 0.1F * (float) i);
         this.setHealth(this.getMaxHealth());
         this.b_ = i;
     }
@@ -192,7 +192,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
         if (this.hasLineOfSight(entityliving) && this.h(entityliving) < 0.6D * (double) i * 0.6D * (double) i && entityliving.damageEntity(DamageSource.mobAttack(this), (float) this.cj())) {
             this.makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.a((EntityLiving) this, (Entity) entityliving);
+            this.a(this, entityliving);
         }
 
     }
@@ -282,7 +282,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
     static class PathfinderGoalSlimeIdle extends PathfinderGoal {
 
-        private EntitySlime a;
+        private final EntitySlime a;
 
         public PathfinderGoalSlimeIdle(EntitySlime entityslime) {
             this.a = entityslime;
@@ -300,7 +300,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
     static class PathfinderGoalSlimeRandomJump extends PathfinderGoal {
 
-        private EntitySlime a;
+        private final EntitySlime a;
 
         public PathfinderGoalSlimeRandomJump(EntitySlime entityslime) {
             this.a = entityslime;
@@ -323,7 +323,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
     static class PathfinderGoalSlimeRandomDirection extends PathfinderGoal {
 
-        private EntitySlime a;
+        private final EntitySlime a;
         private float b;
         private int c;
 
@@ -348,7 +348,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
     static class PathfinderGoalSlimeNearestPlayer extends PathfinderGoal {
 
-        private EntitySlime a;
+        private final EntitySlime a;
         private int b;
 
         public PathfinderGoalSlimeNearestPlayer(EntitySlime entityslime) {
@@ -359,7 +359,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
         public boolean a() {
             EntityLiving entityliving = this.a.getGoalTarget();
 
-            return entityliving == null ? false : (!entityliving.isAlive() ? false : !(entityliving instanceof EntityHuman) || !((EntityHuman) entityliving).abilities.isInvulnerable);
+            return entityliving != null && (entityliving.isAlive() && (!(entityliving instanceof EntityHuman) || !((EntityHuman) entityliving).abilities.isInvulnerable));
         }
 
         public void c() {
@@ -370,7 +370,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
         public boolean b() {
             EntityLiving entityliving = this.a.getGoalTarget();
 
-            return entityliving == null ? false : (!entityliving.isAlive() ? false : (entityliving instanceof EntityHuman && ((EntityHuman) entityliving).abilities.isInvulnerable ? false : --this.b > 0));
+            return entityliving != null && (entityliving.isAlive() && ((!(entityliving instanceof EntityHuman) || !((EntityHuman) entityliving).abilities.isInvulnerable) && --this.b > 0));
         }
 
         public void e() {
@@ -383,7 +383,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 
         private float g;
         private int h;
-        private EntitySlime i;
+        private final EntitySlime i;
         private boolean j;
 
         public ControllerMoveSlime(EntitySlime entityslime) {

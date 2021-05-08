@@ -6,10 +6,10 @@ import java.util.List;
 public class IntCache {
 
     private static int a = 256;
-    private static List<int[]> b = Lists.newArrayList();
-    private static List<int[]> c = Lists.newArrayList();
-    private static List<int[]> d = Lists.newArrayList();
-    private static List<int[]> e = Lists.newArrayList();
+    private static final List<int[]> b = Lists.newArrayList();
+    private static final List<int[]> c = Lists.newArrayList();
+    private static final List<int[]> d = Lists.newArrayList();
+    private static final List<int[]> e = Lists.newArrayList();
 
     public static synchronized int[] a(int i) {
         int[] aint;
@@ -20,7 +20,7 @@ public class IntCache {
                 if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit) IntCache.c.add(aint);
                 return aint;
             } else {
-                aint = (int[]) IntCache.b.remove(IntCache.b.size() - 1);
+                aint = IntCache.b.remove(IntCache.b.size() - 1);
                 if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit) IntCache.c.add(aint);
                 return aint;
             }
@@ -36,7 +36,7 @@ public class IntCache {
             if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit) IntCache.e.add(aint);
             return aint;
         } else {
-            aint = (int[]) IntCache.d.remove(IntCache.d.size() - 1);
+            aint = IntCache.d.remove(IntCache.d.size() - 1);
             if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit) IntCache.e.add(aint);
             return aint;
         }

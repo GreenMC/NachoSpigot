@@ -91,7 +91,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 
         if (!worldserver.worldProvider.o() && worldserver.getWorldData().getGameType() != WorldSettings.EnumGamemode.ADVENTURE) {
             int i = Math.max(5, minecraftserver.getSpawnProtection() - 6);
-            int j = MathHelper.floor(worldserver.getWorldBorder().b((double) blockposition.getX(), (double) blockposition.getZ()));
+            int j = MathHelper.floor(worldserver.getWorldBorder().b(blockposition.getX(), blockposition.getZ()));
 
             if (j < i) {
                 i = j;
@@ -213,7 +213,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
             containerUpdateDelay = world.paperSpigotConfig.containerUpdateTickRate;
         }
         // PaperSpigot end
-        if (!this.world.isClientSide && !this.activeContainer.a((EntityHuman) this)) {
+        if (!this.world.isClientSide && !this.activeContainer.a(this)) {
             this.closeInventory();
             this.activeContainer = this.defaultContainer;
         }
@@ -373,7 +373,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
             }
 
             if (this.oldLevel != this.expLevel) {
-                CraftEventFactory.callPlayerLevelChangeEvent(this.world.getServer().getPlayer((EntityPlayer) this), this.oldLevel, this.expLevel);
+                CraftEventFactory.callPlayerLevelChangeEvent(this.world.getServer().getPlayer(this), this.oldLevel, this.expLevel);
                 this.oldLevel = this.expLevel;
             }
             // CraftBukkit end
@@ -389,10 +389,10 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
     protected void i_() {
         BiomeBase biomebase = this.world.getBiome(new BlockPosition(MathHelper.floor(this.locX), 0, MathHelper.floor(this.locZ)));
         String s = biomebase.ah;
-        AchievementSet achievementset = (AchievementSet) this.getStatisticManager().b((Statistic) AchievementList.L);
+        AchievementSet achievementset = this.getStatisticManager().b((Statistic) AchievementList.L);
 
         if (achievementset == null) {
-            achievementset = (AchievementSet) this.getStatisticManager().a(AchievementList.L, new AchievementSet());
+            achievementset = this.getStatisticManager().a(AchievementList.L, new AchievementSet());
         }
 
         achievementset.add(s);
@@ -559,7 +559,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
                 */
                 // CraftBukkit end
             } else {
-                this.b((Statistic) AchievementList.y);
+                this.b(AchievementList.y);
             }
         }
 
@@ -603,7 +603,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         if (entityhuman_enumbedresult == EntityHuman.EnumBedResult.OK) {
             PacketPlayOutBed packetplayoutbed = new PacketPlayOutBed(this, blockposition);
 
-            this.u().getTracker().a((Entity) this, (Packet) packetplayoutbed);
+            this.u().getTracker().a(this, packetplayoutbed);
             this.playerConnection.a(this.locX, this.locY, this.locZ, this.yaw, this.pitch);
             this.playerConnection.sendPacket(packetplayoutbed);
         }
@@ -657,7 +657,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
     }
 
     public void openSign(TileEntitySign tileentitysign) {
-        tileentitysign.a((EntityHuman) this);
+        tileentitysign.a(this);
         this.playerConnection.sendPacket(new PacketPlayOutOpenSignEditor(tileentitysign.getPosition()));
     }
 
@@ -709,7 +709,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
             ITileInventory itileinventory = (ITileInventory) iinventory;
 
             if (itileinventory.r_() && !this.a(itileinventory.i()) && !this.isSpectator() && container == null) { // CraftBukkit - allow plugins to uncancel the lock
-                this.playerConnection.sendPacket(new PacketPlayOutChat(new ChatMessage("container.isLocked", new Object[] { iinventory.getScoreboardDisplayName()}), (byte) 2));
+                this.playerConnection.sendPacket(new PacketPlayOutChat(new ChatMessage("container.isLocked", iinventory.getScoreboardDisplayName()), (byte) 2));
                 this.playerConnection.sendPacket(new PacketPlayOutNamedSoundEffect("random.door_close", this.locX, this.locY, this.locZ, 1.0F, 1.0F));
 
                 iinventory.closeContainer(this); // CraftBukkit
@@ -831,7 +831,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
     }
 
     public void p() {
-        this.activeContainer.b((EntityHuman) this);
+        this.activeContainer.b(this);
         this.activeContainer = this.defaultContainer;
     }
 
@@ -1064,7 +1064,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 
     public void d(Entity entity) {
         if (entity instanceof EntityHuman) {
-            this.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(new int[] { entity.getId()}));
+            this.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(entity.getId()));
         } else {
             this.removeQueue.add(Integer.valueOf(entity.getId()));
         }
@@ -1083,13 +1083,13 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
     }
 
     public Entity C() {
-        return (Entity) (this.bU == null ? this : this.bU);
+        return this.bU == null ? this : this.bU;
     }
 
     public void setSpectatorTarget(Entity entity) {
         Entity entity1 = this.C();
 
-        this.bU = (Entity) (entity == null ? this : entity);
+        this.bU = entity == null ? this : entity;
         if (entity1 != this.bU) {
             this.playerConnection.sendPacket(new PacketPlayOutCamera(this.bU));
             this.enderTeleportTo(this.bU.locX, this.bU.locY, this.bU.locZ);

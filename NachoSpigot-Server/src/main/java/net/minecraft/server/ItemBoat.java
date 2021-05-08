@@ -33,14 +33,14 @@ public class ItemBoat extends Item {
             Vec3D vec3d2 = entityhuman.d(f);
             boolean flag = false;
             float f9 = 1.0F;
-            List list = world.getEntities(entityhuman, entityhuman.getBoundingBox().a(vec3d2.a * d3, vec3d2.b * d3, vec3d2.c * d3).grow((double) f9, (double) f9, (double) f9));
+            List list = world.getEntities(entityhuman, entityhuman.getBoundingBox().a(vec3d2.a * d3, vec3d2.b * d3, vec3d2.c * d3).grow(f9, f9, f9));
 
             for (int i = 0; i < list.size(); ++i) {
                 Entity entity = (Entity) list.get(i);
 
                 if (entity.ad()) {
                     float f10 = entity.ao();
-                    AxisAlignedBB axisalignedbb = entity.getBoundingBox().grow((double) f10, (double) f10, (double) f10);
+                    AxisAlignedBB axisalignedbb = entity.getBoundingBox().grow(f10, f10, f10);
 
                     if (axisalignedbb.a(vec3d)) {
                         flag = true;
@@ -66,7 +66,7 @@ public class ItemBoat extends Item {
                         blockposition = blockposition.down();
                     }
 
-                    EntityBoat entityboat = new EntityBoat(world, (double) ((float) blockposition.getX() + 0.5F), (double) ((float) blockposition.getY() + 1.0F), (double) ((float) blockposition.getZ() + 0.5F));
+                    EntityBoat entityboat = new EntityBoat(world, (float) blockposition.getX() + 0.5F, (float) blockposition.getY() + 1.0F, (float) blockposition.getZ() + 0.5F);
 
                     entityboat.yaw = (float) (((MathHelper.floor((double) (entityhuman.yaw * 4.0F / 360.0F) + 0.5D) & 3) - 1) * 90);
                     if (!world.getCubes(entityboat, entityboat.getBoundingBox().grow(-0.1D, -0.1D, -0.1D)).isEmpty()) {

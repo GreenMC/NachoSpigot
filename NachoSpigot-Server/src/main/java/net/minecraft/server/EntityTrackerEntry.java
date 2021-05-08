@@ -32,7 +32,7 @@ public class EntityTrackerEntry {
     private double posY;
     private double posZ;
     private boolean isMoving;
-    private boolean u; public boolean sendVelocityUpdates() { return u; }
+    private final boolean u; public boolean sendVelocityUpdates() { return u; }
     private int ticksSinceLastForcedTeleport;
     private Entity lastRecoredRider;
     private boolean ridingEntity;
@@ -584,7 +584,7 @@ public class EntityTrackerEntry {
                 } else if (this.tracker instanceof EntityExperienceOrb) {
                     return new PacketPlayOutSpawnEntityExperienceOrb((EntityExperienceOrb) this.tracker);
                 } else {
-                    throw new IllegalArgumentException("Don\'t know how to add " + this.tracker.getClass() + "!");
+                    throw new IllegalArgumentException("Don't know how to add " + this.tracker.getClass() + "!");
                 }
             }
         }

@@ -72,9 +72,9 @@ public class ActivationRange
      */
     public static boolean initializeEntityActivationState(Entity entity, SpigotWorldConfig config)
     {
-        if ( ( entity.activationType == 3 && config.miscActivationRange == 0 )
-                || ( entity.activationType == 2 && config.animalActivationRange == 0 )
-                || ( entity.activationType == 1 && config.monsterActivationRange == 0 )
+        return (entity.activationType == 3 && config.miscActivationRange == 0)
+                || (entity.activationType == 2 && config.animalActivationRange == 0)
+                || (entity.activationType == 1 && config.monsterActivationRange == 0)
                 || entity instanceof EntityHuman
                 || entity instanceof EntityProjectile
                 || entity instanceof EntityEnderDragon
@@ -85,12 +85,7 @@ public class ActivationRange
                 || entity instanceof EntityTNTPrimed
                 || entity instanceof EntityFallingBlock // PaperSpigot - Always tick falling blocks
                 || entity instanceof EntityEnderCrystal
-                || entity instanceof EntityFireworks )
-        {
-            return true;
-        }
-
-        return false;
+                || entity instanceof EntityFireworks;
     }
 
     /**
@@ -236,9 +231,8 @@ public class ActivationRange
                     return true;
                 }
             }
-            if (entity instanceof EntityCreeper && ((EntityCreeper) entity).cn()) { // isExplosive
-                return true;
-            }
+            // isExplosive
+            return entity instanceof EntityCreeper && ((EntityCreeper) entity).cn();
         }
         return false;
     }

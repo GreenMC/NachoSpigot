@@ -47,9 +47,9 @@ public class ServerStatisticManager extends StatisticManager {
                 this.a.clear();
                 this.a.putAll(this.a(FileUtils.readFileToString(this.d)));
             } catch (IOException ioexception) {
-                ServerStatisticManager.b.error("Couldn\'t read statistics file " + this.d, ioexception);
+                ServerStatisticManager.b.error("Couldn't read statistics file " + this.d, ioexception);
             } catch (JsonParseException jsonparseexception) {
-                ServerStatisticManager.b.error("Couldn\'t parse statistics file " + this.d, jsonparseexception);
+                ServerStatisticManager.b.error("Couldn't parse statistics file " + this.d, jsonparseexception);
             }
         }
 
@@ -60,7 +60,7 @@ public class ServerStatisticManager extends StatisticManager {
         try {
             FileUtils.writeStringToFile(this.d, a(this.a));
         } catch (IOException ioexception) {
-            ServerStatisticManager.b.error("Couldn\'t save stats", ioexception);
+            ServerStatisticManager.b.error("Couldn't save stats", ioexception);
         }
 
     }
@@ -74,14 +74,14 @@ public class ServerStatisticManager extends StatisticManager {
         if (statistic.d() && j == 0 && i > 0) {
             this.g = true;
             if (this.c.aB()) {
-                this.c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement", new Object[] { entityhuman.getScoreboardDisplayName(), statistic.j()}));
+                this.c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement", entityhuman.getScoreboardDisplayName(), statistic.j()));
             }
         }
 
         if (statistic.d() && j > 0 && i == 0) {
             this.g = true;
             if (this.c.aB()) {
-                this.c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement.taken", new Object[] { entityhuman.getScoreboardDisplayName(), statistic.j()}));
+                this.c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement.taken", entityhuman.getScoreboardDisplayName(), statistic.j()));
             }
         }
 
@@ -123,7 +123,7 @@ public class ServerStatisticManager extends StatisticManager {
 
                         if (jsonobject1.has("progress") && statistic.l() != null) {
                             try {
-                                Constructor constructor = statistic.l().getConstructor(new Class[0]);
+                                Constructor constructor = statistic.l().getConstructor();
                                 IJsonStatistic ijsonstatistic = (IJsonStatistic) constructor.newInstance(new Object[0]);
 
                                 ijsonstatistic.a(jsonobject1.get("progress"));
@@ -136,7 +136,7 @@ public class ServerStatisticManager extends StatisticManager {
 
                     hashmap.put(statistic, statisticwrapper);
                 } else {
-                    ServerStatisticManager.b.warn("Invalid statistic in " + this.d + ": Don\'t know what " + (String) entry.getKey() + " is");
+                    ServerStatisticManager.b.warn("Invalid statistic in " + this.d + ": Don't know what " + entry.getKey() + " is");
                 }
             }
 
@@ -159,7 +159,7 @@ public class ServerStatisticManager extends StatisticManager {
                 try {
                     jsonobject1.add("progress", ((StatisticWrapper) entry.getValue()).b().a());
                 } catch (Throwable throwable) {
-                    ServerStatisticManager.b.warn("Couldn\'t save statistic " + ((Statistic) entry.getKey()).e() + ": error serializing progress", throwable);
+                    ServerStatisticManager.b.warn("Couldn't save statistic " + ((Statistic) entry.getKey()).e() + ": error serializing progress", throwable);
                 }
 
                 jsonobject.add(((Statistic) entry.getKey()).name, jsonobject1);

@@ -7,10 +7,10 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
     public final BlockPosition a;
     public long b;
     public int c;
-    private long f;
+    private final long f;
 
     public NextTickListEntry(BlockPosition blockposition, Block block) {
-        this.f = (long) (NextTickListEntry.d++);
+        this.f = NextTickListEntry.d++;
         this.a = blockposition;
         this.e = block;
     }
@@ -51,6 +51,6 @@ public class NextTickListEntry implements Comparable<NextTickListEntry> {
     }
 
     public int compareTo(NextTickListEntry object) {
-        return this.a((NextTickListEntry) object);
+        return this.a(object);
     }
 }

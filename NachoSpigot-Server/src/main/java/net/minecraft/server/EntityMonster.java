@@ -66,14 +66,14 @@ public abstract class EntityMonster extends EntityCreature implements IMonster {
 
         if (entity instanceof EntityLiving) {
             f += EnchantmentManager.a(this.bA(), ((EntityLiving) entity).getMonsterType());
-            i += EnchantmentManager.a((EntityLiving) this);
+            i += EnchantmentManager.a(this);
         }
 
         boolean flag = entity.damageEntity(DamageSource.mobAttack(this), f);
 
         if (flag) {
             if (i > 0) {
-                entity.g((double) (-MathHelper.sin(this.yaw * 3.1415927F / 180.0F) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.yaw * 3.1415927F / 180.0F) * (float) i * 0.5F));
+                entity.g(-MathHelper.sin(this.yaw * 3.1415927F / 180.0F) * (float) i * 0.5F, 0.1D, MathHelper.cos(this.yaw * 3.1415927F / 180.0F) * (float) i * 0.5F);
                 this.motX *= 0.6D;
                 this.motZ *= 0.6D;
             }
@@ -91,7 +91,7 @@ public abstract class EntityMonster extends EntityCreature implements IMonster {
                 // CraftBukkit end
             }
 
-            this.a((EntityLiving) this, entity);
+            this.a(this, entity);
         }
 
         return flag;

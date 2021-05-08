@@ -26,7 +26,7 @@ public class BlockStationary extends BlockFluids {
         BlockFlowing blockflowing = a(this.material);
 
         world.setTypeAndData(blockposition, blockflowing.getBlockData().set(BlockStationary.LEVEL, iblockdata.get(BlockStationary.LEVEL)), 2);
-        world.a(blockposition, (Block) blockflowing, this.a(world));
+        world.a(blockposition, blockflowing, this.a(world));
     }
 
     public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {

@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 
 public class EntityZombie extends EntityMonster {
 
-    protected static final IAttribute a = (new AttributeRanged((IAttribute) null, "zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D)).a("Spawn Reinforcements Chance");
+    protected static final IAttribute a = (new AttributeRanged(null, "zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D)).a("Spawn Reinforcements Chance");
     private static final UUID b = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
     private static final AttributeModifier c = new AttributeModifier(EntityZombie.b, "Baby speed boost", org.github.paperspigot.PaperSpigotConfig.babyZombieMovementSpeed, 1); // PaperSpigot - Configurable baby zombie movement speed
     private final PathfinderGoalBreakDoor bm = new PathfinderGoalBreakDoor(this);
@@ -41,7 +41,7 @@ public class EntityZombie extends EntityMonster {
         if ( world.spigotConfig.zombieAggressiveTowardsVillager ) this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityVillager.class, 1.0D, true)); // Spigot
         this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityIronGolem.class, 1.0D, true));
         this.goalSelector.a(6, new PathfinderGoalMoveThroughVillage(this, 1.0D, false));
-        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[] { EntityPigZombie.class}));
+        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, EntityPigZombie.class));
         this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
         if ( world.spigotConfig.zombieAggressiveTowardsVillager ) this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityVillager.class, false)); // Spigot
         this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityIronGolem.class, true));
@@ -82,7 +82,7 @@ public class EntityZombie extends EntityMonster {
             if (flag) {
                 this.goalSelector.a(1, this.bm);
             } else {
-                this.goalSelector.a((PathfinderGoal) this.bm);
+                this.goalSelector.a(this.bm);
             }
         }
 
@@ -136,7 +136,7 @@ public class EntityZombie extends EntityMonster {
                         itemstack.setData(itemstack.h() + this.random.nextInt(2));
                         if (itemstack.h() >= itemstack.j()) {
                             this.b(itemstack);
-                            this.setEquipment(4, (ItemStack) null);
+                            this.setEquipment(4, null);
                         }
                     }
 
@@ -182,12 +182,12 @@ public class EntityZombie extends EntityMonster {
                     int j1 = j + MathHelper.nextInt(this.random, 7, 40) * MathHelper.nextInt(this.random, -1, 1);
                     int k1 = k + MathHelper.nextInt(this.random, 7, 40) * MathHelper.nextInt(this.random, -1, 1);
 
-                    if (World.a((IBlockAccess) this.world, new BlockPosition(i1, j1 - 1, k1)) && !this.world.isLightLevel(new BlockPosition(i1, j1, k1), 10)) {
-                        entityzombie.setPosition((double) i1, (double) j1, (double) k1);
-                        if (!this.world.isPlayerNearby((double) i1, (double) j1, (double) k1, 7.0D) && this.world.a(entityzombie.getBoundingBox(), (Entity) entityzombie) && this.world.getCubes(entityzombie, entityzombie.getBoundingBox()).isEmpty() && !this.world.containsLiquid(entityzombie.getBoundingBox())) {
+                    if (World.a(this.world, new BlockPosition(i1, j1 - 1, k1)) && !this.world.isLightLevel(new BlockPosition(i1, j1, k1), 10)) {
+                        entityzombie.setPosition(i1, j1, k1);
+                        if (!this.world.isPlayerNearby(i1, j1, k1, 7.0D) && this.world.a(entityzombie.getBoundingBox(), entityzombie) && this.world.getCubes(entityzombie, entityzombie.getBoundingBox()).isEmpty() && !this.world.containsLiquid(entityzombie.getBoundingBox())) {
                             this.world.addEntity(entityzombie, CreatureSpawnEvent.SpawnReason.REINFORCEMENTS); // CraftBukkit
                             entityzombie.setGoalTarget(entityliving, EntityTargetEvent.TargetReason.REINFORCEMENT_TARGET, true);
-                            entityzombie.prepare(this.world.E(new BlockPosition(entityzombie)), (GroupDataEntity) null);
+                            entityzombie.prepare(this.world.E(new BlockPosition(entityzombie)), null);
                             this.getAttributeInstance(EntityZombie.a).b(new AttributeModifier("Zombie reinforcement caller charge", -0.05000000074505806D, 0));
                             entityzombie.getAttributeInstance(EntityZombie.a).b(new AttributeModifier("Zombie reinforcement callee charge", -0.05000000074505806D, 0));
                             break;
@@ -339,7 +339,7 @@ public class EntityZombie extends EntityMonster {
 
             entityzombie.m(entityliving);
             this.world.kill(entityliving);
-            entityzombie.prepare(this.world.E(new BlockPosition(entityzombie)), (GroupDataEntity) null);
+            entityzombie.prepare(this.world.E(new BlockPosition(entityzombie)), null);
             entityzombie.setVillager(true);
             if (entityliving.isBaby()) {
                 entityzombie.setBaby(true);
@@ -352,7 +352,7 @@ public class EntityZombie extends EntityMonster {
             }
 
             this.world.addEntity(entityzombie, CreatureSpawnEvent.SpawnReason.INFECTION); // CraftBukkit - add SpawnReason
-            this.world.a((EntityHuman) null, 1016, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
+            this.world.a(null, 1016, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
         }
 
     }
@@ -368,7 +368,7 @@ public class EntityZombie extends EntityMonster {
     }
 
     protected boolean a(ItemStack itemstack) {
-        return itemstack.getItem() == Items.EGG && this.isBaby() && this.au() ? false : super.a(itemstack);
+        return (itemstack.getItem() != Items.EGG || !this.isBaby() || !this.au()) && super.a(itemstack);
     }
 
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
@@ -377,7 +377,7 @@ public class EntityZombie extends EntityMonster {
 
         this.j(this.random.nextFloat() < 0.55F * f);
         if (object == null) {
-            object = new EntityZombie.GroupDataZombie(this.world.random.nextFloat() < 0.05F, this.world.random.nextFloat() < 0.05F, (EntityZombie.SyntheticClass_1) null);
+            object = new EntityZombie.GroupDataZombie(this.world.random.nextFloat() < 0.05F, this.world.random.nextFloat() < 0.05F, null);
         }
 
         if (object instanceof EntityZombie.GroupDataZombie) {
@@ -402,7 +402,7 @@ public class EntityZombie extends EntityMonster {
                     EntityChicken entitychicken1 = new EntityChicken(this.world);
 
                     entitychicken1.setPositionRotation(this.locX, this.locY, this.locZ, this.yaw, 0.0F);
-                    entitychicken1.prepare(difficultydamagescaler, (GroupDataEntity) null);
+                    entitychicken1.prepare(difficultydamagescaler, null);
                     entitychicken1.l(true);
                     this.world.addEntity(entitychicken1, CreatureSpawnEvent.SpawnReason.MOUNT);
                     this.mount(entitychicken1);
@@ -447,7 +447,7 @@ public class EntityZombie extends EntityMonster {
             }
 
             if (itemstack.count <= 0) {
-                entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+                entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
             }
 
             if (!this.world.isClientSide) {
@@ -480,7 +480,7 @@ public class EntityZombie extends EntityMonster {
         EntityVillager entityvillager = new EntityVillager(this.world);
 
         entityvillager.m(this);
-        entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), (GroupDataEntity) null);
+        entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), null);
         entityvillager.cp();
         if (this.isBaby()) {
             entityvillager.setAgeRaw(-24000);
@@ -495,7 +495,7 @@ public class EntityZombie extends EntityMonster {
 
         this.world.addEntity(entityvillager, CreatureSpawnEvent.SpawnReason.CURED); // CraftBukkit - add SpawnReason
         entityvillager.addEffect(new MobEffect(MobEffectList.CONFUSION.id, 200, 0));
-        this.world.a((EntityHuman) null, 1017, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
+        this.world.a(null, 1017, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
     }
 
     protected int cr() {

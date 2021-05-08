@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class ItemDoor extends Item {
 
-    private Block a;
+    private final Block a;
 
     public ItemDoor(Block block) {
         this.a = block;
@@ -25,7 +25,7 @@ public class ItemDoor extends Item {
             } else if (!this.a.canPlace(world, blockposition)) {
                 return false;
             } else {
-                a(world, blockposition, EnumDirection.fromAngle((double) entityhuman.yaw), this.a);
+                a(world, blockposition, EnumDirection.fromAngle(entityhuman.yaw), this.a);
                 --itemstack.count;
                 return true;
             }
@@ -39,11 +39,7 @@ public class ItemDoor extends Item {
         int j = (world.getType(blockposition1).getBlock().isOccluding() ? 1 : 0) + (world.getType(blockposition1.up()).getBlock().isOccluding() ? 1 : 0);
         boolean flag = world.getType(blockposition2).getBlock() == block || world.getType(blockposition2.up()).getBlock() == block;
         boolean flag1 = world.getType(blockposition1).getBlock() == block || world.getType(blockposition1.up()).getBlock() == block;
-        boolean flag2 = false;
-
-        if (flag && !flag1 || j > i) {
-            flag2 = true;
-        }
+        boolean flag2 = flag && !flag1 || j > i;
 
         BlockPosition blockposition3 = blockposition.up();
         IBlockData iblockdata = block.getBlockData().set(BlockDoor.FACING, enumdirection).set(BlockDoor.HINGE, flag2 ? BlockDoor.EnumDoorHinge.RIGHT : BlockDoor.EnumDoorHinge.LEFT);

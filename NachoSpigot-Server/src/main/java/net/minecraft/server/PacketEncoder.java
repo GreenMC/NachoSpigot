@@ -21,14 +21,14 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
     }
 
     protected void a(ChannelHandlerContext channelhandlercontext, Packet packet, ByteBuf bytebuf) throws Exception {
-        Integer integer = ((EnumProtocol) channelhandlercontext.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get()).a(this.c, packet);
+        Integer integer = channelhandlercontext.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get().a(this.c, packet);
 
         if (PacketEncoder.a.isDebugEnabled()) {
-            PacketEncoder.a.debug(PacketEncoder.b, "OUT: [{}:{}] {}", new Object[]{channelhandlercontext.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get(), integer, packet.getClass().getName()});
+            PacketEncoder.a.debug(PacketEncoder.b, "OUT: [{}:{}] {}", channelhandlercontext.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get(), integer, packet.getClass().getName());
         }
 
         if (integer == null) {
-            throw new IOException("Can\'t serialize unregistered packet");
+            throw new IOException("Can't serialize unregistered packet");
         } else {
             PacketDataSerializer packetdataserializer = new PacketDataSerializer(bytebuf);
 
@@ -45,6 +45,6 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
-        this.a(channelHandlerContext, (Packet) packet, byteBuf);
+        this.a(channelHandlerContext, packet, byteBuf);
     }
 }

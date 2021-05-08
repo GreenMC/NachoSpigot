@@ -19,8 +19,8 @@ public class Village {
     private int g;
     private int h;
     private int i;
-    private TreeMap<String, Integer> j;
-    private List<Village.Aggressor> k;
+    private final TreeMap<String, Integer> j;
+    private final List<Village.Aggressor> k;
     private int l;
 
     public Village() {
@@ -75,7 +75,7 @@ public class Village {
             BlockPosition blockposition1 = blockposition.a(this.a.random.nextInt(16) - 8, this.a.random.nextInt(6) - 3, this.a.random.nextInt(16) - 8);
 
             if (this.a(blockposition1) && this.a(new BlockPosition(i, j, k), blockposition1)) {
-                return new Vec3D((double) blockposition1.getX(), (double) blockposition1.getY(), (double) blockposition1.getZ());
+                return new Vec3D(blockposition1.getX(), blockposition1.getY(), blockposition1.getZ());
             }
         }
 
@@ -83,7 +83,7 @@ public class Village {
     }
 
     private boolean a(BlockPosition blockposition, BlockPosition blockposition1) {
-        if (!World.a((IBlockAccess) this.a, blockposition1.down())) {
+        if (!World.a(this.a, blockposition1.down())) {
             return false;
         } else {
             int i = blockposition1.getX() - blockposition.getX() / 2;
@@ -104,13 +104,13 @@ public class Village {
     }
 
     private void j() {
-        List list = this.a.a(EntityIronGolem.class, new AxisAlignedBB((double) (this.d.getX() - this.e), (double) (this.d.getY() - 4), (double) (this.d.getZ() - this.e), (double) (this.d.getX() + this.e), (double) (this.d.getY() + 4), (double) (this.d.getZ() + this.e)));
+        List list = this.a.a(EntityIronGolem.class, new AxisAlignedBB(this.d.getX() - this.e, this.d.getY() - 4, this.d.getZ() - this.e, this.d.getX() + this.e, this.d.getY() + 4, this.d.getZ() + this.e));
 
         this.l = list.size();
     }
 
     private void k() {
-        List list = this.a.a(EntityVillager.class, new AxisAlignedBB((double) (this.d.getX() - this.e), (double) (this.d.getY() - 4), (double) (this.d.getZ() - this.e), (double) (this.d.getX() + this.e), (double) (this.d.getY() + 4), (double) (this.d.getZ() + this.e)));
+        List list = this.a.a(EntityVillager.class, new AxisAlignedBB(this.d.getX() - this.e, this.d.getY() - 4, this.d.getZ() - this.e, this.d.getX() + this.e, this.d.getY() + 4, this.d.getZ() + this.e));
 
         this.h = list.size();
         if (this.h == 0) {
@@ -242,7 +242,7 @@ public class Village {
         Village.Aggressor village_aggressor = null;
 
         for (int i = 0; i < this.k.size(); ++i) {
-            Village.Aggressor village_aggressor1 = (Village.Aggressor) this.k.get(i);
+            Village.Aggressor village_aggressor1 = this.k.get(i);
             double d1 = village_aggressor1.a.h(entityliving);
 
             if (d1 <= d0) {
@@ -326,7 +326,7 @@ public class Village {
         Block block = iblockdata.getBlock();
         // Paper end
 
-        return block instanceof BlockDoor ? block.getMaterial() == Material.WOOD : false;
+        return block instanceof BlockDoor && block.getMaterial() == Material.WOOD;
     }
 
     private void n() {
@@ -345,12 +345,12 @@ public class Village {
                 villagedoor = (VillageDoor) iterator.next();
             }
 
-            this.e = Math.max(32, (int) Math.sqrt((double) j) + 1);
+            this.e = Math.max(32, (int) Math.sqrt(j) + 1);
         }
     }
 
     public int a(String s) {
-        Integer integer = (Integer) this.j.get(s);
+        Integer integer = this.j.get(s);
 
         return integer != null ? integer.intValue() : 0;
     }
@@ -445,7 +445,7 @@ public class Village {
 
             if (gameprofile != null) {
                 nbttagcompound2.setString("UUID", gameprofile.getId().toString());
-                nbttagcompound2.setInt("S", ((Integer) this.j.get(s)).intValue());
+                nbttagcompound2.setInt("S", this.j.get(s).intValue());
                 nbttaglist1.add(nbttagcompound2);
             }
         }

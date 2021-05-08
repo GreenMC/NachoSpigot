@@ -56,7 +56,7 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
     }
 
     public void a(PacketDataSerializer var1) throws IOException {
-        this.a = (PacketPlayOutPlayerInfo.EnumPlayerInfoAction)var1.a(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.class);
+        this.a = var1.a(EnumPlayerInfoAction.class);
         int var2 = var1.e();
 
         for(int var3 = 0; var3 < var2; ++var3) {
@@ -87,21 +87,21 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
                 }
                 break;
             case UPDATE_GAME_MODE:
-                var4 = new GameProfile(var1.g(), (String)null);
+                var4 = new GameProfile(var1.g(), null);
                 var6 = EnumGamemode.getById(var1.e());
                 break;
             case UPDATE_LATENCY:
-                var4 = new GameProfile(var1.g(), (String)null);
+                var4 = new GameProfile(var1.g(), null);
                 var5 = var1.e();
                 break;
             case UPDATE_DISPLAY_NAME:
-                var4 = new GameProfile(var1.g(), (String)null);
+                var4 = new GameProfile(var1.g(), null);
                 if (var1.readBoolean()) {
                     var7 = var1.d();
                 }
                 break;
             case REMOVE_PLAYER:
-                var4 = new GameProfile(var1.g(), (String)null);
+                var4 = new GameProfile(var1.g(), null);
             }
 
             this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var4, var5, var6, var7));
@@ -213,14 +213,14 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
         }
     }
 
-    public static enum EnumPlayerInfoAction {
+    public enum EnumPlayerInfoAction {
         ADD_PLAYER,
         UPDATE_GAME_MODE,
         UPDATE_LATENCY,
         UPDATE_DISPLAY_NAME,
         REMOVE_PLAYER;
 
-        private EnumPlayerInfoAction() {
+        EnumPlayerInfoAction() {
         }
     }
 }

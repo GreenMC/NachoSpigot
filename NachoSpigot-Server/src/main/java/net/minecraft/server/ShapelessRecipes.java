@@ -25,7 +25,7 @@ public class ShapelessRecipes implements IRecipe {
     public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
         CraftItemStack result = CraftItemStack.asCraftMirror(this.result);
         CraftShapelessRecipe recipe = new CraftShapelessRecipe(result, this);
-        for (ItemStack stack : (List<ItemStack>) this.ingredients) {
+        for (ItemStack stack : this.ingredients) {
             if (stack != null) {
                 recipe.addIngredient(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()), stack.getData());
             }

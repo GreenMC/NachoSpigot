@@ -100,7 +100,7 @@ public class ItemDye extends Item {
                     return false;
                 }
 
-                enumcolor = EnumColor.fromColorIndex((byte) event.getColor().getWoolData());
+                enumcolor = EnumColor.fromColorIndex(event.getColor().getWoolData());
                 // CraftBukkit end
                 entitysheep.setColor(enumcolor);
                 --itemstack.count;

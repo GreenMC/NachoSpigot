@@ -198,25 +198,21 @@ public class WorldGenVillagePieces {
             try {
                 WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
         }
@@ -451,7 +447,7 @@ public class WorldGenVillagePieces {
 
     public static class WorldGenVillageBlacksmith extends WorldGenVillagePieces.WorldGenVillagePiece {
 
-        private static final List<StructurePieceTreasure> a = Lists.newArrayList(new StructurePieceTreasure[] { new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3), new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10), new StructurePieceTreasure(Items.GOLD_INGOT, 0, 1, 3, 5), new StructurePieceTreasure(Items.BREAD, 0, 1, 3, 15), new StructurePieceTreasure(Items.APPLE, 0, 1, 3, 15), new StructurePieceTreasure(Items.IRON_PICKAXE, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_SWORD, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_CHESTPLATE, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_HELMET, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_LEGGINGS, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_BOOTS, 0, 1, 1, 5), new StructurePieceTreasure(Item.getItemOf(Blocks.OBSIDIAN), 0, 3, 7, 5), new StructurePieceTreasure(Item.getItemOf(Blocks.SAPLING), 0, 3, 7, 5), new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3), new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1), new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1), new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1)});
+        private static final List<StructurePieceTreasure> a = Lists.newArrayList(new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3), new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10), new StructurePieceTreasure(Items.GOLD_INGOT, 0, 1, 3, 5), new StructurePieceTreasure(Items.BREAD, 0, 1, 3, 15), new StructurePieceTreasure(Items.APPLE, 0, 1, 3, 15), new StructurePieceTreasure(Items.IRON_PICKAXE, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_SWORD, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_CHESTPLATE, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_HELMET, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_LEGGINGS, 0, 1, 1, 5), new StructurePieceTreasure(Items.IRON_BOOTS, 0, 1, 1, 5), new StructurePieceTreasure(Item.getItemOf(Blocks.OBSIDIAN), 0, 3, 7, 5), new StructurePieceTreasure(Item.getItemOf(Blocks.SAPLING), 0, 3, 7, 5), new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3), new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1), new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1), new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1));
         private boolean b;
 
         public WorldGenVillageBlacksmith() {}
@@ -523,7 +519,7 @@ public class WorldGenVillagePieces {
             this.a(world, Blocks.PLANKS.getBlockData(), 1, 1, 5, structureboundingbox);
             this.a(world, Blocks.OAK_STAIRS.fromLegacyData(this.a(Blocks.OAK_STAIRS, 3)), 2, 1, 5, structureboundingbox);
             this.a(world, Blocks.OAK_STAIRS.fromLegacyData(this.a(Blocks.OAK_STAIRS, 1)), 1, 1, 4, structureboundingbox);
-            if (!this.b && structureboundingbox.b((BaseBlockPosition) (new BlockPosition(this.a(5, 5), this.d(1), this.b(5, 5))))) {
+            if (!this.b && structureboundingbox.b(new BlockPosition(this.a(5, 5), this.d(1), this.b(5, 5)))) {
                 this.b = true;
                 this.a(world, structureboundingbox, random, 5, 1, 5, WorldGenVillagePieces.WorldGenVillageBlacksmith.a, 3 + random.nextInt(6));
             }
@@ -1335,7 +1331,7 @@ public class WorldGenVillagePieces {
                 for (int j = this.l.c; j <= this.l.f; ++j) {
                     BlockPosition blockposition = new BlockPosition(i, 64, j);
 
-                    if (structureboundingbox.b((BaseBlockPosition) blockposition)) {
+                    if (structureboundingbox.b(blockposition)) {
                         blockposition = world.r(blockposition).down();
                         world.setTypeAndData(blockposition, iblockdata, 2);
                         world.setTypeAndData(blockposition.down(), iblockdata1, 2);
@@ -1369,7 +1365,7 @@ public class WorldGenVillagePieces {
         public WorldGenVillageStartPiece() {}
 
         public WorldGenVillageStartPiece(WorldChunkManager worldchunkmanager, int i, Random random, int j, int k, List<WorldGenVillagePieces.WorldGenVillagePieceWeight> list, int l) {
-            super((WorldGenVillagePieces.WorldGenVillageStartPiece) null, 0, random, j, k);
+            super(null, 0, random, j, k);
             this.a = worldchunkmanager;
             this.e = list;
             this.c = l;
@@ -1524,7 +1520,7 @@ public class WorldGenVillagePieces {
             for (int k = this.l.c; k <= this.l.f; ++k) {
                 for (int l = this.l.a; l <= this.l.d; ++l) {
                     blockposition_mutableblockposition.c(l, 64, k);
-                    if (structureboundingbox.b((BaseBlockPosition) blockposition_mutableblockposition)) {
+                    if (structureboundingbox.b(blockposition_mutableblockposition)) {
                         i += Math.max(world.r(blockposition_mutableblockposition).getY(), world.worldProvider.getSeaLevel());
                         ++j;
                     }
@@ -1549,15 +1545,15 @@ public class WorldGenVillagePieces {
                     int k1 = this.d(j);
                     int l1 = this.b(i + i1, k);
 
-                    if (!structureboundingbox.b((BaseBlockPosition) (new BlockPosition(j1, k1, l1)))) {
+                    if (!structureboundingbox.b(new BlockPosition(j1, k1, l1))) {
                         break;
                     }
 
                     ++this.a;
                     EntityVillager entityvillager = new EntityVillager(world);
 
-                    entityvillager.setPositionRotation((double) j1 + 0.5D, (double) k1, (double) l1 + 0.5D, 0.0F, 0.0F);
-                    entityvillager.prepare(world.E(new BlockPosition(entityvillager)), (GroupDataEntity) null);
+                    entityvillager.setPositionRotation((double) j1 + 0.5D, k1, (double) l1 + 0.5D, 0.0F, 0.0F);
+                    entityvillager.prepare(world.E(new BlockPosition(entityvillager)), null);
                     entityvillager.setProfession(this.c(i1, entityvillager.getProfession()));
                     world.addEntity(entityvillager, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit - add SpawnReason
                 }

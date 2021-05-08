@@ -9,7 +9,7 @@ public class RecipesFurnace {
 
     private static final RecipesFurnace a = new RecipesFurnace();
     public Map<ItemStack, ItemStack> recipes = Maps.newHashMap();
-    private Map<ItemStack, Float> c = Maps.newHashMap();
+    private final Map<ItemStack, Float> c = Maps.newHashMap();
     public Map customRecipes = Maps.newHashMap(); // CraftBukkit - add field
 
     public static RecipesFurnace getInstance() {

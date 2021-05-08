@@ -26,7 +26,7 @@ public class BlockMonsterEggs extends Block {
     }
 
     protected ItemStack i(IBlockData iblockdata) {
-        switch (BlockMonsterEggs.SyntheticClass_1.a[((BlockMonsterEggs.EnumMonsterEggVarient) iblockdata.get(BlockMonsterEggs.VARIANT)).ordinal()]) {
+        switch (BlockMonsterEggs.SyntheticClass_1.a[iblockdata.get(BlockMonsterEggs.VARIANT).ordinal()]) {
         case 1:
             return new ItemStack(Blocks.COBBLESTONE);
 
@@ -51,7 +51,7 @@ public class BlockMonsterEggs extends Block {
         if (!world.isClientSide && world.getGameRules().getBoolean("doTileDrops")) {
             EntitySilverfish entitysilverfish = new EntitySilverfish(world);
 
-            entitysilverfish.setPositionRotation((double) blockposition.getX() + 0.5D, (double) blockposition.getY(), (double) blockposition.getZ() + 0.5D, 0.0F, 0.0F);
+            entitysilverfish.setPositionRotation((double) blockposition.getX() + 0.5D, blockposition.getY(), (double) blockposition.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(entitysilverfish, SpawnReason.SILVERFISH_BLOCK); // CraftBukkit - add SpawnReason
             entitysilverfish.y();
         }
@@ -69,11 +69,11 @@ public class BlockMonsterEggs extends Block {
     }
 
     public int toLegacyData(IBlockData iblockdata) {
-        return ((BlockMonsterEggs.EnumMonsterEggVarient) iblockdata.get(BlockMonsterEggs.VARIANT)).a();
+        return iblockdata.get(BlockMonsterEggs.VARIANT).a();
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockMonsterEggs.VARIANT});
+        return new BlockStateList(this, BlockMonsterEggs.VARIANT);
     }
 
     static class SyntheticClass_1 {
@@ -84,60 +84,55 @@ public class BlockMonsterEggs extends Block {
             try {
                 BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.COBBLESTONE.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.STONEBRICK.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.MOSSY_STONEBRICK.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CRACKED_STONEBRICK.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
             try {
                 BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CHISELED_STONEBRICK.ordinal()] = 5;
             } catch (NoSuchFieldError nosuchfielderror4) {
-                ;
             }
 
         }
     }
 
-    public static enum EnumMonsterEggVarient implements INamable {
+    public enum EnumMonsterEggVarient implements INamable {
 
-        STONE(0, "stone") {;
+        STONE(0, "stone") {
             public IBlockData d() {
                 return Blocks.STONE.getBlockData().set(BlockStone.VARIANT, BlockStone.EnumStoneVariant.STONE);
             }
-        }, COBBLESTONE(1, "cobblestone", "cobble") {;
-    public IBlockData d() {
+        }, COBBLESTONE(1, "cobblestone", "cobble") {
+            public IBlockData d() {
         return Blocks.COBBLESTONE.getBlockData();
     }
-}, STONEBRICK(2, "stone_brick", "brick") {;
-    public IBlockData d() {
+}, STONEBRICK(2, "stone_brick", "brick") {
+            public IBlockData d() {
         return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT, BlockSmoothBrick.EnumStonebrickType.DEFAULT);
     }
-}, MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick") {;
-    public IBlockData d() {
+}, MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick") {
+            public IBlockData d() {
         return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT, BlockSmoothBrick.EnumStonebrickType.MOSSY);
     }
-}, CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick") {;
-    public IBlockData d() {
+}, CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick") {
+            public IBlockData d() {
         return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT, BlockSmoothBrick.EnumStonebrickType.CRACKED);
     }
-}, CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick") {;
-    public IBlockData d() {
+}, CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick") {
+            public IBlockData d() {
         return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT, BlockSmoothBrick.EnumStonebrickType.CHISELED);
     }
 };
@@ -147,11 +142,11 @@ public class BlockMonsterEggs extends Block {
         private final String i;
         private final String j;
 
-        private EnumMonsterEggVarient(int i, String s) {
+        EnumMonsterEggVarient(int i, String s) {
             this(i, s, s);
         }
 
-        private EnumMonsterEggVarient(int i, String s, String s1) {
+        EnumMonsterEggVarient(int i, String s, String s1) {
             this.h = i;
             this.i = s;
             this.j = s1;

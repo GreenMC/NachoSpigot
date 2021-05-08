@@ -60,9 +60,9 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         Validate.notNull(args, "Arguments cannot be null");
         Validate.notNull(alias, "Alias cannot be null");
         if (location == null) { // PaperSpigot use location information if available
-            return (List<String>) vanillaCommand.tabComplete(getListener(sender), args, new BlockPosition(0, 0, 0));
+            return vanillaCommand.tabComplete(getListener(sender), args, new BlockPosition(0, 0, 0));
         } else {
-            return (List<String>) vanillaCommand.tabComplete(getListener(sender), args, new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+            return vanillaCommand.tabComplete(getListener(sender), args, new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
         }
     }
     // PaperSpigot end
@@ -92,7 +92,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         try {
             if (vanillaCommand.canUse(icommandlistener)) {
                 if (i > -1) {
-                    List<Entity> list = ((List<Entity>)PlayerSelector.getPlayers(icommandlistener, as[i], Entity.class));
+                    List<Entity> list = PlayerSelector.getPlayers(icommandlistener, as[i], Entity.class);
                     String s2 = as[i];
                     
                     icommandlistener.a(CommandObjectiveExecutor.EnumCommandResult.AFFECTED_ENTITIES, list.size());
@@ -108,7 +108,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                             vanillaCommand.execute(icommandlistener, as);
                             j++;
                         } catch (ExceptionUsage exceptionusage) {
-                            ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new Object[] { new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs())});
+                            ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()));
                             chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
                             icommandlistener.sendMessage(chatmessage);
                         } catch (CommandException commandexception) {
@@ -124,18 +124,18 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                     j++;
                 }
             } else {
-                ChatMessage chatmessage = new ChatMessage("commands.generic.permission", new Object[0]);
+                ChatMessage chatmessage = new ChatMessage("commands.generic.permission");
                 chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
                 icommandlistener.sendMessage(chatmessage);
             }
         } catch (ExceptionUsage exceptionusage) {
-            ChatMessage chatmessage1 = new ChatMessage("commands.generic.usage", new Object[] { new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
+            ChatMessage chatmessage1 = new ChatMessage("commands.generic.usage", new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()));
             chatmessage1.getChatModifier().setColor(EnumChatFormat.RED);
             icommandlistener.sendMessage(chatmessage1);
         } catch (CommandException commandexception) {
             CommandAbstract.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(), commandexception.getArgs());
         } catch (Throwable throwable) {
-            ChatMessage chatmessage3 = new ChatMessage("commands.generic.exception", new Object[0]);
+            ChatMessage chatmessage3 = new ChatMessage("commands.generic.exception");
             chatmessage3.getChatModifier().setColor(EnumChatFormat.RED);
             icommandlistener.sendMessage(chatmessage3);
             if (icommandlistener.f() instanceof EntityMinecartCommandBlock) {
@@ -175,7 +175,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         throw new IllegalArgumentException("Cannot make " + sender + " a vanilla command listener");
     }
 
-    private int getPlayerListSize(String as[]) {
+    private int getPlayerListSize(String[] as) {
         for (int i = 0; i < as.length; i++) {
             if (vanillaCommand.isListStart(as, i) && PlayerSelector.isList(as[i])) {
                 return i;
@@ -184,8 +184,8 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         return -1;
     }
 
-    public static String[] dropFirstArgument(String as[]) {
-        String as1[] = new String[as.length - 1];
+    public static String[] dropFirstArgument(String[] as) {
+        String[] as1 = new String[as.length - 1];
         for (int i = 1; i < as.length; i++) {
             as1[i - 1] = as[i];
         }

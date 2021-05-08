@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class BlockChest extends BlockContainer {
 
-    public static final BlockStateDirection FACING = BlockStateDirection.of("facing", (Predicate) EnumDirection.EnumDirectionLimit.HORIZONTAL);
+    public static final BlockStateDirection FACING = BlockStateDirection.of("facing", EnumDirection.EnumDirectionLimit.HORIZONTAL);
     public final int b;
 
     protected BlockChest(int i) {
@@ -114,7 +114,7 @@ public class BlockChest extends BlockContainer {
             IBlockData iblockdata2 = world.getType(blockposition.south());
             IBlockData iblockdata3 = world.getType(blockposition.west());
             IBlockData iblockdata4 = world.getType(blockposition.east());
-            EnumDirection enumdirection = (EnumDirection) iblockdata.get(BlockChest.FACING);
+            EnumDirection enumdirection = iblockdata.get(BlockChest.FACING);
             Block block = iblockdata1.getBlock();
             Block block1 = iblockdata2.getBlock();
             Block block2 = iblockdata3.getBlock();
@@ -133,9 +133,9 @@ public class BlockChest extends BlockContainer {
                     EnumDirection enumdirection1;
 
                     if (block2 == this) {
-                        enumdirection1 = (EnumDirection) iblockdata3.get(BlockChest.FACING);
+                        enumdirection1 = iblockdata3.get(BlockChest.FACING);
                     } else {
-                        enumdirection1 = (EnumDirection) iblockdata4.get(BlockChest.FACING);
+                        enumdirection1 = iblockdata4.get(BlockChest.FACING);
                     }
 
                     if (enumdirection1 == EnumDirection.NORTH) {
@@ -162,9 +162,9 @@ public class BlockChest extends BlockContainer {
                 EnumDirection enumdirection2;
 
                 if (block == this) {
-                    enumdirection2 = (EnumDirection) iblockdata1.get(BlockChest.FACING);
+                    enumdirection2 = iblockdata1.get(BlockChest.FACING);
                 } else {
-                    enumdirection2 = (EnumDirection) iblockdata2.get(BlockChest.FACING);
+                    enumdirection2 = iblockdata2.get(BlockChest.FACING);
                 }
 
                 if (enumdirection2 == EnumDirection.WEST) {
@@ -216,7 +216,7 @@ public class BlockChest extends BlockContainer {
         if (enumdirection != null) {
             return iblockdata.set(BlockChest.FACING, enumdirection.opposite());
         } else {
-            EnumDirection enumdirection2 = (EnumDirection) iblockdata.get(BlockChest.FACING);
+            EnumDirection enumdirection2 = iblockdata.get(BlockChest.FACING);
 
             if (world.getType(blockposition.shift(enumdirection2)).getBlock().o()) {
                 enumdirection2 = enumdirection2.opposite();
@@ -428,7 +428,7 @@ public class BlockChest extends BlockContainer {
             return false;
         }
         // PaperSpigot end
-        Iterator<EntityOcelot> iterator = world.a(EntityOcelot.class, new AxisAlignedBB((double) blockposition.getX(), (double) (blockposition.getY() + 1), (double) blockposition.getZ(), (double) (blockposition.getX() + 1), (double) (blockposition.getY() + 2), (double) (blockposition.getZ() + 1))).iterator();
+        Iterator<EntityOcelot> iterator = world.a(EntityOcelot.class, new AxisAlignedBB(blockposition.getX(), blockposition.getY() + 1, blockposition.getZ(), blockposition.getX() + 1, blockposition.getY() + 2, blockposition.getZ() + 1)).iterator();
 
         EntityOcelot entityocelot;
 
@@ -450,7 +450,7 @@ public class BlockChest extends BlockContainer {
     }
 
     public int l(World world, BlockPosition blockposition) {
-        return Container.b((IInventory) this.getInventory(world, blockposition));
+        return Container.b(this.getInventory(world, blockposition));
     }
 
     public IBlockData fromLegacyData(int i) {
@@ -464,10 +464,10 @@ public class BlockChest extends BlockContainer {
     }
 
     public int toLegacyData(IBlockData iblockdata) {
-        return ((EnumDirection) iblockdata.get(BlockChest.FACING)).a();
+        return iblockdata.get(BlockChest.FACING).a();
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockChest.FACING});
+        return new BlockStateList(this, BlockChest.FACING);
     }
 }

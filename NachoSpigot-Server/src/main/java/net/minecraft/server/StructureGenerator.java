@@ -169,7 +169,7 @@ public abstract class StructureGenerator extends WorldGenBase {
             // Spigot End
             if (this.d == null) {
                 this.d = new PersistentStructure(this.a());
-                world.a(this.a(), (PersistentBase) this.d);
+                world.a(this.a(), this.d);
             } else {
                 NBTTagCompound nbttagcompound = this.d.a();
                 Iterator iterator = nbttagcompound.c().iterator();

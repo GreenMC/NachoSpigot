@@ -19,7 +19,7 @@ public class PathfinderGoalNearestAttackableTarget<T extends EntityLiving> exten
     }
 
     public PathfinderGoalNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, boolean flag, boolean flag1) {
-        this(entitycreature, oclass, 10, flag, flag1, (Predicate) null);
+        this(entitycreature, oclass, 10, flag, flag1, null);
     }
 
     public PathfinderGoalNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, int i, boolean flag, boolean flag1, final Predicate<? super T> predicate) {
@@ -47,7 +47,7 @@ public class PathfinderGoalNearestAttackableTarget<T extends EntityLiving> exten
                                 f = 0.1F;
                             }
 
-                            d0 *= (double) (0.7F * f);
+                            d0 *= 0.7F * f;
                         }
 
                         if ((double) t0.g(PathfinderGoalNearestAttackableTarget.this.e) > d0) {
@@ -70,7 +70,7 @@ public class PathfinderGoalNearestAttackableTarget<T extends EntityLiving> exten
             return false;
         } else {
             double d0 = this.f();
-            List list = this.e.world.a(this.a, this.e.getBoundingBox().grow(d0, 4.0D, d0), Predicates.and((Predicate) this.c, (Predicate) IEntitySelector.d)); // TacoSpigot - the eclipse compiler can't understand this, so make it generic
+            List list = this.e.world.a(this.a, this.e.getBoundingBox().grow(d0, 4.0D, d0), Predicates.and(this.c, (Predicate) IEntitySelector.d)); // TacoSpigot - the eclipse compiler can't understand this, so make it generic
 
             Collections.sort(list, this.b);
             if (list.isEmpty()) {
@@ -103,7 +103,7 @@ public class PathfinderGoalNearestAttackableTarget<T extends EntityLiving> exten
         }
 
         public int compare(Entity object, Entity object1) { // CraftBukkit - fix decompile error
-            return this.a((Entity) object, (Entity) object1);
+            return this.a(object, object1);
         }
     }
 }

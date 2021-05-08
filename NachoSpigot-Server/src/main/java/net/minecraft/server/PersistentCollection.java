@@ -16,10 +16,10 @@ import java.util.Map;
 
 public class PersistentCollection {
 
-    private IDataManager b;
+    private final IDataManager b;
     protected Map<String, PersistentBase> a = Maps.newHashMap();
     public List<PersistentBase> c = Lists.newArrayList(); // Spigot
-    private Map<String, Short> d = Maps.newHashMap();
+    private final Map<String, Short> d = Maps.newHashMap();
 
     public PersistentCollection(IDataManager idatamanager) {
         this.b = idatamanager;

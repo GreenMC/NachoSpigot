@@ -49,7 +49,7 @@ import org.apache.logging.log4j.util.PropertiesUtil;
 public final class ConsoleAppender extends AbstractOutputStreamAppender {
 
     private static final String JANSI_CLASS = "org.fusesource.jansi.WindowsAnsiOutputStream";
-    private static ConsoleManagerFactory factory = new ConsoleManagerFactory();
+    private static final ConsoleManagerFactory factory = new ConsoleManagerFactory();
 
     /**
      * Enumeration of console destinations.

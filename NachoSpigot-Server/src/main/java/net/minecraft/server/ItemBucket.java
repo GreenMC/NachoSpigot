@@ -12,7 +12,7 @@ import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
 
 public class ItemBucket extends Item {
 
-    private Block a;
+    private final Block a;
 
     public ItemBucket(Block block) {
         this.maxStackSize = 1;
@@ -42,7 +42,7 @@ public class ItemBucket extends Item {
                     IBlockData iblockdata = world.getType(blockposition);
                     Material material = iblockdata.getBlock().getMaterial();
 
-                    if (material == Material.WATER && ((Integer) iblockdata.get(BlockFluids.LEVEL)).intValue() == 0) {
+                    if (material == Material.WATER && iblockdata.get(BlockFluids.LEVEL).intValue() == 0) {
                         // CraftBukkit start
                         PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.getX(), blockposition.getY(), blockposition.getZ(), null, itemstack, Items.WATER_BUCKET);
 
@@ -55,7 +55,7 @@ public class ItemBucket extends Item {
                         return this.a(itemstack, entityhuman, Items.WATER_BUCKET, event.getItemStack()); // CraftBukkit - added Event stack
                     }
 
-                    if (material == Material.LAVA && ((Integer) iblockdata.get(BlockFluids.LEVEL)).intValue() == 0) {
+                    if (material == Material.LAVA && iblockdata.get(BlockFluids.LEVEL).intValue() == 0) {
                         // CraftBukkit start
                         PlayerBucketFillEvent event = CraftEventFactory.callPlayerBucketFillEvent(entityhuman, blockposition.getX(), blockposition.getY(), blockposition.getZ(), null, itemstack, Items.LAVA_BUCKET);
 
@@ -147,7 +147,7 @@ public class ItemBucket extends Item {
                     int j = blockposition.getY();
                     int k = blockposition.getZ();
 
-                    world.makeSound((double) ((float) i + 0.5F), (double) ((float) j + 0.5F), (double) ((float) k + 0.5F), "random.fizz", 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
+                    world.makeSound((float) i + 0.5F, (float) j + 0.5F, (float) k + 0.5F, "random.fizz", 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
 
                     for (int l = 0; l < 8; ++l) {
                         world.addParticle(EnumParticle.SMOKE_LARGE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);

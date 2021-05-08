@@ -9,11 +9,11 @@ import org.apache.logging.log4j.Logger;
 public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderGoal {
 
     private static final Logger a = LogManager.getLogger();
-    private EntityInsentient b;
+    private final EntityInsentient b;
     private final Predicate<EntityLiving> c;
     private final PathfinderGoalNearestAttackableTarget.DistanceComparator d;
     private EntityLiving e;
-    private Class<? extends EntityLiving> f;
+    private final Class<? extends EntityLiving> f;
 
     public PathfinderGoalNearestAttackableTargetInsentient(EntityInsentient entityinsentient, Class<? extends EntityLiving> oclass) {
         this.b = entityinsentient;
@@ -30,7 +30,7 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
                     d0 *= 0.800000011920929D;
                 }
 
-                return entityliving.isInvisible() ? false : ((double) entityliving.g(PathfinderGoalNearestAttackableTargetInsentient.this.b) > d0 ? false : PathfinderGoalTarget.a(PathfinderGoalNearestAttackableTargetInsentient.this.b, entityliving, false, true));
+                return !entityliving.isInvisible() && (!((double) entityliving.g(PathfinderGoalNearestAttackableTargetInsentient.this.b) > d0) && PathfinderGoalTarget.a(PathfinderGoalNearestAttackableTargetInsentient.this.b, entityliving, false, true));
             }
 
             public boolean apply(Object object) {
@@ -63,7 +63,7 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
         } else {
             double d0 = this.f();
 
-            return this.b.h(entityliving) > d0 * d0 ? false : !(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative();
+            return !(this.b.h(entityliving) > d0 * d0) && (!(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative());
         }
     }
 
@@ -73,7 +73,7 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
     }
 
     public void d() {
-        this.b.setGoalTarget((EntityLiving) null);
+        this.b.setGoalTarget(null);
         super.c();
     }
 

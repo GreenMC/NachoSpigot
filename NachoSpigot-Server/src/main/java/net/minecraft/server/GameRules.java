@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class GameRules {
-    private TreeMap<String, GameRules.GameRuleValue> gameRules = Maps.newTreeMap();
+    private final TreeMap<String, GameRules.GameRuleValue> gameRules = Maps.newTreeMap();
 
     public GameRules() {
         this.a("doFireTick", "true", GameRules.EnumGameRuleType.BOOLEAN_VALUE);

@@ -28,7 +28,7 @@ public class NBTTagCompound extends NBTBase {
 
         while(var2.hasNext()) {
             String var3 = (String)var2.next();
-            NBTBase var4 = (NBTBase)this.map.get(var3);
+            NBTBase var4 = this.map.get(var3);
             a(var3, var4, var1);
         }
 
@@ -45,7 +45,7 @@ public class NBTTagCompound extends NBTBase {
             byte var4;
             while((var4 = a(var1, var3)) != 0) {
                 String var5 = b(var1, var3);
-                var3.a((long)(224 + 16 * var5.length()));
+                var3.a(224 + 16 * var5.length());
                 NBTBase var6 = a(var4, var5, var1, var2 + 1, var3);
                 if (this.map.put(var5, var6) != null) {
                     var3.a(288L);
@@ -108,11 +108,11 @@ public class NBTTagCompound extends NBTBase {
     }
 
     public NBTBase get(String var1) {
-        return (NBTBase)this.map.get(var1);
+        return this.map.get(var1);
     }
 
     public byte b(String var1) {
-        NBTBase var2 = (NBTBase)this.map.get(var1);
+        NBTBase var2 = this.map.get(var1);
         return var2 != null ? var2.getTypeId() : 0;
     }
 
@@ -184,7 +184,7 @@ public class NBTTagCompound extends NBTBase {
 
     public String getString(String var1) {
         try {
-            return !this.hasKeyOfType(var1, 8) ? "" : ((NBTBase)this.map.get(var1)).a_();
+            return !this.hasKeyOfType(var1, 8) ? "" : this.map.get(var1).a_();
         } catch (ClassCastException var3) {
             return "";
         }
@@ -258,7 +258,7 @@ public class NBTTagCompound extends NBTBase {
         CrashReportSystemDetails var5 = var4.a("Corrupt NBT tag", 1);
         var5.a("Tag type found", new Callable<String>() {
             public String call() throws Exception {
-                return NBTBase.a[((NBTBase)NBTTagCompound.this.map.get(var1)).getTypeId()];
+                return NBTBase.a[NBTTagCompound.this.map.get(var1).getTypeId()];
             }
         });
         var5.a("Tag type expected", new Callable<String>() {
@@ -330,7 +330,7 @@ public class NBTTagCompound extends NBTBase {
 
         while(var2.hasNext()) {
             String var3 = (String)var2.next();
-            NBTBase var4 = (NBTBase)var1.map.get(var3);
+            NBTBase var4 = var1.map.get(var3);
             if (var4.getTypeId() == 10) {
                 if (this.hasKeyOfType(var3, 10)) {
                     NBTTagCompound var5 = this.getCompound(var3);

@@ -207,7 +207,7 @@ public class ChunkProviderHell implements IChunkProvider {
         }
 
         Chunk chunk = new Chunk(this.h, chunksnapshot, i, j);
-        BiomeBase[] abiomebase = this.h.getWorldChunkManager().getBiomeBlock((BiomeBase[]) null, i * 16, j * 16, 16, 16);
+        BiomeBase[] abiomebase = this.h.getWorldChunkManager().getBiomeBlock(null, i * 16, j * 16, 16, 16);
         byte[] abyte = chunk.getBiomeIndex();
 
         for (int k = 0; k < abyte.length; ++k) {
@@ -238,10 +238,10 @@ public class ChunkProviderHell implements IChunkProvider {
 
         for (l1 = 0; l1 < i1; ++l1) {
             adouble1[l1] = Math.cos((double) l1 * 3.141592653589793D * 6.0D / (double) i1) * 2.0D;
-            double d2 = (double) l1;
+            double d2 = l1;
 
             if (l1 > i1 / 2) {
-                d2 = (double) (i1 - 1 - l1);
+                d2 = i1 - 1 - l1;
             }
 
             if (d2 < 4.0D) {
@@ -273,7 +273,7 @@ public class ChunkProviderHell implements IChunkProvider {
                     double d9;
 
                     if (j2 > i1 - 4) {
-                        d9 = (double) ((float) (j2 - (i1 - 4)) / 3.0F);
+                        d9 = (float) (j2 - (i1 - 4)) / 3.0F;
                         d4 = d4 * (1.0D - d9) + -10.0D * d9;
                     }
 
@@ -387,7 +387,7 @@ public class ChunkProviderHell implements IChunkProvider {
     }
 
     public void recreateStructures(Chunk chunk, int i, int j) {
-        if (this.h.paperSpigotConfig.generateFortress) this.B.a(this, this.h, i, j, (ChunkSnapshot) null); // PaperSpigot
+        if (this.h.paperSpigotConfig.generateFortress) this.B.a(this, this.h, i, j, null); // PaperSpigot
     }
 
     public Chunk getChunkAt(BlockPosition blockposition) {

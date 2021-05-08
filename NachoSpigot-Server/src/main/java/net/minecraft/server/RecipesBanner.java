@@ -11,11 +11,11 @@ public class RecipesBanner {
         for (int j = 0; j < i; ++j) {
             EnumColor enumcolor = aenumcolor[j];
 
-            craftingmanager.registerShapedRecipe(new ItemStack(Items.BANNER, 1, enumcolor.getInvColorIndex()), new Object[] { "###", "###", " | ", Character.valueOf('#'), new ItemStack(Blocks.WOOL, 1, enumcolor.getColorIndex()), Character.valueOf('|'), Items.STICK});
+            craftingmanager.registerShapedRecipe(new ItemStack(Items.BANNER, 1, enumcolor.getInvColorIndex()), "###", "###", " | ", Character.valueOf('#'), new ItemStack(Blocks.WOOL, 1, enumcolor.getColorIndex()), Character.valueOf('|'), Items.STICK);
         }
 
-        craftingmanager.a(new RecipesBanner.DuplicateRecipe((RecipesBanner.SyntheticClass_1) null));
-        craftingmanager.a(new RecipesBanner.AddRecipe((RecipesBanner.SyntheticClass_1) null));
+        craftingmanager.a(new RecipesBanner.DuplicateRecipe(null));
+        craftingmanager.a(new RecipesBanner.AddRecipe(null));
     }
 
     static class SyntheticClass_1 {    }

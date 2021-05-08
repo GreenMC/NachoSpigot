@@ -160,7 +160,7 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 
     public boolean a(EntityHuman entityhuman) {
         if (this.world == null) return true; // CraftBukkit
-        return this.world.getTileEntity(this.position) != this ? false : entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.position) == this && entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
     public void E() {
@@ -493,25 +493,21 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
             try {
                 TileEntityChest.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 TileEntityChest.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 TileEntityChest.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 TileEntityChest.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
         }

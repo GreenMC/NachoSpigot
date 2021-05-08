@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class ChunkProviderFlat implements IChunkProvider {
 
-    private World a;
-    private Random b;
+    private final World a;
+    private final Random b;
     private final IBlockData[] c = new IBlockData[256];
     private final WorldGenFlatInfo d;
     private final List<StructureGenerator> e = Lists.newArrayList();
@@ -87,7 +87,7 @@ public class ChunkProviderFlat implements IChunkProvider {
         }
 
         world.b(j);
-        this.f = flag1 ? false : this.d.b().containsKey("decoration");
+        this.f = !flag1 && this.d.b().containsKey("decoration");
     }
 
     public Chunk getOrCreateChunk(int i, int j) {
@@ -116,7 +116,7 @@ public class ChunkProviderFlat implements IChunkProvider {
         }
 
         Chunk chunk = new Chunk(this.a, chunksnapshot, i, j);
-        BiomeBase[] abiomebase = this.a.getWorldChunkManager().getBiomeBlock((BiomeBase[]) null, i * 16, j * 16, 16, 16);
+        BiomeBase[] abiomebase = this.a.getWorldChunkManager().getBiomeBlock(null, i * 16, j * 16, 16, 16);
         byte[] abyte = chunk.getBiomeIndex();
 
         for (k = 0; k < abyte.length; ++k) {
@@ -233,7 +233,7 @@ public class ChunkProviderFlat implements IChunkProvider {
         while (iterator.hasNext()) {
             StructureGenerator structuregenerator = (StructureGenerator) iterator.next();
 
-            structuregenerator.a(this, this.a, i, j, (ChunkSnapshot) null);
+            structuregenerator.a(this, this.a, i, j, null);
         }
 
     }

@@ -120,9 +120,9 @@ public class BlockRedstoneOre extends Block {
         double d0 = 0.0625D;
 
         for (int i = 0; i < 6; ++i) {
-            double d1 = (double) ((float) blockposition.getX() + random.nextFloat());
-            double d2 = (double) ((float) blockposition.getY() + random.nextFloat());
-            double d3 = (double) ((float) blockposition.getZ() + random.nextFloat());
+            double d1 = (float) blockposition.getX() + random.nextFloat();
+            double d2 = (float) blockposition.getY() + random.nextFloat();
+            double d3 = (float) blockposition.getZ() + random.nextFloat();
 
             if (i == 0 && !world.getType(blockposition.up()).getBlock().c()) {
                 d2 = (double) blockposition.getY() + d0 + 1.0D;

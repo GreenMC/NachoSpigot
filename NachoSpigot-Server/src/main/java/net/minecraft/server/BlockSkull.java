@@ -45,7 +45,7 @@ public class BlockSkull extends BlockContainer {
     }
 
     public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
-        switch (BlockSkull.SyntheticClass_1.a[((EnumDirection) iblockaccess.getType(blockposition).get(BlockSkull.FACING)).ordinal()]) {
+        switch (BlockSkull.SyntheticClass_1.a[iblockaccess.getType(blockposition).get(BlockSkull.FACING).ordinal()]) {
         case 1:
         default:
             this.a(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
@@ -150,7 +150,7 @@ public class BlockSkull extends BlockContainer {
     }
 
     public boolean b(World world, BlockPosition blockposition, ItemStack itemstack) {
-        return itemstack.getData() == 1 && blockposition.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isClientSide ? this.l().a(world, blockposition) != null : false;
+        return itemstack.getData() == 1 && blockposition.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isClientSide && this.l().a(world, blockposition) != null;
     }
 
     public void a(World world, BlockPosition blockposition, TileEntitySkull tileentityskull) {
@@ -203,7 +203,7 @@ public class BlockSkull extends BlockContainer {
                 while (iterator.hasNext()) {
                     EntityHuman entityhuman = (EntityHuman) iterator.next();
 
-                    entityhuman.b((Statistic) AchievementList.I);
+                    entityhuman.b(AchievementList.I);
                 }
 
                 int k;
@@ -231,9 +231,9 @@ public class BlockSkull extends BlockContainer {
 
     public int toLegacyData(IBlockData iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((EnumDirection) iblockdata.get(BlockSkull.FACING)).a();
+        int i = b0 | iblockdata.get(BlockSkull.FACING).a();
 
-        if (((Boolean) iblockdata.get(BlockSkull.NODROP)).booleanValue()) {
+        if (iblockdata.get(BlockSkull.NODROP).booleanValue()) {
             i |= 8;
         }
 
@@ -241,7 +241,7 @@ public class BlockSkull extends BlockContainer {
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockSkull.FACING, BlockSkull.NODROP});
+        return new BlockStateList(this, BlockSkull.FACING, BlockSkull.NODROP);
     }
 
     protected ShapeDetector l() {
@@ -268,31 +268,26 @@ public class BlockSkull extends BlockContainer {
             try {
                 BlockSkull.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 BlockSkull.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 BlockSkull.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 BlockSkull.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
             try {
                 BlockSkull.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 5;
             } catch (NoSuchFieldError nosuchfielderror4) {
-                ;
             }
 
         }

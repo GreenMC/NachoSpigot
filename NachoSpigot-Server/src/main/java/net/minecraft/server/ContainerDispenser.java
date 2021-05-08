@@ -10,7 +10,7 @@ public class ContainerDispenser extends Container {
     public IInventory items;
     // CraftBukkit start
     private CraftInventoryView bukkitEntity = null;
-    private PlayerInventory player;
+    private final PlayerInventory player;
     // CraftBukkit end
 
     public ContainerDispenser(IInventory iinventory, IInventory iinventory1) {
@@ -48,7 +48,7 @@ public class ContainerDispenser extends Container {
 
     public ItemStack b(EntityHuman entityhuman, int i) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.c.get(i);
+        Slot slot = this.c.get(i);
 
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
@@ -63,7 +63,7 @@ public class ContainerDispenser extends Container {
             }
 
             if (itemstack1.count == 0) {
-                slot.set((ItemStack) null);
+                slot.set(null);
             } else {
                 slot.f();
             }

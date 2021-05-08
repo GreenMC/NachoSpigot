@@ -117,7 +117,7 @@ public class PersistentScoreboard extends PersistentBase {
     protected void b(NBTTagList var1) {
         for(int var2 = 0; var2 < var1.size(); ++var2) {
             NBTTagCompound var3 = var1.get(var2);
-            IScoreboardCriteria var4 = (IScoreboardCriteria)IScoreboardCriteria.criteria.get(var3.getString("CriteriaName"));
+            IScoreboardCriteria var4 = IScoreboardCriteria.criteria.get(var3.getString("CriteriaName"));
             if (var4 != null) {
                 String var5 = var3.getString("Name");
                 if (var5.length() > 16) {

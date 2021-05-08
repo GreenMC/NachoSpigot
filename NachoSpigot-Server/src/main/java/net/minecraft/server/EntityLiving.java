@@ -157,9 +157,9 @@ public abstract class EntityLiving extends Entity {
 
                 // CraftBukkit start - visiblity api
                 if (this instanceof EntityPlayer) {
-                    ((WorldServer) this.world).sendParticles((EntityPlayer) this, EnumParticle.BLOCK_DUST, false, this.locX, this.locY, this.locZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getCombinedId(iblockdata)});
+                    ((WorldServer) this.world).sendParticles((EntityPlayer) this, EnumParticle.BLOCK_DUST, false, this.locX, this.locY, this.locZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, Block.getCombinedId(iblockdata));
                 } else {
-                    ((WorldServer) this.world).a(EnumParticle.BLOCK_DUST, this.locX, this.locY, this.locZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getCombinedId(iblockdata)});
+                    ((WorldServer) this.world).a(EnumParticle.BLOCK_DUST, this.locX, this.locY, this.locZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D, Block.getCombinedId(iblockdata));
                 }
                 // CraftBukkit end
             }
@@ -183,7 +183,7 @@ public abstract class EntityLiving extends Entity {
             if (this.inBlock()) {
                 this.damageEntity(DamageSource.STUCK, 1.0F);
             } else if (flag && !this.world.getWorldBorder().a(this.getBoundingBox())) {
-                double d0 = this.world.getWorldBorder().a((Entity) this) + this.world.getWorldBorder().getDamageBuffer();
+                double d0 = this.world.getWorldBorder().a(this) + this.world.getWorldBorder().getDamageBuffer();
 
                 if (d0 < 0.0D) {
                     this.damageEntity(DamageSource.STUCK, (float) Math.max(1, MathHelper.floor(-d0 * this.world.getWorldBorder().getDamageAmount())));
@@ -217,7 +217,7 @@ public abstract class EntityLiving extends Entity {
                 }
 
                 if (!this.world.isClientSide && this.au() && this.vehicle instanceof EntityLiving) {
-                    this.mount((Entity) null);
+                    this.mount(null);
                 }
             } else {
                 // CraftBukkit start - Only set if needed to work around a DataWatcher inefficiency
@@ -375,7 +375,7 @@ public abstract class EntityLiving extends Entity {
 
     public void b(NBTTagCompound nbttagcompound) {
         nbttagcompound.setFloat("HealF", this.getHealth());
-        nbttagcompound.setShort("Health", (short) ((int) Math.ceil((double) this.getHealth())));
+        nbttagcompound.setShort("Health", (short) ((int) Math.ceil(this.getHealth())));
         nbttagcompound.setShort("HurtTime", (short) this.hurtTicks);
         nbttagcompound.setInt("HurtByTimestamp", this.hurtTimestamp);
         nbttagcompound.setShort("DeathTime", (short) this.deathTicks);
@@ -444,7 +444,7 @@ public abstract class EntityLiving extends Entity {
             if (nbtbase.getTypeId() == 5) {
                 this.getAttributeInstance(GenericAttributes.maxHealth).setValue((double) ((NBTTagFloat) nbtbase).c());
             } else if (nbtbase.getTypeId() == 3) {
-                this.getAttributeInstance(GenericAttributes.maxHealth).setValue((double) ((NBTTagInt) nbtbase).d());
+                this.getAttributeInstance(GenericAttributes.maxHealth).setValue(((NBTTagInt) nbtbase).d());
             }
         }
         // CraftBukkit end
@@ -459,7 +459,7 @@ public abstract class EntityLiving extends Entity {
             } else if (nbtbase.getTypeId() == 5) {
                 this.setHealth(((NBTTagFloat) nbtbase).h());
             } else if (nbtbase.getTypeId() == 2) {
-                this.setHealth((float) ((NBTTagShort) nbtbase).e());
+                this.setHealth(((NBTTagShort) nbtbase).e());
             }
         }
 
@@ -470,7 +470,7 @@ public abstract class EntityLiving extends Entity {
 
     // CraftBukkit start
     private boolean isTickingEffects = false;
-    private List<Object> effectsToProcess = Lists.newArrayList();
+    private final List<Object> effectsToProcess = Lists.newArrayList();
     // CraftBukkit end
 
     protected void bi() {
@@ -479,7 +479,7 @@ public abstract class EntityLiving extends Entity {
         isTickingEffects = true; // CraftBukkit
         while (iterator.hasNext()) {
             Integer integer = (Integer) iterator.next();
-            MobEffect mobeffect = (MobEffect) this.effects.get(integer);
+            MobEffect mobeffect = this.effects.get(integer);
 
             if (!mobeffect.tick(this)) {
                 if (!this.world.isClientSide) {
@@ -560,7 +560,7 @@ public abstract class EntityLiving extends Entity {
 
         while (iterator.hasNext()) {
             Integer integer = (Integer) iterator.next();
-            MobEffect mobeffect = (MobEffect) this.effects.get(integer);
+            MobEffect mobeffect = this.effects.get(integer);
 
             if (!this.world.isClientSide) {
                 iterator.remove();
@@ -584,7 +584,7 @@ public abstract class EntityLiving extends Entity {
     }
 
     public MobEffect getEffect(MobEffectList mobeffectlist) {
-        return (MobEffect) this.effects.get(Integer.valueOf(mobeffectlist.id));
+        return this.effects.get(Integer.valueOf(mobeffectlist.id));
     }
 
     public void addEffect(MobEffect mobeffect) {
@@ -597,8 +597,8 @@ public abstract class EntityLiving extends Entity {
         // CraftBukkit end
         if (this.d(mobeffect)) {
             if (this.effects.containsKey(Integer.valueOf(mobeffect.getEffectId()))) {
-                ((MobEffect) this.effects.get(Integer.valueOf(mobeffect.getEffectId()))).a(mobeffect);
-                this.a((MobEffect) this.effects.get(Integer.valueOf(mobeffect.getEffectId())), true);
+                this.effects.get(Integer.valueOf(mobeffect.getEffectId())).a(mobeffect);
+                this.a(this.effects.get(Integer.valueOf(mobeffect.getEffectId())), true);
             } else {
                 this.effects.put(Integer.valueOf(mobeffect.getEffectId()), mobeffect);
                 this.a(mobeffect);
@@ -611,9 +611,7 @@ public abstract class EntityLiving extends Entity {
         if (this.getMonsterType() == EnumMonsterType.UNDEAD) {
             int i = mobeffect.getEffectId();
 
-            if (i == MobEffectList.REGENERATION.id || i == MobEffectList.POISON.id) {
-                return false;
-            }
+            return i != MobEffectList.REGENERATION.id && i != MobEffectList.POISON.id;
         }
 
         return true;
@@ -630,7 +628,7 @@ public abstract class EntityLiving extends Entity {
             return;
         }
         // CraftBukkit end
-        MobEffect mobeffect = (MobEffect) this.effects.remove(Integer.valueOf(i));
+        MobEffect mobeffect = this.effects.remove(Integer.valueOf(i));
 
         if (mobeffect != null) {
             this.b(mobeffect);
@@ -850,7 +848,7 @@ public abstract class EntityLiving extends Entity {
             vec3d1 = vec3d1.a(-this.pitch * 3.1415927F / 180.0F);
             vec3d1 = vec3d1.b(-this.yaw * 3.1415927F / 180.0F);
             vec3d1 = vec3d1.add(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
-            this.world.addParticle(EnumParticle.ITEM_CRACK, vec3d1.a, vec3d1.b, vec3d1.c, vec3d.a, vec3d.b + 0.05D, vec3d.c, new int[] { Item.getId(itemstack.getItem())});
+            this.world.addParticle(EnumParticle.ITEM_CRACK, vec3d1.a, vec3d1.b, vec3d1.c, vec3d.a, vec3d.b + 0.05D, vec3d.c, Item.getId(itemstack.getItem()));
         }
 
     }
@@ -908,7 +906,7 @@ public abstract class EntityLiving extends Entity {
             this.motY /= 2.0D;
             this.motZ /= 2.0D;
             this.motX -= d0 / (double) f1 * (double) f2;
-            this.motY += (double) f2;
+            this.motY += f2;
             this.motZ -= d1 / (double) f1 * (double) f2;
             if (this.motY > 0.4000000059604645D) {
                 this.motY = 0.4000000059604645D;
@@ -1163,7 +1161,7 @@ public abstract class EntityLiving extends Entity {
     }
 
     public EntityLiving bt() {
-        return (EntityLiving) (this.combatTracker.c() != null ? this.combatTracker.c() : (this.killer != null ? this.killer : (this.lastDamager != null ? this.lastDamager : null)));
+        return this.combatTracker.c() != null ? this.combatTracker.c() : (this.killer != null ? this.killer : (this.lastDamager != null ? this.lastDamager : null));
     }
 
     public final float getMaxHealth() {
@@ -1198,7 +1196,7 @@ public abstract class EntityLiving extends Entity {
             this.as = -1;
             this.ar = true;
             if (this.world instanceof WorldServer) {
-                ((WorldServer) this.world).getTracker().a((Entity) this, (Packet) (new PacketPlayOutAnimation(this, 0)));
+                ((WorldServer) this.world).getTracker().a(this, new PacketPlayOutAnimation(this, 0));
             }
         }
 
@@ -1285,15 +1283,15 @@ public abstract class EntityLiving extends Entity {
                 if (i != 0 || j != 0) {
                     int k = (int) (this.locX + (double) i);
                     int l = (int) (this.locZ + (double) j);
-                    AxisAlignedBB axisalignedbb = this.getBoundingBox().c((double) i, 1.0D, (double) j);
+                    AxisAlignedBB axisalignedbb = this.getBoundingBox().c(i, 1.0D, j);
 
                     if (this.world.a(axisalignedbb).isEmpty()) {
-                        if (World.a((IBlockAccess) this.world, new BlockPosition(k, (int) this.locY, l))) {
+                        if (World.a(this.world, new BlockPosition(k, (int) this.locY, l))) {
                             this.enderTeleportTo(this.locX + (double) i, this.locY + 1.0D, this.locZ + (double) j);
                             return;
                         }
 
-                        if (World.a((IBlockAccess) this.world, new BlockPosition(k, (int) this.locY - 1, l)) || this.world.getType(new BlockPosition(k, (int) this.locY - 1, l)).getBlock().getMaterial() == Material.WATER) {
+                        if (World.a(this.world, new BlockPosition(k, (int) this.locY - 1, l)) || this.world.getType(new BlockPosition(k, (int) this.locY - 1, l)).getBlock().getMaterial() == Material.WATER) {
                             d0 = this.locX + (double) i;
                             d1 = this.locY + 1.0D;
                             d2 = this.locZ + (double) j;
@@ -1311,16 +1309,16 @@ public abstract class EntityLiving extends Entity {
     }
 
     protected void bF() {
-        this.motY = (double) this.bE();
+        this.motY = this.bE();
         if (this.hasEffect(MobEffectList.JUMP)) {
-            this.motY += (double) ((float) (this.getEffect(MobEffectList.JUMP).getAmplifier() + 1) * 0.1F);
+            this.motY += (float) (this.getEffect(MobEffectList.JUMP).getAmplifier() + 1) * 0.1F;
         }
 
         if (this.isSprinting()) {
             float f = this.yaw * 0.017453292F;
 
-            this.motX -= (double) (MathHelper.sin(f) * 0.2F);
-            this.motZ += (double) (MathHelper.cos(f) * 0.2F);
+            this.motX -= MathHelper.sin(f) * 0.2F;
+            this.motZ += MathHelper.cos(f) * 0.2F;
         }
 
         this.ai = true;
@@ -1362,9 +1360,9 @@ public abstract class EntityLiving extends Entity {
 
                 this.a(f, f1, f4);
                 this.move(this.motX, this.motY, this.motZ);
-                this.motX *= (double) f3;
+                this.motX *= f3;
                 this.motY *= 0.800000011920929D;
-                this.motZ *= (double) f3;
+                this.motZ *= f3;
                 this.motY -= 0.02D;
                 if (this.positionChanged && this.c(this.motX, this.motY + 0.6000000238418579D - this.locY + d0, this.motZ)) {
                     this.motY = 0.30000001192092896D;
@@ -1403,8 +1401,8 @@ public abstract class EntityLiving extends Entity {
 
                 if (this.k_()) {
                     f4 = 0.15F;
-                    this.motX = MathHelper.a(this.motX, (double) (-f4), (double) f4);
-                    this.motZ = MathHelper.a(this.motZ, (double) (-f4), (double) f4);
+                    this.motX = MathHelper.a(this.motX, -f4, f4);
+                    this.motZ = MathHelper.a(this.motZ, -f4, f4);
                     this.fallDistance = 0.0F;
                     if (this.motY < -0.15D) {
                         this.motY = -0.15D;
@@ -1433,8 +1431,8 @@ public abstract class EntityLiving extends Entity {
                 }
 
                 this.motY *= 0.9800000190734863D;
-                this.motX *= (double) f5;
-                this.motZ *= (double) f5;
+                this.motX *= f5;
+                this.motZ *= f5;
             }
         }
 
@@ -1522,7 +1520,7 @@ public abstract class EntityLiving extends Entity {
 
         if (f > 0.0025000002F) {
             f3 = 1.0F;
-            f2 = (float) Math.sqrt((double) f) * 3.0F;
+            f2 = (float) Math.sqrt(f) * 3.0F;
             // CraftBukkit - Math -> TrigMath
             f1 = (float) org.bukkit.craftbukkit.TrigMath.atan2(d1, d0) * 180.0F / 3.1415927F - 90.0F;
         }
@@ -1763,15 +1761,15 @@ public abstract class EntityLiving extends Entity {
             EntityTracker entitytracker = ((WorldServer) this.world).getTracker();
 
             if (entity instanceof EntityItem) {
-                entitytracker.a(entity, (Packet) (new PacketPlayOutCollect(entity.getId(), this.getId())));
+                entitytracker.a(entity, new PacketPlayOutCollect(entity.getId(), this.getId()));
             }
 
             if (entity instanceof EntityArrow) {
-                entitytracker.a(entity, (Packet) (new PacketPlayOutCollect(entity.getId(), this.getId())));
+                entitytracker.a(entity, new PacketPlayOutCollect(entity.getId(), this.getId()));
             }
 
             if (entity instanceof EntityExperienceOrb) {
-                entitytracker.a(entity, (Packet) (new PacketPlayOutCollect(entity.getId(), this.getId())));
+                entitytracker.a(entity, new PacketPlayOutCollect(entity.getId(), this.getId()));
             }
         }
 
@@ -1846,7 +1844,7 @@ public abstract class EntityLiving extends Entity {
     }
 
     public boolean a(ScoreboardTeamBase scoreboardteambase) {
-        return this.getScoreboardTeam() != null ? this.getScoreboardTeam().isAlly(scoreboardteambase) : false;
+        return this.getScoreboardTeam() != null && this.getScoreboardTeam().isAlly(scoreboardteambase);
     }
 
     public void enterCombat() {}

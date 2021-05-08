@@ -4,7 +4,7 @@ public class EntityMinecartCommandBlock extends EntityMinecartAbstract {
 
     private final CommandBlockListenerAbstract a = new CommandBlockListenerAbstract() {
         {
-            this.sender = (org.bukkit.craftbukkit.entity.CraftMinecartCommand) EntityMinecartCommandBlock.this.getBukkitEntity(); // CraftBukkit - Set the sender
+            this.sender = EntityMinecartCommandBlock.this.getBukkitEntity(); // CraftBukkit - Set the sender
         }
         public void h() {
             EntityMinecartCommandBlock.this.getDataWatcher().watch(23, this.getCommand());
@@ -86,7 +86,6 @@ public class EntityMinecartCommandBlock extends EntityMinecartAbstract {
             try {
                 this.a.b(IChatBaseComponent.ChatSerializer.a(this.getDataWatcher().getString(24)));
             } catch (Throwable throwable) {
-                ;
             }
         } else if (i == 23) {
             this.a.setCommand(this.getDataWatcher().getString(23));

@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class PathfinderGoalPanic extends PathfinderGoal {
 
-    private EntityCreature b;
+    private final EntityCreature b;
     protected double a;
     private double c;
     private double d;

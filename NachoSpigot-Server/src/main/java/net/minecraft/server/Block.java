@@ -104,7 +104,7 @@ public class Block {
     }
 
     public static Block getById(int i) {
-        return (Block) Block.REGISTRY.a(i);
+        return Block.REGISTRY.a(i);
     }
 
     public static IBlockData getByCombinedId(int i) {
@@ -122,10 +122,10 @@ public class Block {
         MinecraftKey minecraftkey = new MinecraftKey(s);
 
         if (Block.REGISTRY.d(minecraftkey)) {
-            return (Block) Block.REGISTRY.get(minecraftkey);
+            return Block.REGISTRY.get(minecraftkey);
         } else {
             try {
-                return (Block) Block.REGISTRY.a(Integer.parseInt(s));
+                return Block.REGISTRY.a(Integer.parseInt(s));
             } catch (NumberFormatException numberformatexception) {
                 return null;
             }
@@ -162,7 +162,7 @@ public class Block {
 
     public int toLegacyData(IBlockData iblockdata) {
         if (iblockdata != null && !iblockdata.a().isEmpty()) {
-            throw new IllegalArgumentException("Don\'t know how to convert " + iblockdata + " back into data...");
+            throw new IllegalArgumentException("Don't know how to convert " + iblockdata + " back into data...");
         } else {
             return 0;
         }
@@ -271,12 +271,12 @@ public class Block {
     }
 
     protected final void a(float f, float f1, float f2, float f3, float f4, float f5) {
-        this.minX = (double) f;
-        this.minY = (double) f1;
-        this.minZ = (double) f2;
-        this.maxX = (double) f3;
-        this.maxY = (double) f4;
-        this.maxZ = (double) f5;
+        this.minX = f;
+        this.minY = f1;
+        this.minZ = f2;
+        this.maxX = f3;
+        this.maxY = f4;
+        this.maxZ = f5;
     }
 
     public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition, EnumDirection enumdirection) {
@@ -412,8 +412,8 @@ public class Block {
 
     public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1) {
         this.updateShape(world, blockposition);
-        vec3d = vec3d.add((double) (-blockposition.getX()), (double) (-blockposition.getY()), (double) (-blockposition.getZ()));
-        vec3d1 = vec3d1.add((double) (-blockposition.getX()), (double) (-blockposition.getY()), (double) (-blockposition.getZ()));
+        vec3d = vec3d.add(-blockposition.getX(), -blockposition.getY(), -blockposition.getZ());
+        vec3d1 = vec3d1.add(-blockposition.getX(), -blockposition.getY(), -blockposition.getZ());
         Vec3D vec3d2 = vec3d.a(vec3d1, this.minX);
         Vec3D vec3d3 = vec3d.a(vec3d1, this.maxX);
         Vec3D vec3d4 = vec3d.b(vec3d1, this.minY);
@@ -500,20 +500,20 @@ public class Block {
                 enumdirection = EnumDirection.SOUTH;
             }
 
-            return new MovingObjectPosition(vec3d8.add((double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ()), enumdirection, blockposition);
+            return new MovingObjectPosition(vec3d8.add(blockposition.getX(), blockposition.getY(), blockposition.getZ()), enumdirection, blockposition);
         }
     }
 
     private boolean a(Vec3D vec3d) {
-        return vec3d == null ? false : vec3d.b >= this.minY && vec3d.b <= this.maxY && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
+        return vec3d != null && vec3d.b >= this.minY && vec3d.b <= this.maxY && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
     }
 
     private boolean b(Vec3D vec3d) {
-        return vec3d == null ? false : vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
+        return vec3d != null && vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
     }
 
     private boolean c(Vec3D vec3d) {
-        return vec3d == null ? false : vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.b >= this.minY && vec3d.b <= this.maxY;
+        return vec3d != null && vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.b >= this.minY && vec3d.b <= this.maxY;
     }
 
     public void wasExploded(World world, BlockPosition blockposition, Explosion explosion) {}
@@ -698,7 +698,7 @@ public class Block {
     }
 
     public static boolean a(Block block, Block block1) {
-        return block != null && block1 != null ? (block == block1 ? true : block.b(block1)) : false;
+        return block != null && block1 != null && (block == block1 || block.b(block1));
     }
 
     public boolean isComplexRedstone() {
@@ -710,7 +710,7 @@ public class Block {
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[0]);
+        return new BlockStateList(this);
     }
 
     public BlockStateList P() {

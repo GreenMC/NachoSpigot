@@ -144,7 +144,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
                     }
                     // CraftBukkit end
                     if (this.passenger != null) {
-                        this.passenger.mount((Entity) null);
+                        this.passenger.mount(null);
                     }
 
                     if (flag && !this.hasCustomName()) {
@@ -283,7 +283,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
             if (BlockMinecartTrackAbstract.d(iblockdata)) {
                 this.a(blockposition, iblockdata);
                 if (iblockdata.getBlock() == Blocks.ACTIVATOR_RAIL) {
-                    this.a(j, i, k, ((Boolean) iblockdata.get(BlockPoweredRail.POWERED)).booleanValue());
+                    this.a(j, i, k, iblockdata.get(BlockPoweredRail.POWERED).booleanValue());
                 }
             } else {
                 this.n();
@@ -301,7 +301,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
                 }
             }
 
-            double d6 = (double) MathHelper.g(this.yaw - this.lastYaw);
+            double d6 = MathHelper.g(this.yaw - this.lastYaw);
 
             if (d6 < -170.0D || d6 >= 170.0D) {
                 this.yaw += 180.0F;
@@ -379,18 +379,18 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         this.fallDistance = 0.0F;
         Vec3D vec3d = this.k(this.locX, this.locY, this.locZ);
 
-        this.locY = (double) blockposition.getY();
+        this.locY = blockposition.getY();
         boolean flag = false;
         boolean flag1 = false;
         BlockMinecartTrackAbstract blockminecarttrackabstract = (BlockMinecartTrackAbstract) iblockdata.getBlock();
 
         if (blockminecarttrackabstract == Blocks.GOLDEN_RAIL) {
-            flag = ((Boolean) iblockdata.get(BlockPoweredRail.POWERED)).booleanValue();
+            flag = iblockdata.get(BlockPoweredRail.POWERED).booleanValue();
             flag1 = !flag;
         }
 
         double d0 = 0.0078125D;
-        BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = (BlockMinecartTrackAbstract.EnumTrackPosition) iblockdata.get(blockminecarttrackabstract.n());
+        BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata.get(blockminecarttrackabstract.n());
 
         switch (EntityMinecartAbstract.SyntheticClass_1.b[blockminecarttrackabstract_enumtrackposition.ordinal()]) {
         case 1:
@@ -414,8 +414,8 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         }
 
         int[][] aint = EntityMinecartAbstract.matrix[blockminecarttrackabstract_enumtrackposition.a()];
-        double d1 = (double) (aint[1][0] - aint[0][0]);
-        double d2 = (double) (aint[1][2] - aint[0][2]);
+        double d1 = aint[1][0] - aint[0][0];
+        double d2 = aint[1][2] - aint[0][2];
         double d3 = Math.sqrt(d1 * d1 + d2 * d2);
         double d4 = this.motX * d1 + this.motZ * d2;
 
@@ -438,10 +438,10 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         double d9;
 
         if (this.passenger instanceof EntityLiving) {
-            d6 = (double) ((EntityLiving) this.passenger).ba;
+            d6 = ((EntityLiving) this.passenger).ba;
             if (d6 > 0.0D) {
-                d7 = -Math.sin((double) (this.passenger.yaw * 3.1415927F / 180.0F));
-                d8 = Math.cos((double) (this.passenger.yaw * 3.1415927F / 180.0F));
+                d7 = -Math.sin(this.passenger.yaw * 3.1415927F / 180.0F);
+                d8 = Math.cos(this.passenger.yaw * 3.1415927F / 180.0F);
                 d9 = this.motX * this.motX + this.motZ * this.motZ;
                 if (d9 < 0.01D) {
                     this.motX += d7 * 0.1D;
@@ -592,7 +592,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         IBlockData iblockdata = this.world.getType(new BlockPosition(i, j, k));
 
         if (BlockMinecartTrackAbstract.d(iblockdata)) {
-            BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = (BlockMinecartTrackAbstract.EnumTrackPosition) iblockdata.get(((BlockMinecartTrackAbstract) iblockdata.getBlock()).n());
+            BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata.get(((BlockMinecartTrackAbstract) iblockdata.getBlock()).n());
             int[][] aint = EntityMinecartAbstract.matrix[blockminecarttrackabstract_enumtrackposition.a()];
             double d3 = 0.0D;
             double d4 = (double) i + 0.5D + (double) aint[0][0] * 0.5D;
@@ -669,7 +669,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         if (this.x()) {
             nbttagcompound.setBoolean("CustomDisplayTile", true);
             IBlockData iblockdata = this.getDisplayBlock();
-            MinecraftKey minecraftkey = (MinecraftKey) Block.REGISTRY.c(iblockdata.getBlock());
+            MinecraftKey minecraftkey = Block.REGISTRY.c(iblockdata.getBlock());
 
             nbttagcompound.setString("DisplayTile", minecraftkey == null ? "" : minecraftkey.toString());
             nbttagcompound.setInt("DisplayData", iblockdata.getBlock().toLegacyData(iblockdata));
@@ -707,7 +707,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 
                     // CraftBukkit - collision
                     if (d2 >= 9.999999747378752E-5D && !collisionEvent.isCollisionCancelled()) {
-                        d2 = (double) MathHelper.sqrt(d2);
+                        d2 = MathHelper.sqrt(d2);
                         d0 /= d2;
                         d1 /= d2;
                         double d3 = 1.0D / d2;
@@ -720,15 +720,15 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
                         d1 *= d3;
                         d0 *= 0.10000000149011612D;
                         d1 *= 0.10000000149011612D;
-                        d0 *= (double) (1.0F - this.U);
-                        d1 *= (double) (1.0F - this.U);
+                        d0 *= 1.0F - this.U;
+                        d1 *= 1.0F - this.U;
                         d0 *= 0.5D;
                         d1 *= 0.5D;
                         if (entity instanceof EntityMinecartAbstract) {
                             double d4 = entity.locX - this.locX;
                             double d5 = entity.locZ - this.locZ;
                             Vec3D vec3d = (new Vec3D(d4, 0.0D, d5)).a();
-                            Vec3D vec3d1 = (new Vec3D((double) MathHelper.cos(this.yaw * 3.1415927F / 180.0F), 0.0D, (double) MathHelper.sin(this.yaw * 3.1415927F / 180.0F))).a();
+                            Vec3D vec3d1 = (new Vec3D(MathHelper.cos(this.yaw * 3.1415927F / 180.0F), 0.0D, MathHelper.sin(this.yaw * 3.1415927F / 180.0F))).a();
                             double d6 = Math.abs(vec3d.b(vec3d1));
 
                             if (d6 < 0.800000011920929D) {
@@ -855,7 +855,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
             chatcomponenttext.getChatModifier().setInsertion(this.getUniqueID().toString());
             return chatcomponenttext;
         } else {
-            ChatMessage chatmessage = new ChatMessage(this.getName(), new Object[0]);
+            ChatMessage chatmessage = new ChatMessage(this.getName());
 
             chatmessage.getChatModifier().setChatHoverable(this.aQ());
             chatmessage.getChatModifier().setInsertion(this.getUniqueID().toString());
@@ -872,25 +872,21 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
             try {
                 EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
             a = new int[EntityMinecartAbstract.EnumMinecartType.values().length];
@@ -898,43 +894,37 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.CHEST.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror4) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.FURNACE.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror5) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.TNT.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror6) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.SPAWNER.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror7) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.HOPPER.ordinal()] = 5;
             } catch (NoSuchFieldError nosuchfielderror8) {
-                ;
             }
 
             try {
                 EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.COMMAND_BLOCK.ordinal()] = 6;
             } catch (NoSuchFieldError nosuchfielderror9) {
-                ;
             }
 
         }
     }
 
-    public static enum EnumMinecartType {
+    public enum EnumMinecartType {
 
         RIDEABLE(0, "MinecartRideable"), CHEST(1, "MinecartChest"), FURNACE(2, "MinecartFurnace"), TNT(3, "MinecartTNT"), SPAWNER(4, "MinecartSpawner"), HOPPER(5, "MinecartHopper"), COMMAND_BLOCK(6, "MinecartCommandBlock");
 
@@ -942,7 +932,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         private final int i;
         private final String j;
 
-        private EnumMinecartType(int i, String s) {
+        EnumMinecartType(int i, String s) {
             this.i = i;
             this.j = s;
         }
@@ -956,7 +946,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
         }
 
         public static EntityMinecartAbstract.EnumMinecartType a(int i) {
-            EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype = (EntityMinecartAbstract.EnumMinecartType) EntityMinecartAbstract.EnumMinecartType.h.get(Integer.valueOf(i));
+            EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype = EnumMinecartType.h.get(Integer.valueOf(i));
 
             return entityminecartabstract_enumminecarttype == null ? EntityMinecartAbstract.EnumMinecartType.RIDEABLE : entityminecartabstract_enumminecarttype;
         }

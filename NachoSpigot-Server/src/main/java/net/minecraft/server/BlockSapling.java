@@ -63,7 +63,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
     }
 
     public void grow(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
-        if (((Integer) iblockdata.get(BlockSapling.STAGE)).intValue() == 0) {
+        if (iblockdata.get(BlockSapling.STAGE).intValue() == 0) {
             world.setTypeAndData(blockposition, iblockdata.a(BlockSapling.STAGE), 4);
         } else {
             this.e(world, blockposition, iblockdata, random);
@@ -88,7 +88,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
         boolean flag = false;
         IBlockData iblockdata1;
 
-        switch (BlockSapling.SyntheticClass_1.a[((BlockWood.EnumLogVariant) iblockdata.get(BlockSapling.TYPE)).ordinal()]) {
+        switch (BlockSapling.SyntheticClass_1.a[iblockdata.get(BlockSapling.TYPE).ordinal()]) {
         case 1:
             label66:
             for (i = 0; i >= -1; --i) {
@@ -198,7 +198,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
     }
 
     public int getDropData(IBlockData iblockdata) {
-        return ((BlockWood.EnumLogVariant) iblockdata.get(BlockSapling.TYPE)).a();
+        return iblockdata.get(BlockSapling.TYPE).a();
     }
 
     public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag) {
@@ -219,14 +219,14 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 
     public int toLegacyData(IBlockData iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((BlockWood.EnumLogVariant) iblockdata.get(BlockSapling.TYPE)).a();
+        int i = b0 | iblockdata.get(BlockSapling.TYPE).a();
 
-        i |= ((Integer) iblockdata.get(BlockSapling.STAGE)).intValue() << 3;
+        i |= iblockdata.get(BlockSapling.STAGE).intValue() << 3;
         return i;
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockSapling.TYPE, BlockSapling.STAGE});
+        return new BlockStateList(this, BlockSapling.TYPE, BlockSapling.STAGE);
     }
 
     static class SyntheticClass_1 {
@@ -237,37 +237,31 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.SPRUCE.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.BIRCH.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.JUNGLE.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.ACACIA.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.DARK_OAK.ordinal()] = 5;
             } catch (NoSuchFieldError nosuchfielderror4) {
-                ;
             }
 
             try {
                 BlockSapling.SyntheticClass_1.a[BlockWood.EnumLogVariant.OAK.ordinal()] = 6;
             } catch (NoSuchFieldError nosuchfielderror5) {
-                ;
             }
 
         }

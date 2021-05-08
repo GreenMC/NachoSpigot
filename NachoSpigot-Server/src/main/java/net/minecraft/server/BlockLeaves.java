@@ -33,7 +33,7 @@ public abstract class BlockLeaves extends BlockTransparent {
                         BlockPosition blockposition1 = blockposition.a(i1, j1, k1);
                         IBlockData iblockdata1 = world.getType(blockposition1);
 
-                        if (iblockdata1.getBlock().getMaterial() == Material.LEAVES && !((Boolean) iblockdata1.get(BlockLeaves.CHECK_DECAY)).booleanValue()) {
+                        if (iblockdata1.getBlock().getMaterial() == Material.LEAVES && !iblockdata1.get(BlockLeaves.CHECK_DECAY).booleanValue()) {
                             world.setTypeAndData(blockposition1, iblockdata1.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)), 4);
                         }
                     }
@@ -45,7 +45,7 @@ public abstract class BlockLeaves extends BlockTransparent {
 
     public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
         if (!world.isClientSide) {
-            if (((Boolean) iblockdata.get(BlockLeaves.CHECK_DECAY)).booleanValue() && ((Boolean) iblockdata.get(BlockLeaves.DECAYABLE)).booleanValue()) {
+            if (iblockdata.get(BlockLeaves.CHECK_DECAY).booleanValue() && iblockdata.get(BlockLeaves.DECAYABLE).booleanValue()) {
                 byte b0 = 4;
                 int i = b0 + 1;
                 int j = blockposition.getX();

@@ -157,9 +157,9 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
             if (command.startsWith("/")) {
                 command = command.substring(1);
             }
-            String as[] = command.split(" ");
+            String[] as = command.split(" ");
             as = VanillaCommandWrapper.dropFirstArgument(as);
-            if (!((VanillaCommandWrapper) commandBlockCommand).testPermission(bSender)) {
+            if (!commandBlockCommand.testPermission(bSender)) {
                 return 0;
             }
             return ((VanillaCommandWrapper) commandBlockCommand).dispatchVanillaCommand(bSender, sender, as);
@@ -228,7 +228,7 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 
     private static ArrayList<String[]> buildCommands(ICommandListener sender, String[] args, int pos) {
         ArrayList<String[]> commands = new ArrayList<String[]>();
-        java.util.List<EntityPlayer> players = (java.util.List<EntityPlayer>)PlayerSelector.getPlayers(sender, args[pos], EntityPlayer.class);
+        java.util.List<EntityPlayer> players = PlayerSelector.getPlayers(sender, args[pos], EntityPlayer.class);
 
         if (players != null) {
             for (EntityPlayer player : players) {

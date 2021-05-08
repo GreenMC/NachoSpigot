@@ -16,7 +16,7 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
     public float l;
     public float m;
     public float n;
-    private static Random o = new Random();
+    private static final Random o = new Random();
     private String p;
 
     public TileEntityEnchantTable() {
@@ -47,7 +47,7 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
         // Nacho-0050 End
         this.k = this.j;
         this.m = this.l;
-        EntityHuman var1 = this.world.findNearbyPlayer((double)((float)this.position.getX() + 0.5F), (double)((float)this.position.getY() + 0.5F), (double)((float)this.position.getZ() + 0.5F), 3.0D);
+        EntityHuman var1 = this.world.findNearbyPlayer((float)this.position.getX() + 0.5F, (float)this.position.getY() + 0.5F, (float)this.position.getZ() + 0.5F, 3.0D);
         if (var1 != null) {
             double var2 = var1.locX - (double)((float)this.position.getX() + 0.5F);
             double var4 = var1.locZ - (double)((float)this.position.getZ() + 0.5F);
@@ -113,7 +113,7 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
     }
 
     public IChatBaseComponent getScoreboardDisplayName() {
-        return (IChatBaseComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]));
+        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]);
     }
 
     public Container createContainer(PlayerInventory var1, EntityHuman var2) {

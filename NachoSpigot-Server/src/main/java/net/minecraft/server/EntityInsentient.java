@@ -18,16 +18,16 @@ public abstract class EntityInsentient extends EntityLiving {
 
     public int a_;
     protected int b_;
-    private ControllerLook lookController;
+    private final ControllerLook lookController;
     protected ControllerMove moveController;
     protected ControllerJump g;
-    private EntityAIBodyControl b;
+    private final EntityAIBodyControl b;
     protected NavigationAbstract navigation;
     public PathfinderGoalSelector goalSelector;
     public PathfinderGoalSelector targetSelector;
     private EntityLiving goalTarget;
-    private EntitySenses bk;
-    private ItemStack[] equipment = new ItemStack[5];
+    private final EntitySenses bk;
+    private final ItemStack[] equipment = new ItemStack[5];
     public float[] dropChances = new float[5];
     public boolean canPickUpLoot;
     public boolean persistent;
@@ -428,7 +428,7 @@ public abstract class EntityInsentient extends EntityLiving {
                     EntityHuman entityhuman = this.world.a(entityitem.n());
 
                     if (entityhuman != null) {
-                        entityhuman.b((Statistic) AchievementList.x);
+                        entityhuman.b(AchievementList.x);
                     }
                 }
 
@@ -538,7 +538,7 @@ public abstract class EntityInsentient extends EntityLiving {
             d2 = (entity.getBoundingBox().b + entity.getBoundingBox().e) / 2.0D - (this.locY + (double) this.getHeadHeight());
         }
 
-        double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1);
+        double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1);
         float f2 = (float) (MathHelper.b(d1, d0) * 180.0D / 3.1415927410125732D) - 90.0F;
         float f3 = (float) (-(MathHelper.b(d2, d3) * 180.0D / 3.1415927410125732D));
 
@@ -565,7 +565,7 @@ public abstract class EntityInsentient extends EntityLiving {
     }
 
     public boolean canSpawn() {
-        return this.world.a(this.getBoundingBox(), (Entity) this) && this.world.getCubes(this, this.getBoundingBox()).isEmpty() && !this.world.containsLiquid(this.getBoundingBox());
+        return this.world.a(this.getBoundingBox(), this) && this.world.getCubes(this, this.getBoundingBox()).isEmpty() && !this.world.containsLiquid(this.getBoundingBox());
     }
 
     public int bV() {
@@ -838,7 +838,7 @@ public abstract class EntityInsentient extends EntityLiving {
                 }
             }
 
-            return this.a(entityhuman) ? true : super.e(entityhuman);
+            return this.a(entityhuman) || super.e(entityhuman);
         }
     }
 
@@ -873,7 +873,7 @@ public abstract class EntityInsentient extends EntityLiving {
             }
 
             if (!this.world.isClientSide && flag && this.world instanceof WorldServer) {
-                ((WorldServer) this.world).getTracker().a((Entity) this, (Packet) (new PacketPlayOutAttachEntity(1, this, (Entity) null)));
+                ((WorldServer) this.world).getTracker().a(this, new PacketPlayOutAttachEntity(1, this, null));
             }
         }
 
@@ -895,7 +895,7 @@ public abstract class EntityInsentient extends EntityLiving {
         this.bo = true;
         this.bp = entity;
         if (!this.world.isClientSide && flag && this.world instanceof WorldServer) {
-            ((WorldServer) this.world).getTracker().a((Entity) this, (Packet) (new PacketPlayOutAttachEntity(1, this, this.bp)));
+            ((WorldServer) this.world).getTracker().a(this, new PacketPlayOutAttachEntity(1, this, this.bp));
         }
 
     }
@@ -965,10 +965,10 @@ public abstract class EntityInsentient extends EntityLiving {
         return this.datawatcher.getByte(15) != 0;
     }
 
-    public static enum EnumEntityPositionType {
+    public enum EnumEntityPositionType {
 
         ON_GROUND, IN_AIR, IN_WATER;
 
-        private EnumEntityPositionType() {}
+        EnumEntityPositionType() {}
     }
 }

@@ -144,18 +144,18 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
     public boolean c() {
         if (this.b.isEmpty()) {
             if (this.e) {
-                ChunkRegionLoader.a.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", new Object[] { this.d.getName()});
+                ChunkRegionLoader.a.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", this.d.getName());
             }
 
             return false;
         } else {
-            ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair) this.b.keySet().iterator().next();
+            ChunkCoordIntPair chunkcoordintpair = this.b.keySet().iterator().next();
 
             boolean flag;
 
             try {
                 this.c.add(chunkcoordintpair);
-                NBTTagCompound nbttagcompound = (NBTTagCompound) this.b.remove(chunkcoordintpair);
+                NBTTagCompound nbttagcompound = this.b.remove(chunkcoordintpair);
 
                 if (nbttagcompound != null) {
                     try {
@@ -307,7 +307,7 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
             while (iterator1.hasNext()) {
                 NextTickListEntry nextticklistentry = (NextTickListEntry) iterator1.next();
                 NBTTagCompound nbttagcompound2 = new NBTTagCompound();
-                MinecraftKey minecraftkey = (MinecraftKey) Block.REGISTRY.c(nextticklistentry.a());
+                MinecraftKey minecraftkey = Block.REGISTRY.c(nextticklistentry.a());
 
                 nbttagcompound2.setString("i", minecraftkey == null ? "" : minecraftkey.toString());
                 nbttagcompound2.setInt("x", nextticklistentry.a.getX());

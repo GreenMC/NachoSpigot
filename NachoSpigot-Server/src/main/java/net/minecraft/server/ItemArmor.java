@@ -18,7 +18,7 @@ public class ItemArmor extends Item {
             int i = blockposition.getX();
             int j = blockposition.getY();
             int k = blockposition.getZ();
-            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) i, (double) j, (double) k, (double) (i + 1), (double) (j + 1), (double) (k + 1));
+            AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
             List list = isourceblock.getWorld().a(EntityLiving.class, axisalignedbb, Predicates.and(IEntitySelector.d, new IEntitySelector.EntitySelectorEquipable(itemstack)));
 
             if (list.size() > 0) {
@@ -46,7 +46,7 @@ public class ItemArmor extends Item {
                     itemstack.count++;
                     // Chain to handler for new item
                     ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-                    IDispenseBehavior idispensebehavior = (IDispenseBehavior) BlockDispenser.REGISTRY.get(eventStack.getItem());
+                    IDispenseBehavior idispensebehavior = BlockDispenser.REGISTRY.get(eventStack.getItem());
                     if (idispensebehavior != IDispenseBehavior.NONE && idispensebehavior != this) {
                         idispensebehavior.a(isourceblock, eventStack);
                         return itemstack;
@@ -92,7 +92,7 @@ public class ItemArmor extends Item {
     }
 
     public boolean d_(ItemStack itemstack) {
-        return this.m != ItemArmor.EnumArmorMaterial.LEATHER ? false : (!itemstack.hasTag() ? false : (!itemstack.getTag().hasKeyOfType("display", 10) ? false : itemstack.getTag().getCompound("display").hasKeyOfType("color", 3)));
+        return this.m == EnumArmorMaterial.LEATHER && (itemstack.hasTag() && (itemstack.getTag().hasKeyOfType("display", 10) && itemstack.getTag().getCompound("display").hasKeyOfType("color", 3)));
     }
 
     public int b(ItemStack itemstack) {
@@ -130,7 +130,7 @@ public class ItemArmor extends Item {
 
     public void b(ItemStack itemstack, int i) {
         if (this.m != ItemArmor.EnumArmorMaterial.LEATHER) {
-            throw new UnsupportedOperationException("Can\'t dye non-leather!");
+            throw new UnsupportedOperationException("Can't dye non-leather!");
         } else {
             NBTTagCompound nbttagcompound = itemstack.getTag();
 
@@ -150,7 +150,7 @@ public class ItemArmor extends Item {
     }
 
     public boolean a(ItemStack itemstack, ItemStack itemstack1) {
-        return this.m.b() == itemstack1.getItem() ? true : super.a(itemstack, itemstack1);
+        return this.m.b() == itemstack1.getItem() || super.a(itemstack, itemstack1);
     }
 
     public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
@@ -165,7 +165,7 @@ public class ItemArmor extends Item {
         return itemstack;
     }
 
-    public static enum EnumArmorMaterial {
+    public enum EnumArmorMaterial {
 
         LEATHER("leather", 5, new int[] { 1, 3, 2, 1}, 15), CHAIN("chainmail", 15, new int[] { 2, 5, 4, 1}, 12), IRON("iron", 15, new int[] { 2, 6, 5, 2}, 9), GOLD("gold", 7, new int[] { 2, 5, 3, 1}, 25), DIAMOND("diamond", 33, new int[] { 3, 8, 6, 3}, 10);
 
@@ -174,7 +174,7 @@ public class ItemArmor extends Item {
         private final int[] h;
         private final int i;
 
-        private EnumArmorMaterial(String s, int i, int[] aint, int j) {
+        EnumArmorMaterial(String s, int i, int[] aint, int j) {
             this.f = s;
             this.g = i;
             this.h = aint;

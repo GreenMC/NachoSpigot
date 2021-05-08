@@ -129,7 +129,7 @@ public abstract class EntityMinecartContainer extends EntityMinecartAbstract imp
     public void update() {}
 
     public boolean a(EntityHuman entityhuman) {
-        return this.dead ? false : entityhuman.h(this) <= 64.0D;
+        return !this.dead && entityhuman.h(this) <= 64.0D;
     }
 
     public void startOpen(EntityHuman entityhuman) {}
@@ -210,12 +210,12 @@ public abstract class EntityMinecartContainer extends EntityMinecartAbstract imp
     }
 
     protected void o() {
-        int i = 15 - Container.b((IInventory) this);
+        int i = 15 - Container.b(this);
         float f = 0.98F + (float) i * 0.001F;
 
-        this.motX *= (double) f;
+        this.motX *= f;
         this.motY *= 0.0D;
-        this.motZ *= (double) f;
+        this.motZ *= f;
     }
 
     public int getProperty(int i) {

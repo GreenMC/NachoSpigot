@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class EntitySilverfish extends EntityMonster {
 
-    private EntitySilverfish.PathfinderGoalSilverfishWakeOthers a;
+    private final EntitySilverfish.PathfinderGoalSilverfishWakeOthers a;
 
     public EntitySilverfish(World world) {
         super(world);
@@ -13,7 +13,7 @@ public class EntitySilverfish extends EntityMonster {
         this.goalSelector.a(3, this.a = new EntitySilverfish.PathfinderGoalSilverfishWakeOthers(this));
         this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, false));
         this.goalSelector.a(5, new EntitySilverfish.PathfinderGoalSilverfishHideInBlock(this));
-        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[0]));
+        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true));
         this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
     }
 
@@ -132,7 +132,7 @@ public class EntitySilverfish extends EntityMonster {
         }
 
         public boolean b() {
-            return this.c ? false : super.b();
+            return !this.c && super.b();
         }
 
         public void c() {
@@ -160,7 +160,7 @@ public class EntitySilverfish extends EntityMonster {
 
     static class PathfinderGoalSilverfishWakeOthers extends PathfinderGoal {
 
-        private EntitySilverfish silverfish;
+        private final EntitySilverfish silverfish;
         private int b;
 
         public PathfinderGoalSilverfishWakeOthers(EntitySilverfish entitysilverfish) {
@@ -200,7 +200,7 @@ public class EntitySilverfish extends EntityMonster {
                                 if (world.getGameRules().getBoolean("mobGriefing")) {
                                     world.setAir(blockposition1, true);
                                 } else {
-                                    world.setTypeAndData(blockposition1, ((BlockMonsterEggs.EnumMonsterEggVarient) iblockdata.get(BlockMonsterEggs.VARIANT)).d(), 3);
+                                    world.setTypeAndData(blockposition1, iblockdata.get(BlockMonsterEggs.VARIANT).d(), 3);
                                 }
 
                                 if (random.nextBoolean()) {

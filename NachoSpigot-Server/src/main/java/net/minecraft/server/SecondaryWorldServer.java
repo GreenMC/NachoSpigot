@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class SecondaryWorldServer extends WorldServer {
 
-    private WorldServer a;
+    private final WorldServer a;
 
     // CraftBukkit start - Add WorldData, Environment and ChunkGenerator arguments
     public SecondaryWorldServer(MinecraftServer minecraftserver, IDataManager idatamanager, int i, WorldServer worldserver, MethodProfiler methodprofiler, WorldData worldData, org.bukkit.World.Environment env, org.bukkit.generator.ChunkGenerator gen) {
@@ -55,7 +55,7 @@ public class SecondaryWorldServer extends WorldServer {
             this.worldMaps.a(s, this.villages);
         } else {
             this.villages = persistentvillage;
-            this.villages.a((World) this);
+            this.villages.a(this);
         }
 
         return super.b(); // CraftBukkit

@@ -52,7 +52,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                     try {
                         Thread.sleep(2147483647L);
                     } catch (InterruptedException interruptedexception) {
-                        ;
                     }
                 }
             }
@@ -268,7 +267,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                             k = l;
                         }
                     } catch (NumberFormatException numberformatexception) {
-                        k = (long) s.hashCode();
+                        k = s.hashCode();
                     }
                 }
 
@@ -290,7 +289,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 DedicatedServer.LOGGER.info("Preparing level \"" + this.U() + "\"");
                 this.a(this.U(), this.U(), k, worldtype, s2);
                 long i1 = System.nanoTime() - j;
-                String s3 = String.format("%.3fs", new Object[] {(double) i1 / 1.0E9D});
+                String s3 = String.format("%.3fs", (double) i1 / 1.0E9D);
 
                 DedicatedServer.LOGGER.info("Done (" + s3 + ")! For help, type \"help\" or \"?\"");
                 if (this.propertyManager.getBoolean("enable-query", false)) {
@@ -377,7 +376,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
             public String a() throws Exception {
                 String s = DedicatedServer.this.getServerModName();
 
-                return !s.equals("vanilla") ? "Definitely; Server brand changed to \'" + s + "\'" : "Unknown (can\'t tell)";
+                return !s.equals("vanilla") ? "Definitely; Server brand changed to '" + s + "'" : "Unknown (can't tell)";
             }
 
             public Object call() throws Exception {
@@ -577,7 +576,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 this.aU();
             }
 
-            flag = NameReferencingFileConverter.a((MinecraftServer) this);
+            flag = NameReferencingFileConverter.a(this);
         }
 
         boolean flag1 = false;
@@ -588,7 +587,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 this.aU();
             }
 
-            flag1 = NameReferencingFileConverter.b((MinecraftServer) this);
+            flag1 = NameReferencingFileConverter.b(this);
         }
 
         boolean flag2 = false;
@@ -599,7 +598,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 this.aU();
             }
 
-            flag2 = NameReferencingFileConverter.c((MinecraftServer) this);
+            flag2 = NameReferencingFileConverter.c(this);
         }
 
         boolean flag3 = false;
@@ -610,7 +609,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                 this.aU();
             }
 
-            flag3 = NameReferencingFileConverter.d((MinecraftServer) this);
+            flag3 = NameReferencingFileConverter.d(this);
         }
 
         boolean flag4 = false;
@@ -631,7 +630,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
         try {
             Thread.sleep(5000L);
         } catch (InterruptedException interruptedexception) {
-            ;
         }
     }
 

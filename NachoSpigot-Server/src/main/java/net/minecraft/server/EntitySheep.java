@@ -26,7 +26,7 @@ public class EntitySheep extends EntityAnimal {
     }, 2, 1);
     private static final Map<EnumColor, float[]> bo = Maps.newEnumMap(EnumColor.class);
     private int bp;
-    private PathfinderGoalEatTile bq = new PathfinderGoalEatTile(this);
+    private final PathfinderGoalEatTile bq = new PathfinderGoalEatTile(this);
 
     public static float[] a(EnumColor enumcolor) {
         return EntitySheep.bo.get(enumcolor);

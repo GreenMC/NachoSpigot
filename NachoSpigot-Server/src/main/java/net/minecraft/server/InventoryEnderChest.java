@@ -56,7 +56,7 @@ public class InventoryEnderChest extends InventorySubcontainer {
         int i;
 
         for (i = 0; i < this.getSize(); ++i) {
-            this.setItem(i, (ItemStack) null);
+            this.setItem(i, null);
         }
 
         for (i = 0; i < nbttaglist.size(); ++i) {
@@ -89,7 +89,7 @@ public class InventoryEnderChest extends InventorySubcontainer {
     }
 
     public boolean a(EntityHuman entityhuman) {
-        return this.a != null && !this.a.a(entityhuman) ? false : super.a(entityhuman);
+        return (this.a == null || this.a.a(entityhuman)) && super.a(entityhuman);
     }
 
     public void startOpen(EntityHuman entityhuman) {

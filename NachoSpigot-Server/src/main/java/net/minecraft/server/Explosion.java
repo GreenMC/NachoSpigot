@@ -189,7 +189,7 @@ public class Explosion {
 
             List<org.bukkit.block.Block> blockList = Lists.newArrayList();
             for (int i1 = this.blocks.size() - 1; i1 >= 0; i1--) {
-                BlockPosition cpos = (BlockPosition) this.blocks.get(i1);
+                BlockPosition cpos = this.blocks.get(i1);
                 org.bukkit.block.Block bblock = bworld.getBlockAt(cpos.getX(), cpos.getY(), cpos.getZ());
                 if (bblock.getType() != org.bukkit.Material.AIR) {
                     blockList.add(bblock);

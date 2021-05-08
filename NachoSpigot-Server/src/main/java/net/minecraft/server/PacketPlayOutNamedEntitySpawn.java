@@ -35,17 +35,17 @@ public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayO
 
     public void setX(double x)
     {
-        this.c = MathHelper.floor(x * 32.0D);;
+        this.c = MathHelper.floor(x * 32.0D);
     }
 
     public void setY(double y)
     {
-        this.d = MathHelper.floor(y * 32.0D);;
+        this.d = MathHelper.floor(y * 32.0D);
     }
 
     public void setZ(double z)
     {
-        this.e = MathHelper.floor(z * 32.0D);;
+        this.e = MathHelper.floor(z * 32.0D);
     }
 
     public void a(PacketDataSerializer var1) throws IOException {

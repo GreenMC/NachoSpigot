@@ -115,7 +115,7 @@ public class BlockPumpkin extends BlockDirectional {
     }
 
     public boolean canPlace(World world, BlockPosition blockposition) {
-        return world.getType(blockposition).getBlock().material.isReplaceable() && World.a((IBlockAccess) world, blockposition.down());
+        return world.getType(blockposition).getBlock().material.isReplaceable() && World.a(world, blockposition.down());
     }
 
     public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f, float f1, float f2, int i, EntityLiving entityliving) {
@@ -127,11 +127,11 @@ public class BlockPumpkin extends BlockDirectional {
     }
 
     public int toLegacyData(IBlockData iblockdata) {
-        return ((EnumDirection) iblockdata.get(BlockPumpkin.FACING)).b();
+        return iblockdata.get(BlockPumpkin.FACING).b();
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockPumpkin.FACING});
+        return new BlockStateList(this, BlockPumpkin.FACING);
     }
 
     protected ShapeDetector getDetectorSnowGolemPart() {

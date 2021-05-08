@@ -35,7 +35,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 
     public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Entity entity) {
         if (!world.isClientSide) {
-            if (!((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue()) {
+            if (!iblockdata.get(BlockMinecartDetector.POWERED).booleanValue()) {
                 this.e(world, blockposition, iblockdata);
             }
         }
@@ -44,23 +44,23 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
     public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {}
 
     public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
-        if (!world.isClientSide && ((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue()) {
+        if (!world.isClientSide && iblockdata.get(BlockMinecartDetector.POWERED).booleanValue()) {
             this.e(world, blockposition, iblockdata);
         }
     }
 
     public int a(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata, EnumDirection enumdirection) {
-        return ((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue() ? 15 : 0;
+        return iblockdata.get(BlockMinecartDetector.POWERED).booleanValue() ? 15 : 0;
     }
 
     public int b(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata, EnumDirection enumdirection) {
-        return !((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue() ? 0 : (enumdirection == EnumDirection.UP ? 15 : 0);
+        return !iblockdata.get(BlockMinecartDetector.POWERED).booleanValue() ? 0 : (enumdirection == EnumDirection.UP ? 15 : 0);
     }
 
     private void e(World world, BlockPosition blockposition, IBlockData iblockdata) {
-        boolean flag = ((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue();
+        boolean flag = iblockdata.get(BlockMinecartDetector.POWERED).booleanValue();
         boolean flag1 = false;
-        List list = this.a(world, blockposition, EntityMinecartAbstract.class, new Predicate[0]);
+        List list = this.a(world, blockposition, EntityMinecartAbstract.class);
 
         if (!list.isEmpty()) {
             flag1 = true;
@@ -92,7 +92,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
         }
 
         if (flag1) {
-            world.a(blockposition, (Block) this, this.a(world));
+            world.a(blockposition, this, this.a(world));
         }
 
         world.updateAdjacentComparators(blockposition, this);
@@ -112,14 +112,14 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
     }
 
     public int l(World world, BlockPosition blockposition) {
-        if (((Boolean) world.getType(blockposition).get(BlockMinecartDetector.POWERED)).booleanValue()) {
-            List list = this.a(world, blockposition, EntityMinecartCommandBlock.class, new Predicate[0]);
+        if (world.getType(blockposition).get(BlockMinecartDetector.POWERED).booleanValue()) {
+            List list = this.a(world, blockposition, EntityMinecartCommandBlock.class);
 
             if (!list.isEmpty()) {
                 return ((EntityMinecartCommandBlock) list.get(0)).getCommandBlock().j();
             }
 
-            List list1 = this.a(world, blockposition, EntityMinecartAbstract.class, new Predicate[] { IEntitySelector.c});
+            List list1 = this.a(world, blockposition, EntityMinecartAbstract.class, IEntitySelector.c);
 
             if (!list1.isEmpty()) {
                 return Container.b((IInventory) list1.get(0));
@@ -138,7 +138,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
     private AxisAlignedBB a(BlockPosition blockposition) {
         float f = 0.2F;
 
-        return new AxisAlignedBB((double) ((float) blockposition.getX() + 0.2F), (double) blockposition.getY(), (double) ((float) blockposition.getZ() + 0.2F), (double) ((float) (blockposition.getX() + 1) - 0.2F), (double) ((float) (blockposition.getY() + 1) - 0.2F), (double) ((float) (blockposition.getZ() + 1) - 0.2F));
+        return new AxisAlignedBB((float) blockposition.getX() + 0.2F, blockposition.getY(), (float) blockposition.getZ() + 0.2F, (float) (blockposition.getX() + 1) - 0.2F, (float) (blockposition.getY() + 1) - 0.2F, (float) (blockposition.getZ() + 1) - 0.2F);
     }
 
     public IBlockData fromLegacyData(int i) {
@@ -147,9 +147,9 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 
     public int toLegacyData(IBlockData iblockdata) {
         byte b0 = 0;
-        int i = b0 | ((BlockMinecartTrackAbstract.EnumTrackPosition) iblockdata.get(BlockMinecartDetector.SHAPE)).a();
+        int i = b0 | iblockdata.get(BlockMinecartDetector.SHAPE).a();
 
-        if (((Boolean) iblockdata.get(BlockMinecartDetector.POWERED)).booleanValue()) {
+        if (iblockdata.get(BlockMinecartDetector.POWERED).booleanValue()) {
             i |= 8;
         }
 
@@ -157,6 +157,6 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockMinecartDetector.SHAPE, BlockMinecartDetector.POWERED});
+        return new BlockStateList(this, BlockMinecartDetector.SHAPE, BlockMinecartDetector.POWERED);
     }
 }

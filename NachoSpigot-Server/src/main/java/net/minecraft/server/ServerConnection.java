@@ -43,8 +43,8 @@ public class ServerConnection {
     };
     public final MinecraftServer f;
     public volatile boolean d;
-    private final List<ChannelFuture> g = Collections.synchronizedList(Lists.<ChannelFuture>newArrayList()); public List<ChannelFuture> getListeningChannels() { return this.g; } //OBFHELPER
-    private final List<NetworkManager> h = Collections.synchronizedList(Lists.<NetworkManager>newArrayList()); public List<NetworkManager> getConnectedChannels() { return this.h; } //OBFHELPER
+    private final List<ChannelFuture> g = Collections.synchronizedList(Lists.newArrayList()); public List<ChannelFuture> getListeningChannels() { return this.g; } //OBFHELPER
+    private final List<NetworkManager> h = Collections.synchronizedList(Lists.newArrayList()); public List<NetworkManager> getConnectedChannels() { return this.h; } //OBFHELPER
     // Paper start - prevent blocking on adding a new network manager while the server is ticking
     public final java.util.Queue<NetworkManager> pending = new java.util.concurrent.ConcurrentLinkedQueue<>();
     private void addPending() {
@@ -185,7 +185,7 @@ public class ServerConnection {
                             ServerConnection.e.warn("Failed to handle packet for " + networkmanager.getSocketAddress(), exception);
                             final ChatComponentText chatcomponenttext = new ChatComponentText("Internal server error");
 
-                            networkmanager.a(new PacketPlayOutKickDisconnect(chatcomponenttext), (GenericFutureListener) future -> networkmanager.close(chatcomponenttext), new GenericFutureListener[0]);
+                            networkmanager.a(new PacketPlayOutKickDisconnect(chatcomponenttext), (GenericFutureListener) future -> networkmanager.close(chatcomponenttext));
                             networkmanager.k();
                         }
                     }

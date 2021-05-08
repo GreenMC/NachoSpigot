@@ -36,7 +36,7 @@ public class ItemBlock extends Item {
                     this.a.postPlace(world, blockposition, iblockdata1, entityhuman, itemstack);
                 }
 
-                world.makeSound((double) ((float) blockposition.getX() + 0.5F), (double) ((float) blockposition.getY() + 0.5F), (double) ((float) blockposition.getZ() + 0.5F), this.a.stepSound.getPlaceSound(), (this.a.stepSound.getVolume1() + 1.0F) / 2.0F, this.a.stepSound.getVolume2() * 0.8F);
+                world.makeSound((float) blockposition.getX() + 0.5F, (float) blockposition.getY() + 0.5F, (float) blockposition.getZ() + 0.5F, this.a.stepSound.getPlaceSound(), (this.a.stepSound.getVolume1() + 1.0F) / 2.0F, this.a.stepSound.getVolume2() * 0.8F);
                 --itemstack.count;
             }
 

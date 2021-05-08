@@ -25,10 +25,10 @@ public class ItemWorldMap extends ItemWorldMapBase {
             s = "map_" + itemstack.getData();
             worldmap = new WorldMap(s);
             worldmap.scale = 3;
-            worldmap.a((double) world.getWorldData().c(), (double) world.getWorldData().e(), worldmap.scale);
+            worldmap.a(world.getWorldData().c(), world.getWorldData().e(), worldmap.scale);
             worldmap.map = (byte) ((WorldServer) world).dimension; // CraftBukkit - fixes Bukkit multiworld maps
             worldmap.c();
-            worldMain.a(s, (PersistentBase) worldmap); // CraftBukkit - use primary world for maps
+            worldMain.a(s, worldmap); // CraftBukkit - use primary world for maps
 
             // CraftBukkit start
             MapInitializeEvent event = new MapInitializeEvent(worldmap.mapView);
@@ -134,7 +134,7 @@ public class ItemWorldMap extends ItemWorldMapBase {
                                     b0 = 0;
                                 }
 
-                                MaterialMapColor materialmapcolor = (MaterialMapColor) Iterables.getFirst(Multisets.copyHighestCountFirst(hashmultiset), MaterialMapColor.b);
+                                MaterialMapColor materialmapcolor = Iterables.getFirst(Multisets.copyHighestCountFirst(hashmultiset), MaterialMapColor.b);
 
                                 if (materialmapcolor == MaterialMapColor.n) {
                                     d2 = (double) k3 * 0.1D + (double) (k1 + l1 & 1) * 0.2D;
@@ -203,10 +203,10 @@ public class ItemWorldMap extends ItemWorldMapBase {
                 worldmap1.scale = 4;
             }
 
-            worldmap1.a((double) worldmap.centerX, (double) worldmap.centerZ, worldmap1.scale);
+            worldmap1.a(worldmap.centerX, worldmap.centerZ, worldmap1.scale);
             worldmap1.map = worldmap.map;
             worldmap1.c();
-            world.a("map_" + itemstack.getData(), (PersistentBase) worldmap1);
+            world.a("map_" + itemstack.getData(), worldmap1);
 
             // CraftBukkit start
             MapInitializeEvent event = new MapInitializeEvent(worldmap1.mapView);

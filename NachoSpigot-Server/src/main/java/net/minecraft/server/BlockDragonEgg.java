@@ -13,11 +13,11 @@ public class BlockDragonEgg extends Block {
     }
 
     public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
-        world.a(blockposition, (Block) this, this.a(world));
+        world.a(blockposition, this, this.a(world));
     }
 
     public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-        world.a(blockposition, (Block) this, this.a(world));
+        world.a(blockposition, this, this.a(world));
     }
 
     public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
@@ -30,8 +30,8 @@ public class BlockDragonEgg extends Block {
 
             if (!BlockFalling.instaFall && world.areChunksLoadedBetween(blockposition.a(-b0, -b0, -b0), blockposition.a(b0, b0, b0))) {
                 // PaperSpigot start - Add FallingBlock source location API
-                org.bukkit.Location loc = new org.bukkit.Location(world.getWorld(), (double) ((float) blockposition.getX() + 0.5F), (double) blockposition.getY(), (double) ((float) blockposition.getZ() + 0.5F));
-                world.addEntity(new EntityFallingBlock(loc, world, (double) ((float) blockposition.getX() + 0.5F), (double) blockposition.getY(), (double) ((float) blockposition.getZ() + 0.5F), this.getBlockData()));
+                org.bukkit.Location loc = new org.bukkit.Location(world.getWorld(), (float) blockposition.getX() + 0.5F, blockposition.getY(), (float) blockposition.getZ() + 0.5F);
+                world.addEntity(new EntityFallingBlock(loc, world, (float) blockposition.getX() + 0.5F, blockposition.getY(), (float) blockposition.getZ() + 0.5F, this.getBlockData()));
                 // PaperSpigot end
             } else {
                 world.setAir(blockposition);
@@ -39,7 +39,6 @@ public class BlockDragonEgg extends Block {
                 BlockPosition blockposition1;
 
                 for (blockposition1 = blockposition; BlockFalling.canFall(world, blockposition1) && blockposition1.getY() > 0; blockposition1 = blockposition1.down()) {
-                    ;
                 }
 
                 if (blockposition1.getY() > 0) {
@@ -89,7 +88,7 @@ public class BlockDragonEgg extends Block {
                             double d2 = (double) blockposition1.getY() + (double) (blockposition.getY() - blockposition1.getY()) * d0 + world.random.nextDouble() * 1.0D - 0.5D;
                             double d3 = (double) blockposition1.getZ() + (double) (blockposition.getZ() - blockposition1.getZ()) * d0 + (world.random.nextDouble() - 0.5D) * 1.0D + 0.5D;
 
-                            world.addParticle(EnumParticle.PORTAL, d1, d2, d3, (double) f, (double) f1, (double) f2, Constants.EMPTY_ARRAY);
+                            world.addParticle(EnumParticle.PORTAL, d1, d2, d3, f, f1, f2, Constants.EMPTY_ARRAY);
                         }
                     } else {
                         world.setTypeAndData(blockposition1, iblockdata, 2);

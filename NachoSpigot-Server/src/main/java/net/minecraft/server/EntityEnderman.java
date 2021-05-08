@@ -33,7 +33,7 @@ public class EntityEnderman extends EntityMonster {
         this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
         this.goalSelector.a(10, new EntityEnderman.PathfinderGoalEndermanPlaceBlock(this));
         this.goalSelector.a(11, new EntityEnderman.PathfinderGoalEndermanPickupBlock(this));
-        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false, new Class[0]));
+        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
         this.targetSelector.a(2, new EntityEnderman.PathfinderGoalPlayerWhoLookedAtTarget(this));
         this.targetSelector.a(3, new PathfinderGoalNearestAttackableTarget(this, EntityEndermite.class, 10, true, false, new Predicate() {
             public boolean a(EntityEndermite entityendermite) {
@@ -95,7 +95,7 @@ public class EntityEnderman extends EntityMonster {
             vec3d1 = vec3d1.a();
             double d1 = vec3d.b(vec3d1);
 
-            return d1 > 1.0D - 0.025D / d0 ? entityhuman.hasLineOfSight(this) : false;
+            return d1 > 1.0D - 0.025D / d0 && entityhuman.hasLineOfSight(this);
         }
     }
 
@@ -127,7 +127,7 @@ public class EntityEnderman extends EntityMonster {
             float f = this.c(1.0F);
 
             if (f > 0.5F && this.world.i(new BlockPosition(this)) && this.random.nextFloat() * 30.0F < (f - 0.4F) * 2.0F) {
-                this.setGoalTarget((EntityLiving) null);
+                this.setGoalTarget(null);
                 this.a(false);
                 this.bm = false;
                 this.n();
@@ -216,7 +216,7 @@ public class EntityEnderman extends EntityMonster {
                 double d8 = d4 + (this.locY - d4) * d6 + this.random.nextDouble() * (double) this.length;
                 double d9 = d5 + (this.locZ - d5) * d6 + (this.random.nextDouble() - 0.5D) * (double) this.width * 2.0D;
 
-                this.world.addParticle(EnumParticle.PORTAL, d7, d8, d9, (double) f, (double) f1, (double) f2, Constants.EMPTY_ARRAY);
+                this.world.addParticle(EnumParticle.PORTAL, d7, d8, d9, f, f1, f2, Constants.EMPTY_ARRAY);
             }
 
             this.world.makeSound(d3, d4, d5, "mob.endermen.portal", 1.0F, 1.0F);
@@ -336,14 +336,14 @@ public class EntityEnderman extends EntityMonster {
 
     static class PathfinderGoalEndermanPickupBlock extends PathfinderGoal {
 
-        private EntityEnderman enderman;
+        private final EntityEnderman enderman;
 
         public PathfinderGoalEndermanPickupBlock(EntityEnderman entityenderman) {
             this.enderman = entityenderman;
         }
 
         public boolean a() {
-            return !this.enderman.world.getGameRules().getBoolean("mobGriefing") ? false : (this.enderman.getCarried().getBlock().getMaterial() != Material.AIR ? false : this.enderman.bc().nextInt(20) == 0);
+            return this.enderman.world.getGameRules().getBoolean("mobGriefing") && (this.enderman.getCarried().getBlock().getMaterial() == Material.AIR && this.enderman.bc().nextInt(20) == 0);
         }
 
         public void e() {
@@ -370,14 +370,14 @@ public class EntityEnderman extends EntityMonster {
 
     static class PathfinderGoalEndermanPlaceBlock extends PathfinderGoal {
 
-        private EntityEnderman a;
+        private final EntityEnderman a;
 
         public PathfinderGoalEndermanPlaceBlock(EntityEnderman entityenderman) {
             this.a = entityenderman;
         }
 
         public boolean a() {
-            return !this.a.world.getGameRules().getBoolean("mobGriefing") ? false : (this.a.getCarried().getBlock().getMaterial() == Material.AIR ? false : this.a.bc().nextInt(2000) == 0);
+            return this.a.world.getGameRules().getBoolean("mobGriefing") && (this.a.getCarried().getBlock().getMaterial() != Material.AIR && this.a.bc().nextInt(2000) == 0);
         }
 
         public void e() {
@@ -402,7 +402,7 @@ public class EntityEnderman extends EntityMonster {
         }
 
         private boolean a(World world, BlockPosition blockposition, Block block, Block block1, Block block2) {
-            return !block.canPlace(world, blockposition) ? false : (block1.getMaterial() != Material.AIR ? false : (block2.getMaterial() == Material.AIR ? false : block2.d()));
+            return block.canPlace(world, blockposition) && (block1.getMaterial() == Material.AIR && (block2.getMaterial() != Material.AIR && block2.d()));
         }
     }
 
@@ -411,7 +411,7 @@ public class EntityEnderman extends EntityMonster {
         private EntityHuman g;
         private int h;
         private int i;
-        private EntityEnderman j;
+        private final EntityEnderman j;
 
         public PathfinderGoalPlayerWhoLookedAtTarget(EntityEnderman entityenderman) {
             super(entityenderman, EntityHuman.class, true);

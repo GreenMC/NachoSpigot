@@ -24,18 +24,18 @@ public class ContainerEnchantTable extends Container {
 
         public void update() {
             super.update();
-            ContainerEnchantTable.this.a((IInventory) this);
+            ContainerEnchantTable.this.a(this);
         }
     };
     private World world;
-    private BlockPosition position;
-    private Random k = new Random();
+    private final BlockPosition position;
+    private final Random k = new Random();
     public int f;
     public int[] costs = new int[3];
     public int[] h = new int[] { -1, -1, -1};
     // CraftBukkit start
     private CraftInventoryView bukkitEntity = null;
-    private Player player;
+    private final Player player;
     // CraftBukkit end
 
     public ContainerEnchantTable(PlayerInventory playerinventory, World world, BlockPosition blockposition) {
@@ -89,7 +89,7 @@ public class ContainerEnchantTable extends Container {
         super.b();
 
         for (int i = 0; i < this.listeners.size(); ++i) {
-            ICrafting icrafting = (ICrafting) this.listeners.get(i);
+            ICrafting icrafting = this.listeners.get(i);
 
             icrafting.setContainerData(this, 0, this.costs[0]);
             icrafting.setContainerData(this, 1, this.costs[1]);
@@ -145,7 +145,7 @@ public class ContainerEnchantTable extends Container {
                         }
                     }
 
-                    this.k.setSeed((long) this.f);
+                    this.k.setSeed(this.f);
 
                     for (j = 0; j < 3; ++j) {
                         this.costs[j] = EnchantmentManager.a(this.k, j, i, itemstack);
@@ -255,7 +255,7 @@ public class ContainerEnchantTable extends Container {
                     if (!entityhuman.abilities.canInstantlyBuild) {
                         itemstack1.count -= j;
                         if (itemstack1.count <= 0) {
-                            this.enchantSlots.setItem(1, (ItemStack) null);
+                            this.enchantSlots.setItem(1, null);
                         }
                     }
 
@@ -273,7 +273,7 @@ public class ContainerEnchantTable extends Container {
     }
 
     private List<WeightedRandomEnchant> a(ItemStack itemstack, int i, int j) {
-        this.k.setSeed((long) (this.f + i));
+        this.k.setSeed(this.f + i);
         List list = EnchantmentManager.b(this.k, itemstack, j);
 
         if (itemstack.getItem() == Items.BOOK && list != null && list.size() > 1) {
@@ -304,12 +304,12 @@ public class ContainerEnchantTable extends Container {
 
     public boolean a(EntityHuman entityhuman) {
         if (!this.checkReachable) return true; // CraftBukkit
-        return this.world.getType(this.position).getBlock() != Blocks.ENCHANTING_TABLE ? false : entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
+        return this.world.getType(this.position).getBlock() == Blocks.ENCHANTING_TABLE && entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
     public ItemStack b(EntityHuman entityhuman, int i) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) this.c.get(i);
+        Slot slot = this.c.get(i);
 
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
@@ -328,25 +328,25 @@ public class ContainerEnchantTable extends Container {
                     return null;
                 }
             } else {
-                if (((Slot) this.c.get(0)).hasItem() || !((Slot) this.c.get(0)).isAllowed(itemstack1)) {
+                if (this.c.get(0).hasItem() || !this.c.get(0).isAllowed(itemstack1)) {
                     return null;
                 }
 
                 if (itemstack1.hasTag() && itemstack1.count == 1) {
-                    ((Slot) this.c.get(0)).set(itemstack1.cloneItemStack());
+                    this.c.get(0).set(itemstack1.cloneItemStack());
                     itemstack1.count = 0;
                 } else if (itemstack1.count >= 1) {
                     // Spigot start
                     ItemStack clone = itemstack1.cloneItemStack();
                     clone.count = 1;
-                    ((Slot) this.c.get(0)).set(clone);
+                    this.c.get(0).set(clone);
                     // Spigot end
                     --itemstack1.count;
                 }
             }
 
             if (itemstack1.count == 0) {
-                slot.set((ItemStack) null);
+                slot.set(null);
             } else {
                 slot.f();
             }

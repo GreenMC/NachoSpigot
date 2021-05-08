@@ -149,7 +149,7 @@ public class CraftChunk implements Chunk {
             for(int i = 0; i < blockIds.length; i++)
             {
                 // This does a lookup in the block registry, but does not create any objects, so should be pretty efficient
-                IBlockData blockData = (IBlockData) net.minecraft.server.Block.d.a(blockIds[i]);
+                IBlockData blockData = net.minecraft.server.Block.d.a(blockIds[i]);
                 if(blockData.getBlock() == nmsBlock) {
                     blocks.add(getBlock(i & 0xf, section.getYPosition() | (i >> 8), (i >> 4) & 0xf));
                 }
@@ -195,7 +195,7 @@ public class CraftChunk implements Chunk {
                 // Copy base IDs
                 for (int j = 0; j < 4096; j++) {
                     if (baseids[j] == 0) continue;
-                    IBlockData blockData = (IBlockData) net.minecraft.server.Block.d.a(baseids[j]);
+                    IBlockData blockData = net.minecraft.server.Block.d.a(baseids[j]);
                     if (blockData == null) continue;
                     blockids[j] = (short) net.minecraft.server.Block.getId(blockData.getBlock());
                     int data = blockData.getBlock().toLegacyData(blockData);

@@ -106,7 +106,7 @@ public class TileEntitySkull extends TileEntity {
                 String s = nbttagcompound.getString("ExtraType");
 
                 if (!UtilColor.b(s)) {
-                    this.g = new GameProfile((UUID) null, s);
+                    this.g = new GameProfile(null, s);
                     this.e();
                 }
             }

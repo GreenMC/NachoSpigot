@@ -92,7 +92,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
         List<FireworkEffect> effects = this.effects = new ArrayList<FireworkEffect>(fireworkEffects.size());
 
         for (int i = 0; i < fireworkEffects.size(); i++) {
-            effects.add(getEffect((NBTTagCompound) fireworkEffects.get(i)));
+            effects.add(getEffect(fireworkEffects.get(i)));
         }
     }
 
@@ -355,7 +355,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
     }
 
     public List<FireworkEffect> getEffects() {
-        return this.effects == null ? ImmutableList.<FireworkEffect>of() : ImmutableList.copyOf(this.effects);
+        return this.effects == null ? ImmutableList.of() : ImmutableList.copyOf(this.effects);
     }
 
     public int getEffectsSize() {

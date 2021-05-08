@@ -10,7 +10,7 @@ import net.minecraft.server.*;
 
 public class MinecraftPipeline extends ChannelInitializer<SocketChannel>
 {
-    private ServerConnection serverConnection;
+    private final ServerConnection serverConnection;
 
     public MinecraftPipeline(ServerConnection serverConnection)
     {

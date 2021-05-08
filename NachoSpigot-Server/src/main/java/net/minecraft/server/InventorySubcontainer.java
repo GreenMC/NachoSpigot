@@ -12,7 +12,7 @@ import org.bukkit.entity.HumanEntity;
 public class InventorySubcontainer implements IInventory {
 
     private String a;
-    private int b;
+    private final int b;
     public ItemStack[] items;
     private List<IInventoryListener> d;
     private boolean e;
@@ -170,7 +170,7 @@ public class InventorySubcontainer implements IInventory {
     }
 
     public IChatBaseComponent getScoreboardDisplayName() {
-        return (IChatBaseComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]));
+        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]);
     }
 
     public int getMaxStackSize() {
@@ -180,7 +180,7 @@ public class InventorySubcontainer implements IInventory {
     public void update() {
         if (this.d != null) {
             for (int i = 0; i < this.d.size(); ++i) {
-                ((IInventoryListener) this.d.get(i)).a(this);
+                this.d.get(i).a(this);
             }
         }
 

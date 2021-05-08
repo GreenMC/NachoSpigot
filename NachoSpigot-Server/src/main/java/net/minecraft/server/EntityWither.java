@@ -14,12 +14,12 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class EntityWither extends EntityMonster implements IRangedEntity {
 
-    private float[] a = new float[2];
-    private float[] b = new float[2];
-    private float[] c = new float[2];
-    private float[] bm = new float[2];
-    private int[] bn = new int[2];
-    private int[] bo = new int[2];
+    private final float[] a = new float[2];
+    private final float[] b = new float[2];
+    private final float[] c = new float[2];
+    private final float[] bm = new float[2];
+    private final int[] bn = new int[2];
+    private final int[] bo = new int[2];
     private int bp;
     private static final Predicate<Entity> bq = new Predicate() {
         public boolean a(Entity entity) {
@@ -42,7 +42,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
         this.goalSelector.a(5, new PathfinderGoalRandomStroll(this, 1.0D));
         this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(7, new PathfinderGoalRandomLookaround(this));
-        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false, new Class[0]));
+        this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
         this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityInsentient.class, 0, false, false, EntityWither.bq));
         this.b_ = 50;
     }
@@ -100,7 +100,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
                 d0 = entity.locZ - this.locZ;
                 d1 = d3 * d3 + d0 * d0;
                 if (d1 > 9.0D) {
-                    d2 = (double) MathHelper.sqrt(d1);
+                    d2 = MathHelper.sqrt(d1);
                     this.motX += (d3 / d2 * 0.5D - this.motX) * 0.6000000238418579D;
                     this.motZ += (d0 / d2 * 0.5D - this.motZ) * 0.6000000238418579D;
                 }
@@ -137,7 +137,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
                 double d4 = entity1.locX - d0;
                 double d5 = entity1.locY + (double) entity1.getHeadHeight() - d1;
                 double d6 = entity1.locZ - d2;
-                double d7 = (double) MathHelper.sqrt(d4 * d4 + d6 * d6);
+                double d7 = MathHelper.sqrt(d4 * d4 + d6 * d6);
                 float f = (float) (MathHelper.b(d6, d4) * 180.0D / 3.1415927410125732D) - 90.0F;
                 float f1 = (float) (-(MathHelper.b(d5, d7) * 180.0D / 3.1415927410125732D));
 
@@ -187,8 +187,8 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 
                 // CraftBukkit start - Use relative location for far away sounds
                 // this.world.a(1013, new BlockPosition(this), 0);
-                int viewDistance = ((WorldServer) this.world).getServer().getViewDistance() * 16;
-                for (EntityPlayer player : (List<EntityPlayer>) MinecraftServer.getServer().getPlayerList().players) {
+                int viewDistance = this.world.getServer().getViewDistance() * 16;
+                for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
                     double deltaX = this.locX - player.locX;
                     double deltaZ = this.locZ - player.locZ;
                     double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
@@ -309,7 +309,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
                     }
 
                     if (flag) {
-                        this.world.a((EntityHuman) null, 1012, new BlockPosition(this), 0);
+                        this.world.a(null, 1012, new BlockPosition(this), 0);
                     }
                 }
             }
@@ -381,7 +381,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
     }
 
     private void a(int i, double d0, double d1, double d2, boolean flag) {
-        this.world.a((EntityHuman) null, 1014, new BlockPosition(this), 0);
+        this.world.a(null, 1014, new BlockPosition(this), 0);
         double d3 = this.t(i);
         double d4 = this.u(i);
         double d5 = this.v(i);
@@ -453,7 +453,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
             while (iterator.hasNext()) {
                 EntityHuman entityhuman = (EntityHuman) iterator.next();
 
-                entityhuman.b((Statistic) AchievementList.J);
+                entityhuman.b(AchievementList.J);
             }
         }
 

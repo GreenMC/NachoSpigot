@@ -28,7 +28,7 @@ public class FileUtils
             while ((line = objReader.readLine()) != null) {
                 jsonContent.append(line);
             }
-            return (T) GsonUtils.getGsonPretty().fromJson(jsonContent.toString(), clazz);
+            return GsonUtils.getGsonPretty().fromJson(jsonContent.toString(), clazz);
         } catch (IOException e) {
             e.printStackTrace();
         }

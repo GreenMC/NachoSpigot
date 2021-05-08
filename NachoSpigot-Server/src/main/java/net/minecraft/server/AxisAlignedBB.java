@@ -19,12 +19,12 @@ public class AxisAlignedBB {
     }
 
     public AxisAlignedBB(BlockPosition var1, BlockPosition var2) {
-        this.a = (double)var1.getX();
-        this.b = (double)var1.getY();
-        this.c = (double)var1.getZ();
-        this.d = (double)var2.getX();
-        this.e = (double)var2.getY();
-        this.f = (double)var2.getZ();
+        this.a = var1.getX();
+        this.b = var1.getY();
+        this.c = var1.getZ();
+        this.d = var2.getX();
+        this.e = var2.getY();
+        this.f = var2.getZ();
     }
 
     public AxisAlignedBB a(double var1, double var3, double var5) {

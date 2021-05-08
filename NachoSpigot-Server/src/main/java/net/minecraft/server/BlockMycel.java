@@ -80,6 +80,6 @@ public class BlockMycel extends Block {
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockMycel.SNOWY});
+        return new BlockStateList(this, BlockMycel.SNOWY);
     }
 }

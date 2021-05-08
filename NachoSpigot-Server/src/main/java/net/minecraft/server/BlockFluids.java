@@ -30,7 +30,7 @@ public abstract class BlockFluids extends Block {
     }
 
     protected int e(IBlockAccess iblockaccess, BlockPosition blockposition) {
-        return iblockaccess.getType(blockposition).getBlock().getMaterial() == this.material ? ((Integer) iblockaccess.getType(blockposition).get(BlockFluids.LEVEL)).intValue() : -1;
+        return iblockaccess.getType(blockposition).getBlock().getMaterial() == this.material ? iblockaccess.getType(blockposition).get(BlockFluids.LEVEL).intValue() : -1;
     }
 
     protected int f(IBlockAccess iblockaccess, BlockPosition blockposition) {
@@ -48,13 +48,13 @@ public abstract class BlockFluids extends Block {
     }
 
     public boolean a(IBlockData iblockdata, boolean flag) {
-        return flag && ((Integer) iblockdata.get(BlockFluids.LEVEL)).intValue() == 0;
+        return flag && iblockdata.get(BlockFluids.LEVEL).intValue() == 0;
     }
 
     public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition, EnumDirection enumdirection) {
         Material material = iblockaccess.getType(blockposition).getBlock().getMaterial();
 
-        return material == this.material ? false : (enumdirection == EnumDirection.UP ? true : (material == Material.ICE ? false : super.b(iblockaccess, blockposition, enumdirection)));
+        return material != this.material && (enumdirection == EnumDirection.UP || (material != Material.ICE && super.b(iblockaccess, blockposition, enumdirection)));
     }
 
     public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
@@ -92,16 +92,16 @@ public abstract class BlockFluids extends Block {
                     j = this.f(iblockaccess, blockposition1.down());
                     if (j >= 0) {
                         k = j - (i - 8);
-                        vec3d = vec3d.add((double) ((blockposition1.getX() - blockposition.getX()) * k), (double) ((blockposition1.getY() - blockposition.getY()) * k), (double) ((blockposition1.getZ() - blockposition.getZ()) * k));
+                        vec3d = vec3d.add((blockposition1.getX() - blockposition.getX()) * k, (blockposition1.getY() - blockposition.getY()) * k, (blockposition1.getZ() - blockposition.getZ()) * k);
                     }
                 }
             } else if (j >= 0) {
                 k = j - i;
-                vec3d = vec3d.add((double) ((blockposition1.getX() - blockposition.getX()) * k), (double) ((blockposition1.getY() - blockposition.getY()) * k), (double) ((blockposition1.getZ() - blockposition.getZ()) * k));
+                vec3d = vec3d.add((blockposition1.getX() - blockposition.getX()) * k, (blockposition1.getY() - blockposition.getY()) * k, (blockposition1.getZ() - blockposition.getZ()) * k);
             }
         }
 
-        if (((Integer) iblockaccess.getType(blockposition).get(BlockFluids.LEVEL)).intValue() >= 8) {
+        if (iblockaccess.getType(blockposition).get(BlockFluids.LEVEL).intValue() >= 8) {
             iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
             while (iterator.hasNext()) {
@@ -148,7 +148,7 @@ public abstract class BlockFluids extends Block {
             }
 
             if (flag) {
-                Integer integer = (Integer) iblockdata.get(BlockFluids.LEVEL);
+                Integer integer = iblockdata.get(BlockFluids.LEVEL);
 
                 if (integer.intValue() == 0) {
                     world.setTypeUpdate(blockposition, Blocks.OBSIDIAN.getBlockData());
@@ -168,9 +168,9 @@ public abstract class BlockFluids extends Block {
     }
 
     protected void fizz(World world, BlockPosition blockposition) {
-        double d0 = (double) blockposition.getX();
-        double d1 = (double) blockposition.getY();
-        double d2 = (double) blockposition.getZ();
+        double d0 = blockposition.getX();
+        double d1 = blockposition.getY();
+        double d2 = blockposition.getZ();
 
         world.makeSound(d0 + 0.5D, d1 + 0.5D, d2 + 0.5D, "random.fizz", 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
 
@@ -185,11 +185,11 @@ public abstract class BlockFluids extends Block {
     }
 
     public int toLegacyData(IBlockData iblockdata) {
-        return ((Integer) iblockdata.get(BlockFluids.LEVEL)).intValue();
+        return iblockdata.get(BlockFluids.LEVEL).intValue();
     }
 
     protected BlockStateList getStateList() {
-        return new BlockStateList(this, new IBlockState[] { BlockFluids.LEVEL});
+        return new BlockStateList(this, BlockFluids.LEVEL);
     }
 
     public static BlockFlowing a(Material material) {

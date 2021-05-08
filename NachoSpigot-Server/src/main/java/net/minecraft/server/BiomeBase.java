@@ -157,7 +157,7 @@ public abstract class BiomeBase {
     }
 
     public WorldGenTreeAbstract a(Random random) {
-        return (WorldGenTreeAbstract) (random.nextInt(10) == 0 ? this.aB : this.aA);
+        return random.nextInt(10) == 0 ? this.aB : this.aA;
     }
 
     public WorldGenerator b(Random random) {
@@ -228,7 +228,7 @@ public abstract class BiomeBase {
     }
 
     public boolean e() {
-        return this.j() ? false : this.ay;
+        return !this.j() && this.ay;
     }
 
     public boolean f() {
@@ -304,7 +304,7 @@ public abstract class BiomeBase {
                         }
 
                         if (l1 < k && (iblockdata == null || iblockdata.getBlock().getMaterial() == Material.AIR)) {
-                            if (this.a((BlockPosition) blockposition_mutableblockposition.c(i, l1, j)) < 0.15F) {
+                            if (this.a(blockposition_mutableblockposition.c(i, l1, j)) < 0.15F) {
                                 iblockdata = Blocks.ICE.getBlockData();
                             } else {
                                 iblockdata = Blocks.WATER.getBlockData();
@@ -348,7 +348,7 @@ public abstract class BiomeBase {
     }
 
     public boolean a(BiomeBase biomebase) {
-        return biomebase == this ? true : (biomebase == null ? false : this.l() == biomebase.l());
+        return biomebase == this || (biomebase != null && this.l() == biomebase.l());
     }
 
     public EnumTemperature m() {
@@ -360,7 +360,7 @@ public abstract class BiomeBase {
     }
 
     public static BiomeBase getBiome(int i) {
-        return getBiome(i, (BiomeBase) null);
+        return getBiome(i, null);
     }
 
     public static BiomeBase getBiome(int i, BiomeBase biomebase) {
@@ -404,7 +404,7 @@ public abstract class BiomeBase {
 
             if (biomebase != null) {
                 if (BiomeBase.o.containsKey(biomebase.ah)) {
-                    throw new Error("Biome \"" + biomebase.ah + "\" is defined as both ID " + ((BiomeBase) BiomeBase.o.get(biomebase.ah)).id + " and " + biomebase.id);
+                    throw new Error("Biome \"" + biomebase.ah + "\" is defined as both ID " + BiomeBase.o.get(biomebase.ah).id + " and " + biomebase.id);
                 }
 
                 BiomeBase.o.put(biomebase.ah, biomebase);
@@ -431,25 +431,21 @@ public abstract class BiomeBase {
             try {
                 SyntheticClass_1.switchMap[EnumCreatureType.MONSTER.ordinal()] = 1;
             } catch (NoSuchFieldError nosuchfielderror) {
-                ;
             }
 
             try {
                 SyntheticClass_1.switchMap[EnumCreatureType.CREATURE.ordinal()] = 2;
             } catch (NoSuchFieldError nosuchfielderror1) {
-                ;
             }
 
             try {
                 SyntheticClass_1.switchMap[EnumCreatureType.WATER_CREATURE.ordinal()] = 3;
             } catch (NoSuchFieldError nosuchfielderror2) {
-                ;
             }
 
             try {
                 SyntheticClass_1.switchMap[EnumCreatureType.AMBIENT.ordinal()] = 4;
             } catch (NoSuchFieldError nosuchfielderror3) {
-                ;
             }
 
         }
@@ -489,10 +485,10 @@ public abstract class BiomeBase {
         }
     }
 
-    public static enum EnumTemperature
+    public enum EnumTemperature
     {
         OCEAN, COLD, MEDIUM, WARM;
 
-        private EnumTemperature() {}
+        EnumTemperature() {}
     }
 }

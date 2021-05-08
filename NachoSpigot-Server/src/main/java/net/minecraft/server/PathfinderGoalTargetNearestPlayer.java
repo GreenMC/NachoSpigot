@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
 
     private static final Logger a = LogManager.getLogger();
-    private EntityInsentient b;
+    private final EntityInsentient b;
     private final Predicate<Entity> c;
     private final PathfinderGoalNearestAttackableTarget.DistanceComparator d;
     private EntityLiving e;
@@ -40,10 +40,10 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
                             f = 0.1F;
                         }
 
-                        d0 *= (double) (0.7F * f);
+                        d0 *= 0.7F * f;
                     }
 
-                    return (double) entity.g(PathfinderGoalTargetNearestPlayer.this.b) > d0 ? false : PathfinderGoalTarget.a(PathfinderGoalTargetNearestPlayer.this.b, (EntityLiving) entity, false, true);
+                    return !((double) entity.g(PathfinderGoalTargetNearestPlayer.this.b) > d0) && PathfinderGoalTarget.a(PathfinderGoalTargetNearestPlayer.this.b, (EntityLiving) entity, false, true);
                 }
             }
 
@@ -85,7 +85,7 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
             } else {
                 double d0 = this.f();
 
-                return this.b.h(entityliving) > d0 * d0 ? false : !(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative();
+                return !(this.b.h(entityliving) > d0 * d0) && (!(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative());
             }
         }
     }
@@ -96,7 +96,7 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
     }
 
     public void d() {
-        this.b.setGoalTarget((EntityLiving) null);
+        this.b.setGoalTarget(null);
         super.c();
     }
 

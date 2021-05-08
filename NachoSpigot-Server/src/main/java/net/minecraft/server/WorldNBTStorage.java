@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // CraftBukkit start
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -88,7 +89,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
 
         if (file.exists()) {
             try {
-                nbttagcompound = NBTCompressedStreamTools.a((InputStream) (new FileInputStream(file)));
+                nbttagcompound = NBTCompressedStreamTools.a(new FileInputStream(file));
                 nbttagcompound1 = nbttagcompound.getCompound("Data");
                 return new WorldData(nbttagcompound1);
             } catch (Exception exception) {
@@ -99,7 +100,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
         file = new File(this.baseDir, "level.dat_old");
         if (file.exists()) {
             try {
-                nbttagcompound = NBTCompressedStreamTools.a((InputStream) (new FileInputStream(file)));
+                nbttagcompound = NBTCompressedStreamTools.a(new FileInputStream(file));
                 nbttagcompound1 = nbttagcompound.getCompound("Data");
                 return new WorldData(nbttagcompound1);
             } catch (Exception exception1) {
@@ -121,7 +122,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             File file1 = new File(this.baseDir, "level.dat_old");
             File file2 = new File(this.baseDir, "level.dat");
 
-            NBTCompressedStreamTools.a(nbttagcompound2, (OutputStream) (new FileOutputStream(file)));
+            NBTCompressedStreamTools.a(nbttagcompound2, new FileOutputStream(file));
             if (file1.exists()) {
                 file1.delete();
             }
@@ -152,7 +153,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             File file1 = new File(this.baseDir, "level.dat_old");
             File file2 = new File(this.baseDir, "level.dat");
 
-            NBTCompressedStreamTools.a(nbttagcompound1, (OutputStream) (new FileOutputStream(file)));
+            NBTCompressedStreamTools.a(nbttagcompound1, new FileOutputStream(file));
             if (file1.exists()) {
                 file1.delete();
             }
@@ -180,7 +181,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             File file = new File(this.playerDir, entityhuman.getUniqueID().toString() + ".dat.tmp");
             File file1 = new File(this.playerDir, entityhuman.getUniqueID().toString() + ".dat");
 
-            NBTCompressedStreamTools.a(nbttagcompound, (OutputStream) (new FileOutputStream(file)));
+            NBTCompressedStreamTools.a(nbttagcompound, new FileOutputStream(file));
             if (file1.exists()) {
                 file1.delete();
             }
@@ -202,7 +203,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             boolean normalFile = file.isFile(); // Akarin - ensures normal file // // Nacho - Remove file.exists, Thanks bob7l :)
             if ( org.bukkit.Bukkit.getOnlineMode() && !normalFile ) // Paper - Check online mode first // Akarin - ensures normal file
             {
-                file = new File( this.playerDir, UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + entityhuman.getName() ).getBytes( "UTF-8" ) ).toString() + ".dat");
+                file = new File( this.playerDir, UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + entityhuman.getName() ).getBytes(StandardCharsets.UTF_8) ) + ".dat");
                 if ( file.exists() )
                 {
                     usingWrongFile = true;
@@ -212,7 +213,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             // Spigot End
 
             if (normalFile) { // Akarin - avoid double I/O operation
-                nbttagcompound = NBTCompressedStreamTools.a((InputStream) (new FileInputStream(file)));
+                nbttagcompound = NBTCompressedStreamTools.a(new FileInputStream(file));
             }
             // Spigot Start
             if ( usingWrongFile )
@@ -248,7 +249,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
             File file1 = new File(this.playerDir, s + ".dat");
 
             if (file1.exists()) {
-                return NBTCompressedStreamTools.a((InputStream) (new FileInputStream(file1)));
+                return NBTCompressedStreamTools.a(new FileInputStream(file1));
             }
         } catch (Exception exception) {
             a.warn("Failed to load player data for " + s);

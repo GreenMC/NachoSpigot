@@ -20,7 +20,7 @@ public class RegionFileCache {
         // PaperSpigot end
         File file1 = new File(file, "region");
         File file2 = new File(file1, "r." + (i >> 5) + "." + (j >> 5) + ".mca");
-        RegionFile regionfile = (RegionFile) RegionFileCache.a.get(file2);
+        RegionFile regionfile = RegionFileCache.a.get(file2);
 
         if (regionfile != null) {
             return regionfile;

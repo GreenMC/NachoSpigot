@@ -462,7 +462,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
             }
 
             if (s1 != null) {
-                ChatMessage chatmessage = new ChatMessage("entity.Villager." + s1, new Object[0]);
+                ChatMessage chatmessage = new ChatMessage("entity.Villager." + s1);
 
                 chatmessage.getChatModifier().setChatHoverable(this.aQ());
                 chatmessage.getChatModifier().setInsertion(this.getUniqueID().toString());
@@ -497,7 +497,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
     public EntityVillager b(EntityAgeable entityageable) {
         EntityVillager entityvillager = new EntityVillager(this.world);
 
-        entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), (GroupDataEntity) null);
+        entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), null);
         return entityvillager;
     }
 
@@ -510,7 +510,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
             EntityWitch entitywitch = new EntityWitch(this.world);
 
             entitywitch.setPositionRotation(this.locX, this.locY, this.locZ, this.yaw, this.pitch);
-            entitywitch.prepare(this.world.E(new BlockPosition(entitywitch)), (GroupDataEntity) null);
+            entitywitch.prepare(this.world.E(new BlockPosition(entitywitch)), null);
             entitywitch.k(this.ce());
             if (this.hasCustomName()) {
                 entitywitch.setCustomName(this.getCustomName());
@@ -755,7 +755,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
         }
 
         public int a(Random random) {
-            return ((Integer) this.a()).intValue() >= ((Integer) this.b()).intValue() ? ((Integer) this.a()).intValue() : ((Integer) this.a()).intValue() + random.nextInt(((Integer) this.b()).intValue() - ((Integer) this.a()).intValue() + 1);
+            return this.a().intValue() >= this.b().intValue() ? this.a().intValue() : this.a().intValue() + random.nextInt(this.b().intValue() - this.a().intValue() + 1);
         }
     }
 }

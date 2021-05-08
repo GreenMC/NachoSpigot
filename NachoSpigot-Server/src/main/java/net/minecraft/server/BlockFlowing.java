@@ -28,7 +28,7 @@ public class BlockFlowing extends BlockFluids {
         org.bukkit.Server server = world.getServer();
         org.bukkit.block.Block source = bworld == null ? null : bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
         // CraftBukkit end
-        int i = ((Integer) iblockdata.get(BlockFlowing.LEVEL)).intValue();
+        int i = iblockdata.get(BlockFlowing.LEVEL).intValue();
         byte b0 = 1;
 
         if (this.material == Material.LAVA && !world.worldProvider.n()) {
@@ -69,7 +69,7 @@ public class BlockFlowing extends BlockFluids {
 
                 if (iblockdata1.getBlock().getMaterial().isBuildable()) {
                     i1 = 0;
-                } else if (iblockdata1.getBlock().getMaterial() == this.material && ((Integer) iblockdata1.get(BlockFlowing.LEVEL)).intValue() == 0) {
+                } else if (iblockdata1.getBlock().getMaterial() == this.material && iblockdata1.get(BlockFlowing.LEVEL).intValue() == 0) {
                     i1 = 0;
                 }
             }
@@ -87,7 +87,7 @@ public class BlockFlowing extends BlockFluids {
                 } else {
                     iblockdata = iblockdata.set(BlockFlowing.LEVEL, Integer.valueOf(i1));
                     world.setTypeAndData(blockposition, iblockdata, 2);
-                    world.a(blockposition, (Block) this, j);
+                    world.a(blockposition, this, j);
                     // PaperSpigot start - Optimize draining
                     world.d(blockposition.west(), this);
                     world.d(blockposition.east(), this);
@@ -183,7 +183,7 @@ public class BlockFlowing extends BlockFluids {
                 BlockPosition blockposition1 = blockposition.shift(enumdirection1);
                 IBlockData iblockdata = world.getType(blockposition1);
 
-                if (!this.g(world, blockposition1, iblockdata) && (iblockdata.getBlock().getMaterial() != this.material || ((Integer) iblockdata.get(BlockFlowing.LEVEL)).intValue() > 0)) {
+                if (!this.g(world, blockposition1, iblockdata) && (iblockdata.getBlock().getMaterial() != this.material || iblockdata.get(BlockFlowing.LEVEL).intValue() > 0)) {
                     if (!this.g(world, blockposition1.down(), iblockdata)) {
                         return i;
                     }
@@ -212,7 +212,7 @@ public class BlockFlowing extends BlockFluids {
             BlockPosition blockposition1 = blockposition.shift(enumdirection);
             IBlockData iblockdata = world.getType(blockposition1);
 
-            if (!this.g(world, blockposition1, iblockdata) && (iblockdata.getBlock().getMaterial() != this.material || ((Integer) iblockdata.get(BlockFlowing.LEVEL)).intValue() > 0)) {
+            if (!this.g(world, blockposition1, iblockdata) && (iblockdata.getBlock().getMaterial() != this.material || iblockdata.get(BlockFlowing.LEVEL).intValue() > 0)) {
                 int j;
 
                 if (this.g(world, blockposition1.down(), world.getType(blockposition1.down()))) {
@@ -238,7 +238,7 @@ public class BlockFlowing extends BlockFluids {
     private boolean g(World world, BlockPosition blockposition, IBlockData iblockdata) {
         Block block = world.getType(blockposition).getBlock();
 
-        return !(block instanceof BlockDoor) && block != Blocks.STANDING_SIGN && block != Blocks.LADDER && block != Blocks.REEDS ? (block.material == Material.PORTAL ? true : block.material.isSolid()) : true;
+        return block instanceof BlockDoor || block == Blocks.STANDING_SIGN || block == Blocks.LADDER || block == Blocks.REEDS || (block.material == Material.PORTAL || block.material.isSolid());
     }
 
     protected int a(World world, BlockPosition blockposition, int i) {
@@ -267,7 +267,7 @@ public class BlockFlowing extends BlockFluids {
 
     public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
         if (!this.e(world, blockposition, iblockdata)) {
-            world.a(blockposition, (Block) this, this.getFlowSpeed(world, blockposition)); // PaperSpigot
+            world.a(blockposition, this, this.getFlowSpeed(world, blockposition)); // PaperSpigot
         }
 
     }

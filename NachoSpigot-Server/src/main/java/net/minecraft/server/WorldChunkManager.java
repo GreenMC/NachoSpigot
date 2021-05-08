@@ -12,8 +12,8 @@ import java.util.Random;
 public class WorldChunkManager {
     private GenLayer b;
     private GenLayer c;
-    private BiomeCache d;
-    private List<BiomeBase> e;
+    private final BiomeCache d;
+    private final List<BiomeBase> e;
     private String f;
 
     protected WorldChunkManager() {
@@ -46,7 +46,7 @@ public class WorldChunkManager {
     }
 
     public BiomeBase getBiome(BlockPosition var1) {
-        return this.getBiome(var1, (BiomeBase)null);
+        return this.getBiome(var1, null);
     }
 
     public BiomeBase getBiome(BlockPosition var1, BiomeBase var2) {

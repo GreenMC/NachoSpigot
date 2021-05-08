@@ -13,7 +13,7 @@ public abstract class EntityCreature extends EntityInsentient {
     public static final AttributeModifier bl = (new AttributeModifier(EntityCreature.bk, "Fleeing speed bonus", 2.0D, 2)).a(false);
     private BlockPosition a;
     private float b;
-    private PathfinderGoal c;
+    private final PathfinderGoal c;
     private boolean bm;
 
     public EntityCreature(World world) {

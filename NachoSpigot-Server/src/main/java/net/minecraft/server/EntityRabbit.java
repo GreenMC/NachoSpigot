@@ -10,7 +10,7 @@ public class EntityRabbit extends EntityAnimal {
     private int bs = 0;
     private EntityRabbit.EnumRabbitState bt;
     private int bu;
-    private EntityHuman bv;
+    private final EntityHuman bv;
 
     public EntityRabbit(World world) {
         super(world);
@@ -127,7 +127,7 @@ public class EntityRabbit extends EntityAnimal {
                     Vec3D vec3d = new Vec3D(this.moveController.d(), this.moveController.e(), this.moveController.f());
 
                     if (pathentity != null && pathentity.e() < pathentity.d()) {
-                        vec3d = pathentity.a((Entity) this);
+                        vec3d = pathentity.a(this);
                     }
 
                     this.a(vec3d.a, vec3d.c);
@@ -227,7 +227,7 @@ public class EntityRabbit extends EntityAnimal {
     }
 
     public boolean damageEntity(DamageSource damagesource, float f) {
-        return this.isInvulnerable(damagesource) ? false : super.damageEntity(damagesource, f);
+        return !this.isInvulnerable(damagesource) && super.damageEntity(damagesource, f);
     }
 
     protected void getRareDrop() {
@@ -279,9 +279,9 @@ public class EntityRabbit extends EntityAnimal {
 
     public void setRabbitType(int i) {
         if (i == 99) {
-            this.goalSelector.a((PathfinderGoal) this.bm);
+            this.goalSelector.a(this.bm);
             this.goalSelector.a(4, new EntityRabbit.PathfinderGoalKillerRabbitMeleeAttack(this));
-            this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false, new Class[0]));
+            this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, false));
             this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
             this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityWolf.class, true));
             if (!this.hasCustomName()) {
@@ -321,7 +321,7 @@ public class EntityRabbit extends EntityAnimal {
     }
 
     protected void cp() {
-        this.world.addParticle(EnumParticle.BLOCK_DUST, this.locX + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, this.locY + 0.5D + (double) (this.random.nextFloat() * this.length), this.locZ + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D, new int[] { Block.getCombinedId(Blocks.CARROTS.fromLegacyData(7))});
+        this.world.addParticle(EnumParticle.BLOCK_DUST, this.locX + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, this.locY + 0.5D + (double) (this.random.nextFloat() * this.length), this.locZ + (double) (this.random.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D, Block.getCombinedId(Blocks.CARROTS.fromLegacyData(7)));
         this.bu = 100;
     }
 
@@ -329,7 +329,7 @@ public class EntityRabbit extends EntityAnimal {
         return this.b(entityageable);
     }
 
-    static enum EnumRabbitState {
+    enum EnumRabbitState {
 
         NONE(0.0F, 0.0F, 30, 1), HOP(0.8F, 0.2F, 20, 10), STEP(1.0F, 0.45F, 14, 14), SPRINT(1.75F, 0.4F, 1, 8), ATTACK(2.0F, 0.7F, 7, 8);
 
@@ -338,7 +338,7 @@ public class EntityRabbit extends EntityAnimal {
         private final int h;
         private final int i;
 
-        private EnumRabbitState(float f, float f1, int i, int j) {
+        EnumRabbitState(float f, float f1, int i, int j) {
             this.f = f;
             this.g = f1;
             this.h = i;
@@ -369,13 +369,13 @@ public class EntityRabbit extends EntityAnimal {
         }
 
         protected double a(EntityLiving entityliving) {
-            return (double) (4.0F + entityliving.width);
+            return 4.0F + entityliving.width;
         }
     }
 
     static class PathfinderGoalRabbitPanic extends PathfinderGoalPanic {
 
-        private EntityRabbit b;
+        private final EntityRabbit b;
 
         public PathfinderGoalRabbitPanic(EntityRabbit entityrabbit, double d0) {
             super(entityrabbit, d0);
@@ -426,14 +426,14 @@ public class EntityRabbit extends EntityAnimal {
 
         public void e() {
             super.e();
-            this.c.getControllerLook().a((double) this.b.getX() + 0.5D, (double) (this.b.getY() + 1), (double) this.b.getZ() + 0.5D, 10.0F, (float) this.c.bQ());
+            this.c.getControllerLook().a((double) this.b.getX() + 0.5D, this.b.getY() + 1, (double) this.b.getZ() + 0.5D, 10.0F, (float) this.c.bQ());
             if (this.f()) {
                 World world = this.c.world;
                 BlockPosition blockposition = this.b.up();
                 IBlockData iblockdata = world.getType(blockposition);
                 Block block = iblockdata.getBlock();
 
-                if (this.e && block instanceof BlockCarrots && ((Integer) iblockdata.get(BlockCarrots.AGE)).intValue() == 7) {
+                if (this.e && block instanceof BlockCarrots && iblockdata.get(BlockCarrots.AGE).intValue() == 7) {
                     world.setTypeAndData(blockposition, Blocks.AIR.getBlockData(), 2);
                     world.setAir(blockposition, true);
                     this.c.cp();
@@ -453,7 +453,7 @@ public class EntityRabbit extends EntityAnimal {
                 IBlockData iblockdata = world.getType(blockposition);
 
                 block = iblockdata.getBlock();
-                if (block instanceof BlockCarrots && ((Integer) iblockdata.get(BlockCarrots.AGE)).intValue() == 7 && this.d && !this.e) {
+                if (block instanceof BlockCarrots && iblockdata.get(BlockCarrots.AGE).intValue() == 7 && this.d && !this.e) {
                     this.e = true;
                     return true;
                 }
@@ -465,7 +465,7 @@ public class EntityRabbit extends EntityAnimal {
 
     static class PathfinderGoalRabbitAvoidTarget<T extends Entity> extends PathfinderGoalAvoidTarget<T> {
 
-        private EntityRabbit c;
+        private final EntityRabbit c;
 
         public PathfinderGoalRabbitAvoidTarget(EntityRabbit entityrabbit, Class<T> oclass, float f, double d0, double d1) {
             super(entityrabbit, oclass, f, d0, d1);
@@ -479,7 +479,7 @@ public class EntityRabbit extends EntityAnimal {
 
     static class ControllerMoveRabbit extends ControllerMove {
 
-        private EntityRabbit g;
+        private final EntityRabbit g;
 
         public ControllerMoveRabbit(EntityRabbit entityrabbit) {
             super(entityrabbit);
@@ -497,7 +497,7 @@ public class EntityRabbit extends EntityAnimal {
 
     public class ControllerJumpRabbit extends ControllerJump {
 
-        private EntityRabbit c;
+        private final EntityRabbit c;
         private boolean d = false;
 
         public ControllerJumpRabbit(EntityRabbit entityrabbit) {

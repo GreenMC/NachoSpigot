@@ -87,7 +87,7 @@ public class InventoryCrafting implements IInventory {
     }
 
     public IChatBaseComponent getScoreboardDisplayName() {
-        return (IChatBaseComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]));
+        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]);
     }
 
     public ItemStack splitWithoutUpdate(int i) {
@@ -108,7 +108,7 @@ public class InventoryCrafting implements IInventory {
             if (this.items[i].count <= j) {
                 itemstack = this.items[i];
                 this.items[i] = null;
-                this.d.a((IInventory) this);
+                this.d.a(this);
                 return itemstack;
             } else {
                 itemstack = this.items[i].cloneAndSubtract(j);
@@ -116,7 +116,7 @@ public class InventoryCrafting implements IInventory {
                     this.items[i] = null;
                 }
 
-                this.d.a((IInventory) this);
+                this.d.a(this);
                 return itemstack;
             }
         } else {
@@ -126,7 +126,7 @@ public class InventoryCrafting implements IInventory {
 
     public void setItem(int i, ItemStack itemstack) {
         this.items[i] = itemstack;
-        this.d.a((IInventory) this);
+        this.d.a(this);
     }
 
     public int getMaxStackSize() {

@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 public class WorldManager implements IWorldAccess {
 
-    private MinecraftServer a;
-    private WorldServer world;
+    private final MinecraftServer a;
+    private final WorldServer world;
 
     public WorldManager(MinecraftServer minecraftserver, WorldServer worldserver) {
         this.a = minecraftserver;
@@ -45,13 +45,13 @@ public class WorldManager implements IWorldAccess {
 
     public void a(EntityHuman entityhuman, int i, BlockPosition blockposition, int j) {
         // CraftBukkit - this.world.dimension
-        this.a.getPlayerList().sendPacketNearby(entityhuman, (double) blockposition.getX(), (double) blockposition.getY(), (double) blockposition.getZ(), 64.0D, this.world, new PacketPlayOutWorldEvent(i, blockposition, j, false));
+        this.a.getPlayerList().sendPacketNearby(entityhuman, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 64.0D, this.world, new PacketPlayOutWorldEvent(i, blockposition, j, false));
     }
 
     @Override
     public void sendPlayWorldPacket(EntityHuman entityhuman, int i, int blockPosition_x, int blockPosition_y, int blockPosition_z, int j)
     {
-        this.a.getPlayerList().sendPacketNearby(entityhuman, (double) blockPosition_x, (double) blockPosition_y, (double) blockPosition_z, 64.0D, this.world, new Int3PacketPlayOutWorldEvent(i, blockPosition_x, blockPosition_y, blockPosition_z, j, false));
+        this.a.getPlayerList().sendPacketNearby(entityhuman, blockPosition_x, blockPosition_y, blockPosition_z, 64.0D, this.world, new Int3PacketPlayOutWorldEvent(i, blockPosition_x, blockPosition_y, blockPosition_z, j, false));
     }
 
     public void a(int i, BlockPosition blockposition, int j) {

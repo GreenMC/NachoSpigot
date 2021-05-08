@@ -33,7 +33,7 @@ public class BlockTNT extends Block {
             // PaperSpigot start - Fix cannons
             double y = blockposition.getY();
             if (!world.paperSpigotConfig.fixCannons) y += 0.5;
-            EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, (double) ((float) blockposition.getX() + 0.5F), y, (double) ((float) blockposition.getZ() + 0.5F), explosion.getSource()); // PaperSpigot - add loc
+            EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, (float) blockposition.getX() + 0.5F, y, (float) blockposition.getZ() + 0.5F, explosion.getSource()); // PaperSpigot - add loc
             // PaperSpigot end
 
             entitytntprimed.fuseTicks = world.random.nextInt(entitytntprimed.fuseTicks / 4) + entitytntprimed.fuseTicks / 8;
@@ -52,7 +52,7 @@ public class BlockTNT extends Block {
                 // PaperSpigot start - Fix cannons
                 double y = blockposition.getY();
                 if (!world.paperSpigotConfig.fixCannons) y += 0.5;
-                EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, (float) blockposition.getX() + 0.5F, y, (double) ((float) blockposition.getZ() + 0.5F), entityliving); // PaperSpigot - add loc
+                EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, (float) blockposition.getX() + 0.5F, y, (float) blockposition.getZ() + 0.5F, entityliving); // PaperSpigot - add loc
                 // PaperSpigot end
 
                 world.addEntity(entitytntprimed);

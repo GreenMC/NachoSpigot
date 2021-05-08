@@ -273,7 +273,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
             ItemStack itemstack = RecipesFurnace.getInstance().getResult(this.items[0]);
 
             // CraftBukkit - consider resultant count instead of current count
-            return itemstack == null ? false : (this.items[2] == null ? true : (!this.items[2].doMaterialsMatch(itemstack) ? false : (this.items[2].count + itemstack.count <= this.getMaxStackSize() && this.items[2].count < this.items[2].getMaxStackSize() ? true : this.items[2].count + itemstack.count <= itemstack.getMaxStackSize())));
+            return itemstack != null && (this.items[2] == null || (this.items[2].doMaterialsMatch(itemstack) && (this.items[2].count + itemstack.count <= this.getMaxStackSize() && this.items[2].count < this.items[2].getMaxStackSize() || this.items[2].count + itemstack.count <= itemstack.getMaxStackSize())));
         }
     }
 
@@ -359,7 +359,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
     }
 
     public boolean a(EntityHuman entityhuman) {
-        return this.world.getTileEntity(this.position) != this ? false : entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.position) == this && entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
     public void startOpen(EntityHuman entityhuman) {}
@@ -367,7 +367,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
     public void closeContainer(EntityHuman entityhuman) {}
 
     public boolean b(int i, ItemStack itemstack) {
-        return i == 2 ? false : (i != 1 ? true : isFuel(itemstack) || SlotFurnaceFuel.c_(itemstack));
+        return i != 2 && (i != 1 || isFuel(itemstack) || SlotFurnaceFuel.c_(itemstack));
     }
 
     public int[] getSlotsForFace(EnumDirection enumdirection) {
@@ -382,9 +382,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
         if (enumdirection == EnumDirection.DOWN && i == 1) {
             Item item = itemstack.getItem();
 
-            if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
-                return false;
-            }
+            return item == Items.WATER_BUCKET || item == Items.BUCKET;
         }
 
         return true;

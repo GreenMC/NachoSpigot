@@ -22,7 +22,7 @@ public class EntityIronGolem extends EntityGolem {
         this.goalSelector.a(7, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 6.0F));
         this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
         this.targetSelector.a(1, new PathfinderGoalDefendVillage(this));
-        this.targetSelector.a(2, new PathfinderGoalHurtByTarget(this, false, new Class[0]));
+        this.targetSelector.a(2, new PathfinderGoalHurtByTarget(this, false));
         this.targetSelector.a(3, new EntityIronGolem.PathfinderGoalNearestGolemTarget(this, EntityInsentient.class, 10, false, true, IMonster.e));
     }
 
@@ -83,14 +83,14 @@ public class EntityIronGolem extends EntityGolem {
             Block block = iblockdata.getBlock();
 
             if (block.getMaterial() != Material.AIR) {
-                this.world.addParticle(EnumParticle.BLOCK_CRACK, this.locX + ((double) this.random.nextFloat() - 0.5D) * (double) this.width, this.getBoundingBox().b + 0.1D, this.locZ + ((double) this.random.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D, new int[] { Block.getCombinedId(iblockdata)});
+                this.world.addParticle(EnumParticle.BLOCK_CRACK, this.locX + ((double) this.random.nextFloat() - 0.5D) * (double) this.width, this.getBoundingBox().b + 0.1D, this.locZ + ((double) this.random.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D, Block.getCombinedId(iblockdata));
             }
         }
 
     }
 
     public boolean a(Class<? extends EntityLiving> oclass) {
-        return this.isPlayerCreated() && EntityHuman.class.isAssignableFrom(oclass) ? false : (oclass == EntityCreeper.class ? false : super.a(oclass));
+        return (!this.isPlayerCreated() || !EntityHuman.class.isAssignableFrom(oclass)) && (oclass != EntityCreeper.class && super.a(oclass));
     }
 
     public void b(NBTTagCompound nbttagcompound) {
@@ -110,7 +110,7 @@ public class EntityIronGolem extends EntityGolem {
 
         if (flag) {
             entity.motY += 0.4000000059604645D;
-            this.a((EntityLiving) this, entity);
+            this.a(this, entity);
         }
 
         this.makeSound("mob.irongolem.throw", 1.0F, 1.0F);
@@ -207,7 +207,7 @@ public class EntityIronGolem extends EntityGolem {
                                     f = 0.1F;
                                 }
 
-                                d0 *= (double) (0.7F * f);
+                                d0 *= 0.7F * f;
                             }
 
                             if ((double) t0.g(entitycreature) > d0) {

@@ -19,7 +19,7 @@ public class EntityTracker {
     public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>();
     public IntHashMap<EntityTrackerEntry> getTrackedEntityHashTable() { return trackedEntities; }
 
-    private int e;
+    private final int e;
 
     public EntityTracker(WorldServer worldserver) {
         this.world = worldserver;

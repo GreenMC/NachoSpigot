@@ -28,14 +28,14 @@ public class CommandSpreadPlayers extends CommandAbstract {
 
     public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 6) {
-            throw new ExceptionUsage("commands.spreadplayers.usage", new Object[0]);
+            throw new ExceptionUsage("commands.spreadplayers.usage");
         } else {
             byte b0 = 0;
             BlockPosition blockposition = icommandlistener.getChunkCoordinates();
-            double d0 = (double) blockposition.getX();
+            double d0 = blockposition.getX();
             int i = b0 + 1;
             double d1 = b(d0, astring[b0], true);
-            double d2 = b((double) blockposition.getZ(), astring[i++], true);
+            double d2 = b(blockposition.getZ(), astring[i++], true);
             double d3 = a(astring[i++], 0.0D);
             double d4 = a(astring[i++], d3 + 1.0D);
             boolean flag = d(astring[i++]);
@@ -67,7 +67,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
             if (arraylist.isEmpty()) {
                 throw new ExceptionEntityNotFound();
             } else {
-                icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(arraylist.size()), Double.valueOf(d4), Double.valueOf(d1), Double.valueOf(d2), Double.valueOf(d3)}));
+                icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), Integer.valueOf(arraylist.size()), Double.valueOf(d4), Double.valueOf(d1), Double.valueOf(d2), Double.valueOf(d3)));
                 this.a(icommandlistener, arraylist, new CommandSpreadPlayers.Location2D(d1, d2), d3, d4, ((Entity) arraylist.get(0)).world, flag);
             }
         }
@@ -83,9 +83,9 @@ public class CommandSpreadPlayers extends CommandAbstract {
         int i = this.a(commandspreadplayers_location2d, d0, world, random, d2, d3, d4, d5, acommandspreadplayers_location2d, flag);
         double d6 = this.a(list, world, acommandspreadplayers_location2d, flag);
 
-        a(icommandlistener, this, "commands.spreadplayers.success." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(acommandspreadplayers_location2d.length), Double.valueOf(commandspreadplayers_location2d.a), Double.valueOf(commandspreadplayers_location2d.b)});
+        a(icommandlistener, this, "commands.spreadplayers.success." + (flag ? "teams" : "players"), Integer.valueOf(acommandspreadplayers_location2d.length), Double.valueOf(commandspreadplayers_location2d.a), Double.valueOf(commandspreadplayers_location2d.b));
         if (acommandspreadplayers_location2d.length > 1) {
-            icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.info." + (flag ? "teams" : "players"), new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d6)}), Integer.valueOf(i)}));
+            icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.info." + (flag ? "teams" : "players"), String.format("%.2f", Double.valueOf(d6)), Integer.valueOf(i)));
         }
 
     }
@@ -100,7 +100,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
             if (entity instanceof EntityHuman) {
                 hashset.add(((EntityHuman) entity).getScoreboardTeam());
             } else {
-                hashset.add((Object) null);
+                hashset.add(null);
             }
         }
 
@@ -141,9 +141,9 @@ public class CommandSpreadPlayers extends CommandAbstract {
                 }
 
                 if (j > 0) {
-                    commandspreadplayers_location2d1.a /= (double) j;
-                    commandspreadplayers_location2d1.b /= (double) j;
-                    double d7 = (double) commandspreadplayers_location2d1.b();
+                    commandspreadplayers_location2d1.a /= j;
+                    commandspreadplayers_location2d1.b /= j;
+                    double d7 = commandspreadplayers_location2d1.b();
 
                     if (d7 > 0.0D) {
                         commandspreadplayers_location2d1.a();
@@ -175,7 +175,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
         }
 
         if (i >= 10000) {
-            throw new CommandException("commands.spreadplayers.failure." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(acommandspreadplayers_location2d.length), Double.valueOf(commandspreadplayers_location2d.a), Double.valueOf(commandspreadplayers_location2d.b), String.format("%.2f", new Object[] { Double.valueOf(d5)})});
+            throw new CommandException("commands.spreadplayers.failure." + (flag ? "teams" : "players"), Integer.valueOf(acommandspreadplayers_location2d.length), Double.valueOf(commandspreadplayers_location2d.a), Double.valueOf(commandspreadplayers_location2d.b), String.format("%.2f", Double.valueOf(d5)));
         } else {
             return i;
         }
@@ -187,7 +187,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
         HashMap hashmap = Maps.newHashMap();
 
         for (int j = 0; j < list.size(); ++j) {
-            Entity entity = (Entity) list.get(j);
+            Entity entity = list.get(j);
             CommandSpreadPlayers.Location2D commandspreadplayers_location2d;
 
             if (flag) {
@@ -202,7 +202,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
                 commandspreadplayers_location2d = acommandspreadplayers_location2d[i++];
             }
 
-            entity.enderTeleportTo((double) ((float) MathHelper.floor(commandspreadplayers_location2d.a) + 0.5F), (double) commandspreadplayers_location2d.a(world), (double) MathHelper.floor(commandspreadplayers_location2d.b) + 0.5D);
+            entity.enderTeleportTo((float) MathHelper.floor(commandspreadplayers_location2d.a) + 0.5F, commandspreadplayers_location2d.a(world), (double) MathHelper.floor(commandspreadplayers_location2d.b) + 0.5D);
             double d1 = Double.MAX_VALUE;
 
             for (int k = 0; k < acommandspreadplayers_location2d.length; ++k) {
@@ -216,7 +216,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
             d0 += d1;
         }
 
-        d0 /= (double) list.size();
+        d0 /= list.size();
         return d0;
     }
 
@@ -264,7 +264,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
         }
 
         void a() {
-            double d0 = (double) this.b();
+            double d0 = this.b();
 
             this.a /= d0;
             this.b /= d0;

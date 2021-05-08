@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class ChunkSection {
 
-    private int yPos;
+    private final int yPos;
     private int nonEmptyBlockCount;
     private int tickingBlockCount;
     private char[] blockIds;
@@ -33,7 +33,7 @@ public class ChunkSection {
     // CraftBukkit end
 
     public IBlockData getType(int i, int j, int k) {
-        IBlockData iblockdata = (IBlockData) Block.d.a(this.blockIds[j << 8 | k << 4 | i]);
+        IBlockData iblockdata = Block.d.a(this.blockIds[j << 8 | k << 4 | i]);
 
         return iblockdata != null ? iblockdata : Blocks.AIR.getBlockData();
     }

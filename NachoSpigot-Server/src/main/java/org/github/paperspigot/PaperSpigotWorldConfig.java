@@ -60,7 +60,7 @@ public class PaperSpigotWorldConfig
     private float getFloat(String path, float def)
     {
         // TODO: Figure out why getFloat() always returns the default value.
-        return (float) getDouble( path, (double) def );
+        return (float) getDouble( path, def);
     }
 
     private <T> List getList(String path, T def)

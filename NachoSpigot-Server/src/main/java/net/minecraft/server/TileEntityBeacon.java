@@ -69,7 +69,7 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
 
     private void A() {
         if (this.i && this.j > 0 && !this.world.isClientSide && this.k > 0) {
-            double d0 = (double) (this.j * 10 + 10);
+            double d0 = this.j * 10 + 10;
             byte b0 = 0;
 
             if (this.j >= 4 && this.k == this.l) {
@@ -79,7 +79,7 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
             int i = this.position.getX();
             int j = this.position.getY();
             int k = this.position.getZ();
-            AxisAlignedBB axisalignedbb = (new AxisAlignedBB((double) i, (double) j, (double) k, (double) (i + 1), (double) (j + 1), (double) (k + 1))).grow(d0, d0, d0).a(0.0D, (double) this.world.getHeight(), 0.0D);
+            AxisAlignedBB axisalignedbb = (new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1)).grow(d0, d0, d0).a(0.0D, this.world.getHeight(), 0.0D);
             List list = this.world.a(EntityHuman.class, axisalignedbb);
             Iterator iterator = list.iterator();
 
@@ -141,7 +141,7 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
             float[] afloat;
 
             if (iblockdata.getBlock() == Blocks.STAINED_GLASS) {
-                afloat = EntitySheep.a((EnumColor) iblockdata.get(BlockStainedGlass.COLOR));
+                afloat = EntitySheep.a(iblockdata.get(BlockStainedGlass.COLOR));
             } else {
                 if (iblockdata.getBlock() != Blocks.STAINED_GLASS_PANE) {
                     if (iblockdata.getBlock().p() >= 15 && iblockdata.getBlock() != Blocks.BEDROCK) {
@@ -154,7 +154,7 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
                     continue;
                 }
 
-                afloat = EntitySheep.a((EnumColor) iblockdata.get(BlockStainedGlassPane.COLOR));
+                afloat = EntitySheep.a(iblockdata.get(BlockStainedGlassPane.COLOR));
             }
 
             if (!flag) {
@@ -203,12 +203,12 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
         }
 
         if (!this.world.isClientSide && this.j == 4 && i < this.j) {
-            Iterator iterator = this.world.a(EntityHuman.class, (new AxisAlignedBB((double) j, (double) k, (double) l, (double) j, (double) (k - 4), (double) l)).grow(10.0D, 5.0D, 10.0D)).iterator();
+            Iterator iterator = this.world.a(EntityHuman.class, (new AxisAlignedBB(j, k, l, j, k - 4, l)).grow(10.0D, 5.0D, 10.0D)).iterator();
 
             while (iterator.hasNext()) {
                 EntityHuman entityhuman = (EntityHuman) iterator.next();
 
-                entityhuman.b((Statistic) AchievementList.K);
+                entityhuman.b(AchievementList.K);
             }
         }
 
@@ -304,7 +304,7 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
     }
 
     public boolean a(EntityHuman entityhuman) {
-        return this.world.getTileEntity(this.position) != this ? false : entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.position) == this && entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
     public void startOpen(EntityHuman entityhuman) {}

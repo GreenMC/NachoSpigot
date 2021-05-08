@@ -862,7 +862,7 @@ public final class CraftServer implements Server {
         try {
             perms = (Map<String, Map<String, Object>>) yaml.load(stream);
         } catch (MarkedYAMLException ex) {
-            getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML: " + ex.toString());
+            getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML: " + ex);
             return;
         } catch (Throwable ex) {
             getLogger().log(Level.WARNING, "Server permissions file " + file + " is not valid YAML.", ex);

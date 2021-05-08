@@ -509,7 +509,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public boolean hasPermission(Permission perm) {
-        return this.perm.hasPermission(perm);
+        return CraftEntity.perm.hasPermission(perm);
     }
 
     @Override

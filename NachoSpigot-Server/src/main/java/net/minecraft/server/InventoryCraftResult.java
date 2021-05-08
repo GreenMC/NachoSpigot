@@ -7,7 +7,7 @@ import org.bukkit.entity.HumanEntity;
 
 public class InventoryCraftResult implements IInventory {
 
-    private ItemStack[] items = new ItemStack[1];
+    private final ItemStack[] items = new ItemStack[1];
 
     // CraftBukkit start
     private int maxStack = MAX_STACK;
@@ -51,7 +51,7 @@ public class InventoryCraftResult implements IInventory {
     }
 
     public IChatBaseComponent getScoreboardDisplayName() {
-        return (IChatBaseComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]));
+        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]);
     }
 
     public ItemStack splitStack(int i, int j) {

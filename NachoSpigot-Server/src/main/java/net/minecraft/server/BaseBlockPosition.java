@@ -29,7 +29,7 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition> {
         } else {
             BaseBlockPosition baseblockposition = (BaseBlockPosition) object;
 
-            return this.getX() != baseblockposition.getX() ? false : (this.getY() != baseblockposition.getY() ? false : this.getZ() == baseblockposition.getZ());
+            return this.getX() == baseblockposition.getX() && (this.getY() == baseblockposition.getY() && this.getZ() == baseblockposition.getZ());
         }
     }
 
@@ -76,7 +76,7 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition> {
     }
 
     public double i(BaseBlockPosition baseblockposition) {
-        return this.c((double) baseblockposition.getX(), (double) baseblockposition.getY(), (double) baseblockposition.getZ());
+        return this.c(baseblockposition.getX(), baseblockposition.getY(), baseblockposition.getZ());
     }
 
     public String toString() {
@@ -85,6 +85,6 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition> {
 
     // Paperspigot - Signature change, Object -> BaseBlockPosition
     public int compareTo(BaseBlockPosition object) {
-        return this.g((BaseBlockPosition) object);
+        return this.g(object);
     }
 }

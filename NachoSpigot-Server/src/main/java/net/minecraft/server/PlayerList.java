@@ -44,7 +44,7 @@ public abstract class PlayerList {
     public static final File c = new File("ops.json");
     public static final File d = new File("whitelist.json");
     private static final Logger f = LogManager.getLogger();
-    private static final SimpleDateFormat g = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+    private static final SimpleDateFormat g = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
     private final MinecraftServer server;
     public final List<EntityPlayer> players = new java.util.concurrent.CopyOnWriteArrayList(); // CraftBukkit - ArrayList -> CopyOnWriteArrayList: Iterator safety
     private final Map<UUID, EntityPlayer> j = Maps.newHashMap();
@@ -63,7 +63,7 @@ public abstract class PlayerList {
     private int u;
 
     // CraftBukkit start
-    private CraftServer cserver;
+    private final CraftServer cserver;
     private final Map<String,EntityPlayer> playersByName = new org.spigotmc.CaseInsensitiveMap<EntityPlayer>();
 
     public PlayerList(MinecraftServer minecraftserver) {
@@ -192,7 +192,7 @@ public abstract class PlayerList {
 
         entityplayer.syncInventory();
         if (nbttagcompound != null && nbttagcompound.hasKeyOfType("Riding", 10)) {
-            Entity entity = EntityTypes.a(nbttagcompound.getCompound("Riding"), (World) worldserver);
+            Entity entity = EntityTypes.a(nbttagcompound.getCompound("Riding"), worldserver);
 
             if (entity != null) {
                 entity.attachedToPlayer = true;
@@ -286,7 +286,7 @@ public abstract class PlayerList {
 
     protected void savePlayerFile(EntityPlayer entityplayer) {
         this.playerFileData.save(entityplayer);
-        ServerStatisticManager serverstatisticmanager = (ServerStatisticManager) this.o.get(entityplayer.getUniqueID());
+        ServerStatisticManager serverstatisticmanager = this.o.get(entityplayer.getUniqueID());
 
         if (serverstatisticmanager != null) {
             serverstatisticmanager.b();
@@ -320,7 +320,7 @@ public abstract class PlayerList {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityplayer);
 
         for (int i = 0; i < this.players.size(); ++i) {
-            EntityPlayer entityplayer1 = (EntityPlayer) this.players.get(i);
+            EntityPlayer entityplayer1 = this.players.get(i);
 
             if (entityplayer1.getBukkitEntity().canSee(entityplayer.getBukkitEntity())) {
                 entityplayer1.playerConnection.sendPacket(packet);
@@ -330,7 +330,7 @@ public abstract class PlayerList {
                 continue;
             }
 
-            entityplayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[] { entityplayer1}));
+            entityplayer.playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityplayer1));
         }
         // CraftBukkit end
 
@@ -370,7 +370,7 @@ public abstract class PlayerList {
         this.players.remove(entityplayer);
         this.playersByName.remove(entityplayer.getName()); // Spigot
         UUID uuid = entityplayer.getUniqueID();
-        EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
+        EntityPlayer entityplayer1 = this.j.get(uuid);
 
         if (entityplayer1 == entityplayer) {
             this.j.remove(uuid);
@@ -381,7 +381,7 @@ public abstract class PlayerList {
         //  this.sendAll(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, new EntityPlayer[] { entityplayer}));
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityplayer);
         for (int i = 0; i < players.size(); i++) {
-            EntityPlayer entityplayer2 = (EntityPlayer) this.players.get(i);
+            EntityPlayer entityplayer2 = this.players.get(i);
 
             if (entityplayer2.getBukkitEntity().canSee(entityplayer.getBukkitEntity())) {
                 entityplayer2.playerConnection.sendPacket(packet);
@@ -715,7 +715,7 @@ public abstract class PlayerList {
     // Copy of original changeWorld(Entity, int, WorldServer, WorldServer) method with only location calculation logic
     public Location calculateTarget(Location enter, World target) {
         WorldServer worldserver = ((CraftWorld) enter.getWorld()).getHandle();
-        WorldServer worldserver1 = ((CraftWorld) target.getWorld()).getHandle();
+        WorldServer worldserver1 = target.getWorld().getHandle();
         int i = worldserver.dimension;
 
         double y = enter.getY();
@@ -761,9 +761,9 @@ public abstract class PlayerList {
                 blockposition = worldserver1.getDimensionSpawn();
             }
 
-            d0 = (double) blockposition.getX();
-            y = (double) blockposition.getY();
-            d1 = (double) blockposition.getZ();
+            d0 = blockposition.getX();
+            y = blockposition.getY();
+            d1 = blockposition.getZ();
             /*
             entity.setPositionRotation(d0, entity.locY, d1, 90.0F, 0.0F);
             if (entity.isAlive()) {
@@ -775,8 +775,8 @@ public abstract class PlayerList {
         // worldserver.methodProfiler.b();
         if (i != 1) {
             worldserver.methodProfiler.a("placing");
-            d0 = (double) MathHelper.clamp((int) d0, -29999872, 29999872);
-            d1 = (double) MathHelper.clamp((int) d1, -29999872, 29999872);
+            d0 = MathHelper.clamp((int) d0, -29999872, 29999872);
+            d1 = MathHelper.clamp((int) d1, -29999872, 29999872);
             /*
             if (entity.isAlive()) {
                 entity.setPositionRotation(d0, entity.locY, d1, entity.yaw, entity.pitch);
@@ -886,7 +886,7 @@ public abstract class PlayerList {
 
     public void sendAll(Packet packet) {
         for (int i = 0; i < this.players.size(); ++i) {
-            ((EntityPlayer) this.players.get(i)).playerConnection.sendPacket(packet);
+            this.players.get(i).playerConnection.sendPacket(packet);
         }
 
     }
@@ -898,7 +898,7 @@ public abstract class PlayerList {
             if (entityhuman != null && entityhuman instanceof EntityPlayer && !entityplayer.getBukkitEntity().canSee(((EntityPlayer) entityhuman).getBukkitEntity())) {
                 continue;
             }
-            ((EntityPlayer) this.players.get(i)).playerConnection.sendPacket(packet);
+            this.players.get(i).playerConnection.sendPacket(packet);
         }
     }
 
@@ -912,7 +912,7 @@ public abstract class PlayerList {
 
     public void a(Packet packet, int i) {
         for (int j = 0; j < this.players.size(); ++j) {
-            EntityPlayer entityplayer = (EntityPlayer) this.players.get(j);
+            EntityPlayer entityplayer = this.players.get(j);
 
             if (entityplayer.dimension == i) {
                 entityplayer.playerConnection.sendPacket(packet);
@@ -947,7 +947,7 @@ public abstract class PlayerList {
             this.sendMessage(ichatbasecomponent);
         } else {
             for (int i = 0; i < this.players.size(); ++i) {
-                EntityPlayer entityplayer = (EntityPlayer) this.players.get(i);
+                EntityPlayer entityplayer = this.players.get(i);
 
                 if (entityplayer.getScoreboardTeam() != scoreboardteambase) {
                     entityplayer.sendMessage(ichatbasecomponent);
@@ -979,7 +979,7 @@ public abstract class PlayerList {
         String[] astring = new String[this.players.size()];
 
         for (int i = 0; i < this.players.size(); ++i) {
-            astring[i] = ((EntityPlayer) this.players.get(i)).getName();
+            astring[i] = this.players.get(i).getName();
         }
 
         return astring;
@@ -989,7 +989,7 @@ public abstract class PlayerList {
         GameProfile[] agameprofile = new GameProfile[this.players.size()];
 
         for (int i = 0; i < this.players.size(); ++i) {
-            agameprofile[i] = ((EntityPlayer) this.players.get(i)).getProfile();
+            agameprofile[i] = this.players.get(i).getProfile();
         }
 
         return agameprofile;
@@ -1047,7 +1047,7 @@ public abstract class PlayerList {
     }
 
     public void sendPacketNearby(double d0, double d1, double d2, double d3, int i, Packet packet) {
-        this.sendPacketNearby((EntityHuman) null, d0, d1, d2, d3, i, packet);
+        this.sendPacketNearby(null, d0, d1, d2, d3, i, packet);
     }
 
     public void sendPacketNearby(EntityHuman entityhuman, double d0, double d1, double d2, double d3, int i, Packet<?> packet) {
@@ -1093,7 +1093,7 @@ public abstract class PlayerList {
 
     public void savePlayers() {
         for (int i = 0; i < this.players.size(); ++i) {
-            this.savePlayerFile((EntityPlayer) this.players.get(i));
+            this.savePlayerFile(this.players.get(i));
         }
 
     }
@@ -1209,7 +1209,7 @@ public abstract class PlayerList {
 
     public void u() {
         for (int i = 0; i < this.players.size(); ++i) {
-            ((EntityPlayer) this.players.get(i)).playerConnection.disconnect(this.server.server.getShutdownMessage()); // CraftBukkit - add custom shutdown message
+            this.players.get(i).playerConnection.disconnect(this.server.server.getShutdownMessage()); // CraftBukkit - add custom shutdown message
         }
 
     }
@@ -1237,7 +1237,7 @@ public abstract class PlayerList {
 
     public ServerStatisticManager a(EntityHuman entityhuman) {
         UUID uuid = entityhuman.getUniqueID();
-        ServerStatisticManager serverstatisticmanager = uuid == null ? null : (ServerStatisticManager) this.o.get(uuid);
+        ServerStatisticManager serverstatisticmanager = uuid == null ? null : this.o.get(uuid);
 
         if (serverstatisticmanager == null) {
             File file = new File(this.server.getWorldServer(0).getDataManager().getDirectory(), "stats");
@@ -1283,7 +1283,7 @@ public abstract class PlayerList {
     }
 
     public EntityPlayer a(UUID uuid) {
-        return (EntityPlayer) this.j.get(uuid);
+        return this.j.get(uuid);
     }
 
     public boolean f(GameProfile gameprofile) {

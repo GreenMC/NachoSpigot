@@ -12,7 +12,7 @@ import org.bukkit.craftbukkit.inventory.CraftItemFactory;
 import org.bukkit.craftbukkit.util.Versioning;
 
 public class DummyServer implements InvocationHandler {
-    private static interface MethodHandler {
+    private interface MethodHandler {
         Object handle(DummyServer server, Object[] args);
     }
     private static final HashMap<Method, MethodHandler> methods = new HashMap<Method, MethodHandler>();
@@ -67,7 +67,7 @@ public class DummyServer implements InvocationHandler {
 
     public static void setup() {}
 
-    private DummyServer() {};
+    private DummyServer() {}
 
     public Object invoke(Object proxy, Method method, Object[] args) {
         MethodHandler handler = methods.get(method);

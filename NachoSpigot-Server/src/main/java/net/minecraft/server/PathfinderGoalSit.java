@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class PathfinderGoalSit extends PathfinderGoal {
 
-    private EntityTameableAnimal entity;
+    private final EntityTameableAnimal entity;
     private boolean willSit;
 
     public PathfinderGoalSit(EntityTameableAnimal entitytameableanimal) {
@@ -20,7 +20,7 @@ public class PathfinderGoalSit extends PathfinderGoal {
         } else {
             EntityLiving entityliving = this.entity.getOwner();
 
-            return entityliving == null ? true : (this.entity.h(entityliving) < 144.0D && entityliving.getLastDamager() != null ? false : this.willSit);
+            return entityliving == null || ((!(this.entity.h(entityliving) < 144.0D) || entityliving.getLastDamager() == null) && this.willSit);
         }
     }
 

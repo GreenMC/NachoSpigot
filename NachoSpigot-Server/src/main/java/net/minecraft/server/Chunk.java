@@ -48,7 +48,7 @@ public class Chunk {
     private int t;
     private long u;
     private int v;
-    private ConcurrentLinkedQueue<BlockPosition> w;
+    private final ConcurrentLinkedQueue<BlockPosition> w;
     protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<>(); // Spigot
     // PaperSpigot start - Asynchronous light updates
     public AtomicInteger pendingLightUpdates = new AtomicInteger();
@@ -906,7 +906,7 @@ public class Chunk {
             tileentity = world.capturedTileEntities.get(blockposition);
         }
         if (tileentity == null) {
-            tileentity = (TileEntity) this.tileEntities.get(blockposition);
+            tileentity = this.tileEntities.get(blockposition);
         }
         // CraftBukkit end
 
@@ -938,7 +938,7 @@ public class Chunk {
         tileentity.a(blockposition);
         if (this.getType(blockposition) instanceof IContainer) {
             if (this.tileEntities.containsKey(blockposition)) {
-                ((TileEntity) this.tileEntities.get(blockposition)).y();
+                this.tileEntities.get(blockposition).y();
             }
 
             tileentity.D();
@@ -960,7 +960,7 @@ public class Chunk {
 
     public void e(BlockPosition blockposition) {
         if (this.h) {
-            TileEntity tileentity = (TileEntity) this.tileEntities.remove(blockposition);
+            TileEntity tileentity = this.tileEntities.remove(blockposition);
 
             if (tileentity != null) {
                 tileentity.y();
@@ -986,7 +986,7 @@ public class Chunk {
         for (TileEntity tileentity : this.tileEntities.values()) {
             // Spigot Start
             if (tileentity instanceof IInventory) {
-                for (org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList((List<org.bukkit.entity.HumanEntity>) ((IInventory) tileentity).getViewers())) {
+                for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((IInventory) tileentity).getViewers())) {
                     if (h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity) {
                         ((org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().closeInventory();
                     }
@@ -1003,7 +1003,7 @@ public class Chunk {
                 Entity entity = iter.next();
                 // Spigot Start
                 if (entity instanceof IInventory) {
-                    for (org.bukkit.entity.HumanEntity h : Lists.<org.bukkit.entity.HumanEntity>newArrayList(((IInventory) entity).getViewers())) {
+                    for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((IInventory) entity).getViewers())) {
                         if (h instanceof org.bukkit.craftbukkit.entity.CraftHumanEntity) {
                             ((org.bukkit.craftbukkit.entity.CraftHumanEntity) h).getHandle().closeInventory();
                         }
@@ -1284,7 +1284,7 @@ public class Chunk {
         }
 
         while (!this.w.isEmpty()) {
-            BlockPosition blockposition = (BlockPosition) this.w.poll();
+            BlockPosition blockposition = this.w.poll();
 
             if (this.a(blockposition, Chunk.EnumTileEntityState.CHECK) == null && this.getType(blockposition).isTileEntity()) {
                 TileEntity tileentity = this.i(blockposition);
@@ -1534,7 +1534,7 @@ public class Chunk {
 
         for (l = k + 16 - 1; l > this.world.F() || l > 0 && !flag1; --l) {
             blockposition_mutableblockposition.c(blockposition_mutableblockposition.getX(), l, blockposition_mutableblockposition.getZ());
-            int i1 = this.b((BlockPosition) blockposition_mutableblockposition);
+            int i1 = this.b(blockposition_mutableblockposition);
 
             if (i1 == 255 && blockposition_mutableblockposition.getY() < this.world.F()) {
                 flag1 = true;
@@ -1628,10 +1628,10 @@ public class Chunk {
         this.u = i;
     }
 
-    public static enum EnumTileEntityState {
+    public enum EnumTileEntityState {
 
         IMMEDIATE, QUEUED, CHECK;
 
-        private EnumTileEntityState() {}
+        EnumTileEntityState() {}
     }
 }

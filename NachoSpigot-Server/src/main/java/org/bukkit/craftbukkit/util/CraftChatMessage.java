@@ -20,10 +20,10 @@ import net.minecraft.server.ChatMessage;
 
 public final class CraftChatMessage {
     
-    private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))");
+    private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + org.bukkit.ChatColor.COLOR_CHAR + " \\n]|$))))");
     private static class StringMessage {
         private static final Map<Character, EnumChatFormat> formatMap;
-        private static final Pattern INCREMENTAL_PATTERN = Pattern.compile("(" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + "[0-9a-fk-or])|(\\n)|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))", Pattern.CASE_INSENSITIVE);
+        private static final Pattern INCREMENTAL_PATTERN = Pattern.compile("(" + org.bukkit.ChatColor.COLOR_CHAR + "[0-9a-fk-or])|(\\n)|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + org.bukkit.ChatColor.COLOR_CHAR + " \\n]|$))))", Pattern.CASE_INSENSITIVE);
 
         static {
             Builder<Character, EnumChatFormat> builder = ImmutableMap.builder();
@@ -98,7 +98,7 @@ public final class CraftChatMessage {
                     }
                     modifier.setChatClickable(new ChatClickable(EnumClickAction.OPEN_URL, match));
                     appendNewComponent(matcher.end(groupId));
-                    modifier.setChatClickable((ChatClickable) null);
+                    modifier.setChatClickable(null);
                 }
                 currentIndex = matcher.end(groupId);
             }

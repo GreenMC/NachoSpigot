@@ -86,7 +86,6 @@ class CraftMetaItem implements ItemMeta, Repairable {
             enum To {
                 BUKKIT,
                 NBT,
-                ;
             }
             To value();
         }
@@ -405,7 +404,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
                 if (!(nbttaglist.get(i) instanceof NBTTagCompound)) {
                     continue;
                 }
-                NBTTagCompound nbttagcompound = (NBTTagCompound) nbttaglist.get(i);
+                NBTTagCompound nbttagcompound = nbttaglist.get(i);
 
                 if (!nbttagcompound.hasKeyOfType(ATTRIBUTES_UUID_HIGH.NBT, 99)) {
                     continue;
@@ -466,8 +465,8 @@ class CraftMetaItem implements ItemMeta, Repairable {
         Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>(ench.size());
 
         for (int i = 0; i < ench.size(); i++) {
-            int id = 0xffff & ((NBTTagCompound) ench.get(i)).getShort(ENCHANTMENTS_ID.NBT);
-            int level = 0xffff & ((NBTTagCompound) ench.get(i)).getShort(ENCHANTMENTS_LVL.NBT);
+            int id = 0xffff & ench.get(i).getShort(ENCHANTMENTS_ID.NBT);
+            int level = 0xffff & ench.get(i).getShort(ENCHANTMENTS_LVL.NBT);
 
             // Spigot start - skip invalid enchantments
             Enchantment e = Enchantment.getById(id);
@@ -671,7 +670,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
     }
 
     public Map<Enchantment, Integer> getEnchants() {
-        return hasEnchants() ? ImmutableMap.copyOf(enchantments) : ImmutableMap.<Enchantment, Integer>of();
+        return hasEnchants() ? ImmutableMap.copyOf(enchantments) : ImmutableMap.of();
     }
 
     public boolean addEnchant(Enchantment ench, int level, boolean ignoreRestrictions) {

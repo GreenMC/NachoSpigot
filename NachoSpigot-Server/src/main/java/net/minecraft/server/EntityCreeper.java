@@ -24,7 +24,7 @@ public class EntityCreeper extends EntityMonster {
         this.goalSelector.a(6, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(6, new PathfinderGoalRandomLookaround(this));
         this.targetSelector.a(1, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
-        this.targetSelector.a(2, new PathfinderGoalHurtByTarget(this, false, new Class[0]));
+        this.targetSelector.a(2, new PathfinderGoalHurtByTarget(this, false));
     }
 
     protected void initAttributes() {

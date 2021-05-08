@@ -160,7 +160,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
     }
 
     public boolean a(EntityHuman entityhuman) {
-        return this.world.getTileEntity(this.position) != this ? false : entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
+        return this.world.getTileEntity(this.position) == this && entityhuman.e((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
     public void startOpen(EntityHuman entityhuman) {}
@@ -192,7 +192,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
                 }
 
                 if (!this.q()) {
-                    flag = a((IHopper) this) || flag;
+                    flag = a(this) || flag;
                 }
 
                 if (flag) {
@@ -413,7 +413,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
             while (iterator.hasNext()) {
                 EntityItem entityitem = (EntityItem) iterator.next();
 
-                if (a((IInventory) ihopper, entityitem)) {
+                if (a(ihopper, entityitem)) {
                     return true;
                 }
             }
@@ -497,7 +497,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
             }
             // CraftBukkit end
             ItemStack itemstack = entityitem.getItemStack().cloneItemStack();
-            ItemStack itemstack1 = addItem(iinventory, itemstack, (EnumDirection) null);
+            ItemStack itemstack1 = addItem(iinventory, itemstack, null);
 
             if (itemstack1 != null && itemstack1.count != 0) {
                 entityitem.setItemStack(itemstack1);
@@ -534,7 +534,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
     }
 
     private static boolean a(IInventory iinventory, ItemStack itemstack, int i, EnumDirection enumdirection) {
-        return !iinventory.b(i, itemstack) ? false : !(iinventory instanceof IWorldInventory) || ((IWorldInventory) iinventory).canPlaceItemThroughFace(i, itemstack, enumdirection);
+        return iinventory.b(i, itemstack) && (!(iinventory instanceof IWorldInventory) || ((IWorldInventory) iinventory).canPlaceItemThroughFace(i, itemstack, enumdirection));
     }
 
     private static boolean b(IInventory iinventory, ItemStack itemstack, int i, EnumDirection enumdirection) {
@@ -583,7 +583,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
     private IInventory H() {
         EnumDirection enumdirection = BlockHopper.b(this.u());
 
-        return b(this.getWorld(), (double) (this.position.getX() + enumdirection.getAdjacentX()), (double) (this.position.getY() + enumdirection.getAdjacentY()), (double) (this.position.getZ() + enumdirection.getAdjacentZ()));
+        return b(this.getWorld(), this.position.getX() + enumdirection.getAdjacentX(), this.position.getY() + enumdirection.getAdjacentY(), this.position.getZ() + enumdirection.getAdjacentZ());
     }
 
     public static IInventory b(IHopper ihopper) {
@@ -611,7 +611,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
             TileEntity tileentity = world.getTileEntity(blockposition);
 
             if (tileentity instanceof IInventory) {
-                object = (IInventory) tileentity;
+                object = tileentity;
                 if (object instanceof TileEntityChest && block instanceof BlockChest) {
                     object = ((BlockChest) block).f(world, blockposition, true);
                 }
@@ -622,7 +622,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
             List list = world.a((Entity) null, new AxisAlignedBB(d0 - 0.5D, d1 - 0.5D, d2 - 0.5D, d0 + 0.5D, d1 + 0.5D, d2 + 0.5D), IEntitySelector.c);
 
             if (list.size() > 0) {
-                object = (IInventory) list.get(world.random.nextInt(list.size()));
+                object = list.get(world.random.nextInt(list.size()));
             }
         }
 
@@ -642,7 +642,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
     // TacoSpigot end
 
     private static boolean a(ItemStack itemstack, ItemStack itemstack1) {
-        return itemstack.getItem() != itemstack1.getItem() ? false : (itemstack.getData() != itemstack1.getData() ? false : (itemstack.count > itemstack.getMaxStackSize() ? false : ItemStack.equals(itemstack, itemstack1)));
+        return itemstack.getItem() == itemstack1.getItem() && (itemstack.getData() == itemstack1.getData() && (itemstack.count <= itemstack.getMaxStackSize() && ItemStack.equals(itemstack, itemstack1)));
     }
 
     public double A() {

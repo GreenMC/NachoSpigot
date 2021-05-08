@@ -83,7 +83,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
 
     public V get(K k0) {
         this.h();
-        return (V) this.d.get(this.a(k0)); // CraftBukkit - fix decompile error
+        return this.d.get(this.a(k0)); // CraftBukkit - fix decompile error
     }
 
     public void remove(K k0) {
@@ -98,7 +98,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
     }
 
     public String[] getEntries() {
-        return (String[]) this.d.keySet().toArray(new String[this.d.size()]);
+        return this.d.keySet().toArray(new String[this.d.size()]);
     }
 
     // CraftBukkit start
@@ -142,7 +142,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
     }
 
     protected JsonListEntry<K> a(JsonObject jsonobject) {
-        return new JsonListEntry((Object) null, jsonobject);
+        return new JsonListEntry(null, jsonobject);
     }
 
     protected Map<String, V> e() {
@@ -169,7 +169,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
 
         try {
             bufferedreader = Files.newReader(this.c, Charsets.UTF_8);
-            collection = (Collection) this.b.fromJson(bufferedreader, JsonList.f);
+            collection = this.b.fromJson(bufferedreader, JsonList.f);
         // Spigot Start
         } catch ( java.io.FileNotFoundException ex )
         {
@@ -223,7 +223,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
         }
 
         public JsonElement serialize(JsonListEntry<K> object, Type type, JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
-            return this.a((JsonListEntry) object, type, jsonserializationcontext);
+            return this.a(object, type, jsonserializationcontext);
         }
 
         public JsonListEntry<K> deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix decompile error

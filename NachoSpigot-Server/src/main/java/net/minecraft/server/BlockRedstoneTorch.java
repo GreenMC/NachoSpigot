@@ -105,7 +105,7 @@ public class BlockRedstoneTorch extends BlockTorch {
     }
 
     private boolean g(World world, BlockPosition blockposition, IBlockData iblockdata) {
-        EnumDirection enumdirection = ((EnumDirection) iblockdata.get(BlockRedstoneTorch.FACING)).opposite();
+        EnumDirection enumdirection = iblockdata.get(BlockRedstoneTorch.FACING).opposite();
 
         return world.isBlockFacePowered(blockposition.shift(enumdirection), enumdirection);
     }
@@ -147,7 +147,7 @@ public class BlockRedstoneTorch extends BlockTorch {
                 // CraftBukkit end
                 world.setTypeAndData(blockposition, Blocks.UNLIT_REDSTONE_TORCH.getBlockData().set(BlockRedstoneTorch.FACING, iblockdata.get(BlockRedstoneTorch.FACING)), 3);
                 if (this.a(world, blockposition, true)) {
-                    world.makeSound((double) ((float) blockposition.getX() + 0.5F), (double) ((float) blockposition.getY() + 0.5F), (double) ((float) blockposition.getZ() + 0.5F), "random.fizz", 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
+                    world.makeSound((float) blockposition.getX() + 0.5F, (float) blockposition.getY() + 0.5F, (float) blockposition.getZ() + 0.5F, "random.fizz", 0.5F, 2.6F + (world.random.nextFloat() - world.random.nextFloat()) * 0.8F);
 
                     for (int i = 0; i < 5; ++i) {
                         double d0 = (double) blockposition.getX() + random.nextDouble() * 0.6D + 0.2D;
@@ -178,7 +178,7 @@ public class BlockRedstoneTorch extends BlockTorch {
     public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
         if (!this.e(world, blockposition, iblockdata)) {
             if (this.isOn == this.g(world, blockposition, iblockdata)) {
-                world.a(blockposition, (Block) this, this.a(world));
+                world.a(blockposition, this, this.a(world));
             }
 
         }

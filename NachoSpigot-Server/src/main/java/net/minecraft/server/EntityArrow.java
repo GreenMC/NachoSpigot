@@ -68,7 +68,7 @@ public class EntityArrow extends Entity implements IProjectile {
         double d0 = entityliving1.locX - entityliving.locX;
         double d1 = entityliving1.getBoundingBox().b + (double) (entityliving1.length / 3.0F) - this.locY;
         double d2 = entityliving1.locZ - entityliving.locZ;
-        double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
+        double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
 
         if (d3 >= 1.0E-7D) {
             float f2 = (float) (MathHelper.b(d2, d0) * 180.0D / 3.1415927410125732D) - 90.0F;
@@ -94,13 +94,13 @@ public class EntityArrow extends Entity implements IProjectile {
 
         this.setSize(0.5F, 0.5F);
         this.setPositionRotation(entityliving.locX, entityliving.locY + (double) entityliving.getHeadHeight(), entityliving.locZ, entityliving.yaw, entityliving.pitch);
-        this.locX -= (double) (MathHelper.cos(this.yaw / 180.0F * 3.1415927F) * 0.16F);
+        this.locX -= MathHelper.cos(this.yaw / 180.0F * 3.1415927F) * 0.16F;
         this.locY -= 0.10000000149011612D;
-        this.locZ -= (double) (MathHelper.sin(this.yaw / 180.0F * 3.1415927F) * 0.16F);
+        this.locZ -= MathHelper.sin(this.yaw / 180.0F * 3.1415927F) * 0.16F;
         this.setPosition(this.locX, this.locY, this.locZ);
-        this.motX = (double) (-MathHelper.sin(this.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.pitch / 180.0F * 3.1415927F));
-        this.motZ = (double) (MathHelper.cos(this.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.pitch / 180.0F * 3.1415927F));
-        this.motY = (double) (-MathHelper.sin(this.pitch / 180.0F * 3.1415927F));
+        this.motX = -MathHelper.sin(this.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.pitch / 180.0F * 3.1415927F);
+        this.motZ = MathHelper.cos(this.yaw / 180.0F * 3.1415927F) * MathHelper.cos(this.pitch / 180.0F * 3.1415927F);
+        this.motY = -MathHelper.sin(this.pitch / 180.0F * 3.1415927F);
         this.shoot(this.motX, this.motY, this.motZ, f * 1.5F, 1.0F);
     }
 
@@ -111,22 +111,22 @@ public class EntityArrow extends Entity implements IProjectile {
     public void shoot(double d0, double d1, double d2, float f, float f1) {
         float f2 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
 
-        d0 /= (double) f2;
-        d1 /= (double) f2;
-        d2 /= (double) f2;
+        d0 /= f2;
+        d1 /= f2;
+        d2 /= f2;
         d0 += this.random.nextGaussian() * (double) (this.random.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) f1;
         d1 += this.random.nextGaussian() * (double) (this.random.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) f1;
         d2 += this.random.nextGaussian() * (double) (this.random.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double) f1;
-        d0 *= (double) f;
-        d1 *= (double) f;
-        d2 *= (double) f;
+        d0 *= f;
+        d1 *= f;
+        d2 *= f;
         this.motX = d0;
         this.motY = d1;
         this.motZ = d2;
         float f3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
 
         this.lastYaw = this.yaw = (float) (MathHelper.b(d0, d2) * 180.0D / 3.1415927410125732D);
-        this.lastPitch = this.pitch = (float) (MathHelper.b(d1, (double) f3) * 180.0D / 3.1415927410125732D);
+        this.lastPitch = this.pitch = (float) (MathHelper.b(d1, f3) * 180.0D / 3.1415927410125732D);
         this.ar = 0;
     }
 
@@ -136,7 +136,7 @@ public class EntityArrow extends Entity implements IProjectile {
             float f = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
 
             this.lastYaw = this.yaw = (float) (MathHelper.b(this.motX, this.motZ) * 180.0D / 3.1415927410125732D);
-            this.lastPitch = this.pitch = (float) (MathHelper.b(this.motY, (double) f) * 180.0D / 3.1415927410125732D);
+            this.lastPitch = this.pitch = (float) (MathHelper.b(this.motY, f) * 180.0D / 3.1415927410125732D);
         }
 
         BlockPosition blockposition = new BlockPosition(this.d, this.e, this.f);
@@ -166,9 +166,9 @@ public class EntityArrow extends Entity implements IProjectile {
                 }
             } else {
                 this.inGround = false;
-                this.motX *= (double) (this.random.nextFloat() * 0.2F);
-                this.motY *= (double) (this.random.nextFloat() * 0.2F);
-                this.motZ *= (double) (this.random.nextFloat() * 0.2F);
+                this.motX *= this.random.nextFloat() * 0.2F;
+                this.motY *= this.random.nextFloat() * 0.2F;
+                this.motZ *= this.random.nextFloat() * 0.2F;
                 this.ar = 0;
                 this.as = 0;
             }
@@ -197,7 +197,7 @@ public class EntityArrow extends Entity implements IProjectile {
 
                 if (entity1.ad() && (entity1 != this.shooter || this.as >= 5)) {
                     f1 = 0.3F;
-                    AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow((double) f1, (double) f1, (double) f1);
+                    AxisAlignedBB axisalignedbb1 = entity1.getBoundingBox().grow(f1, f1, f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.a(vec3d, vec3d1);
 
                     if (movingobjectposition1 != null) {
@@ -316,9 +316,9 @@ public class EntityArrow extends Entity implements IProjectile {
 
                     this.g = iblockdata1.getBlock();
                     this.h = this.g.toLegacyData(iblockdata1);
-                    this.motX = (double) ((float) (movingobjectposition.pos.a - this.locX));
-                    this.motY = (double) ((float) (movingobjectposition.pos.b - this.locY));
-                    this.motZ = (double) ((float) (movingobjectposition.pos.c - this.locZ));
+                    this.motX = (float) (movingobjectposition.pos.a - this.locX);
+                    this.motY = (float) (movingobjectposition.pos.b - this.locY);
+                    this.motZ = (float) (movingobjectposition.pos.c - this.locZ);
                     f1 = MathHelper.sqrt(this.motX * this.motX + this.motY * this.motY + this.motZ * this.motZ);
                     this.locX -= this.motX / (double) f1 * 0.05000000074505806D;
                     this.locY -= this.motY / (double) f1 * 0.05000000074505806D;
@@ -328,7 +328,7 @@ public class EntityArrow extends Entity implements IProjectile {
                     this.shake = 7;
                     this.setCritical(false);
                     if (this.g.getMaterial() != Material.AIR) {
-                        this.g.a(this.world, blockposition1, iblockdata1, (Entity) this);
+                        this.g.a(this.world, blockposition1, iblockdata1, this);
                     }
                 }
             }
@@ -345,8 +345,7 @@ public class EntityArrow extends Entity implements IProjectile {
             f2 = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
             this.yaw = (float) (MathHelper.b(this.motX, this.motZ) * 180.0D / 3.1415927410125732D);
 
-            for (this.pitch = (float) (MathHelper.b(this.motY, (double) f2) * 180.0D / 3.1415927410125732D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
-                ;
+            for (this.pitch = (float) (MathHelper.b(this.motY, f2) * 180.0D / 3.1415927410125732D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
             }
 
             while (this.pitch - this.lastPitch >= 180.0F) {
@@ -379,10 +378,10 @@ public class EntityArrow extends Entity implements IProjectile {
                 this.extinguish();
             }
 
-            this.motX *= (double) f4;
-            this.motY *= (double) f4;
-            this.motZ *= (double) f4;
-            this.motY -= (double) f1;
+            this.motX *= f4;
+            this.motY *= f4;
+            this.motZ *= f4;
+            this.motY -= f1;
             this.setPosition(this.locX, this.locY, this.locZ);
             this.checkBlockCollisions();
         }
@@ -393,7 +392,7 @@ public class EntityArrow extends Entity implements IProjectile {
         nbttagcompound.setShort("yTile", (short) this.e);
         nbttagcompound.setShort("zTile", (short) this.f);
         nbttagcompound.setShort("life", (short) this.ar);
-        MinecraftKey minecraftkey = (MinecraftKey) Block.REGISTRY.c(this.g);
+        MinecraftKey minecraftkey = Block.REGISTRY.c(this.g);
 
         nbttagcompound.setString("inTile", minecraftkey == null ? "" : minecraftkey.toString());
         nbttagcompound.setByte("inData", (byte) this.h);

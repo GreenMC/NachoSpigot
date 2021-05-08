@@ -57,7 +57,7 @@ public final class WeakCollection<T> implements Collection<T> {
 
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            Iterator<WeakReference<T>> it = collection.iterator();
+            final Iterator<WeakReference<T>> it = collection.iterator();
             Object value = NO_VALUE;
 
             public boolean hasNext() {
