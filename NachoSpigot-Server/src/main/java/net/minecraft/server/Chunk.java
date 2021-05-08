@@ -133,6 +133,8 @@ public class Chunk {
     public PacketPlayOutMapChunkBulk cachedPacket;
     public PacketPlayOutMapChunk cachedEmptyPacket;
 
+    private final ChunkCoordIntPair chunkCoords; // [InsanePaper-269] Cache Chunk Coordinations - LewUwU
+
     public Chunk(World world, int i, int j) {
         this.sections = new ChunkSection[16];
         this.e = new byte[256];
@@ -158,6 +160,7 @@ public class Chunk {
         if (!(this instanceof EmptyChunk)) {
             this.bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
         }
+        this.chunkCoords = new ChunkCoordIntPair(this.locX, this.locZ); // [InsanePaper-269] Cache Chunk Coordinations
     }
 
     public org.bukkit.Chunk bukkitChunk;
@@ -1124,11 +1127,9 @@ public class Chunk {
 
                         if (entitybody != null)
                         {
-                            for (int l = 0; l < entitybody.length; ++l)
-                            {
-                                entityCheck = entitybody[l];
-                                if (entityCheck != entity && entityCheck.getBoundingBox().b(axisalignedbb) && (predicate == null || predicate.apply(entityCheck)))
-                                {
+                            for (Entity value : entitybody) {
+                                entityCheck = value;
+                                if (entityCheck != entity && entityCheck.getBoundingBox().b(axisalignedbb) && (predicate == null || predicate.apply(entityCheck))) {
                                     list.add(entityCheck);
                                 }
                             }
@@ -1159,10 +1160,10 @@ public class Chunk {
         // PaperSpigot end
         for (int k = i; k <= j; ++k) {
             if (counts != null && counts[k] <= 0) continue; // PaperSpigot - Don't check a chunk if it doesn't have the type we are looking for
-            Iterator iterator = this.entitySlices[k].iterator(); // Spigot
+            // Spigot
 
-            while (iterator.hasNext()) {
-                Entity entity = (Entity) iterator.next();
+            for (Object o : this.entitySlices[k]) {
+                Entity entity = (Entity) o;
 
                 if (oclass.isInstance(entity) && entity.getBoundingBox().b(axisalignedbb) && (predicate == null || predicate.apply((T) entity))) { // CraftBukkit - fix decompile error // Spigot
                     list.add((T) entity); // Fix decompile error
@@ -1329,7 +1330,8 @@ public class Chunk {
     }
 
     public ChunkCoordIntPair j() {
-        return new ChunkCoordIntPair(this.locX, this.locZ);
+        // [InsanePaper-269] Cache Chunk Coordinations
+        return chunkCoords;
     }
 
     public boolean c(int i, int j) {
