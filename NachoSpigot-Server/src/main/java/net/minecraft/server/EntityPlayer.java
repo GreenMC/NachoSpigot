@@ -670,6 +670,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         int z = pos.getZ();
 
         SignOpenEvent event = new SignOpenEvent((Sign) world.getWorld().getBlockAt(x, y, z).getState(), openType);
+        Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         tileentitysign.a(this);
