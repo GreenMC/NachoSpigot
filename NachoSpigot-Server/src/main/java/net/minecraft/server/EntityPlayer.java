@@ -669,7 +669,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         int y = pos.getY();
         int z = pos.getZ();
 
-        SignOpenEvent event = new SignOpenEvent((Sign) world.getWorld().getBlockAt(x, y, z), openType);
+        SignOpenEvent event = new SignOpenEvent((Sign) world.getWorld().getBlockAt(x, y, z).getState(), openType);
         if (event.isCancelled()) return;
 
         tileentitysign.a(this);

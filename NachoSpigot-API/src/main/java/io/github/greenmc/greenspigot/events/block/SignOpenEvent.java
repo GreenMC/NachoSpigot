@@ -1,6 +1,5 @@
 package io.github.greenmc.greenspigot.events.block;
 
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -16,7 +15,7 @@ public class SignOpenEvent extends BlockEvent implements Cancellable {
     private boolean cancelled = false;
 
     public SignOpenEvent(Sign block, SignOpenType signOpenType) {
-        super((Block) block);
+        super(block.getBlock());
         this.block = block;
         this.signOpenType = signOpenType;
     }
@@ -50,9 +49,6 @@ public class SignOpenEvent extends BlockEvent implements Cancellable {
 
 
     public enum SignOpenType {
-
         BLOCK, PLUGIN
-
     }
-
 }
