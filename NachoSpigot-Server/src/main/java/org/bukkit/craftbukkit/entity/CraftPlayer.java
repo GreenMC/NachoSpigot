@@ -1,10 +1,10 @@
 package org.bukkit.craftbukkit.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.commons.Constants;
+import io.github.greenmc.greenspigot.events.block.SignOpenEvent;
 import io.netty.buffer.Unpooled;
 
 import java.io.ByteArrayOutputStream;
@@ -30,6 +30,7 @@ import org.bukkit.Statistic;
 import org.bukkit.Material;
 import org.bukkit.Statistic.Type;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -1696,6 +1697,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         @Override
         public void sendTitle(int fadeIn, int stay, int fadeOut, String subtitle) {
             sendTitle(null, subtitle, fadeIn, stay, fadeOut);
+        }
+
+        @Override
+        public void openSign(Sign sign) {
+            CraftSign craftSign = (CraftSign) sign;
+            TileEntitySign teSign = craftSign.getTileEntity();
+            getHandle().openSign(teSign, SignOpenEvent.SignOpenType.PLUGIN);
         }
 
         @Override

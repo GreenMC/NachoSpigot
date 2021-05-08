@@ -1,4 +1,4 @@
-package io.github.greenmc.greenspigot.events;
+package io.github.greenmc.greenspigot.events.player;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

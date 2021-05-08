@@ -3,6 +3,7 @@ package net.minecraft.server;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
+import io.github.greenmc.greenspigot.events.block.SignOpenEvent;
 import io.netty.buffer.Unpooled;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 // CraftBukkit start
 import org.bukkit.Bukkit;
 import org.bukkit.WeatherType;
+import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
@@ -657,6 +659,19 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
     }
 
     public void openSign(TileEntitySign tileentitysign) {
+        openSign(tileentitysign, SignOpenEvent.SignOpenType.BLOCK);
+    }
+
+    public void openSign(TileEntitySign tileentitysign, SignOpenEvent.SignOpenType openType) {
+
+        BlockPosition pos = tileentitysign.position;
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        SignOpenEvent event = new SignOpenEvent((Sign) world.getWorld().getBlockAt(x, y, z), openType);
+        if (event.isCancelled()) return;
+
         tileentitysign.a(this);
         this.playerConnection.sendPacket(new PacketPlayOutOpenSignEditor(tileentitysign.getPosition()));
     }

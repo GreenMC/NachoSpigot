@@ -14,6 +14,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.WeatherType;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.map.MapView;
@@ -1427,6 +1428,10 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
         }
 
         public void sendTitle(int fadeIn, int stay, int fadeOut, String subtitle) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void openSign(Sign sign) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
