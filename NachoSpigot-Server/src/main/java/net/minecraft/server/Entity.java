@@ -927,7 +927,7 @@ public abstract class Entity implements ICommandListener {
     }
 
     public void b(boolean flag) {
-        this.datawatcher.watch(4, Byte.valueOf((byte) (flag ? 1 : 0)));
+        this.datawatcher.watch(4, (byte) (flag ? 1 : 0));
     }
 
     protected boolean s_() {
@@ -1061,7 +1061,7 @@ public abstract class Entity implements ICommandListener {
             float f1 = (float) (blockposition.getY() + 1) - f;
             boolean flag = d0 < (double) f1;
 
-            return (flag || !(this instanceof EntityHuman)) && flag;
+            return flag;
         } else {
             return false;
         }
@@ -1454,7 +1454,7 @@ public abstract class Entity implements ICommandListener {
             // CraftBukkit start - Reset world
             if (this instanceof EntityPlayer) {
                 Server server = Bukkit.getServer();
-                org.bukkit.World bworld = null;
+                org.bukkit.World bworld;
 
                 // TODO: Remove World related checks, replaced with WorldUID
                 String worldName = nbttagcompound.getString("world");
@@ -1500,12 +1500,9 @@ public abstract class Entity implements ICommandListener {
 
     protected NBTTagList a(double... adouble) {
         NBTTagList nbttaglist = new NBTTagList();
-        double[] adouble1 = adouble;
         int i = adouble.length;
 
-        for (int j = 0; j < i; ++j) {
-            double d0 = adouble1[j];
-
+        for (double d0 : adouble) {
             nbttaglist.add(new NBTTagDouble(d0));
         }
 
@@ -1514,12 +1511,9 @@ public abstract class Entity implements ICommandListener {
 
     protected NBTTagList a(float... afloat) {
         NBTTagList nbttaglist = new NBTTagList();
-        float[] afloat1 = afloat;
         int i = afloat.length;
 
-        for (int j = 0; j < i; ++j) {
-            float f = afloat1[j];
-
+        for (float f : afloat) {
             nbttaglist.add(new NBTTagFloat(f));
         }
 
@@ -1563,7 +1557,7 @@ public abstract class Entity implements ICommandListener {
             BlockPosition.MutableBlockPosition blockposition_mutableblockposition = new BlockPosition.MutableBlockPosition(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
             for (int i = 0; i < 8; ++i) {
-                int j = MathHelper.floor(this.locY + (double) (((float) ((i >> 0) % 2) - 0.5F) * 0.1F) + (double) this.getHeadHeight());
+                int j = MathHelper.floor(this.locY + (double) (((float) (i % 2) - 0.5F) * 0.1F) + (double) this.getHeadHeight());
                 int k = MathHelper.floor(this.locX + (double) (((float) ((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
                 int l = MathHelper.floor(this.locZ + (double) (((float) ((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
 
@@ -1599,8 +1593,8 @@ public abstract class Entity implements ICommandListener {
                 this.vehicle.al();
                 this.as += this.vehicle.yaw - this.vehicle.lastYaw;
 
-                for (this.ar += this.vehicle.pitch - this.vehicle.lastPitch; this.as >= 180.0D; this.as -= 360.0D) {
-                }
+//                for (this.ar += this.vehicle.pitch - this.vehicle.lastPitch; this.as >= 180.0D; this.as -= 360.0D) {
+//                }
 
                 while (this.as < -180.0D) {
                     this.as += 360.0D;
@@ -1739,11 +1733,9 @@ public abstract class Entity implements ICommandListener {
                 this.vehicle.passenger = null;
             }
 
-            if (entity != null) {
-                for (Entity entity1 = entity.vehicle; entity1 != null; entity1 = entity1.vehicle) {
-                    if (entity1 == this) {
-                        return;
-                    }
+            for (Entity entity1 = entity.vehicle; entity1 != null; entity1 = entity1.vehicle) {
+                if (entity1 == this) {
+                    return;
                 }
             }
 
@@ -1837,9 +1829,9 @@ public abstract class Entity implements ICommandListener {
         byte b0 = this.datawatcher.getByte(0);
 
         if (flag) {
-            this.datawatcher.watch(0, Byte.valueOf((byte) (b0 | 1 << i)));
+            this.datawatcher.watch(0, (byte) (b0 | 1 << i));
         } else {
-            this.datawatcher.watch(0, Byte.valueOf((byte) (b0 & ~(1 << i))));
+            this.datawatcher.watch(0, (byte) (b0 & ~(1 << i)));
         }
 
     }
@@ -1849,7 +1841,7 @@ public abstract class Entity implements ICommandListener {
     }
 
     public void setAirTicks(int i) {
-        this.datawatcher.watch(1, Short.valueOf((short) i));
+        this.datawatcher.watch(1, (short) i);
     }
 
     public void onLightningStrike(EntityLightning entitylightning) {
@@ -2010,7 +2002,7 @@ public abstract class Entity implements ICommandListener {
     }
 
     public String toString() {
-        return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.getClass().getSimpleName(), this.getName(), Integer.valueOf(this.id), this.world == null ? "~NULL~" : this.world.getWorldData().getName(), Double.valueOf(this.locX), Double.valueOf(this.locY), Double.valueOf(this.locZ));
+        return String.format("%s['%s'/%d, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.getClass().getSimpleName(), this.getName(), this.id, this.world == null ? "~NULL~" : this.world.getWorldData().getName(), this.locX, this.locY, this.locZ);
     }
 
     public boolean isInvulnerable(DamageSource damagesource) {
@@ -2148,43 +2140,43 @@ public abstract class Entity implements ICommandListener {
     }
 
     public void appendEntityCrashDetails(CrashReportSystemDetails crashreportsystemdetails) {
-        crashreportsystemdetails.a("Entity Type", new Callable() {
-            public String a() throws Exception {
+        crashreportsystemdetails.a("Entity Type", new Callable<Object>() {
+            public String a() {
                 return EntityTypes.b(Entity.this) + " (" + Entity.this.getClass().getCanonicalName() + ")";
             }
 
-            public Object call() throws Exception {
+            public Object call() {
                 return this.a();
             }
         });
-        crashreportsystemdetails.a("Entity ID", Integer.valueOf(this.id));
-        crashreportsystemdetails.a("Entity Name", new Callable() {
-            public String a() throws Exception {
+        crashreportsystemdetails.a("Entity ID", this.id);
+        crashreportsystemdetails.a("Entity Name", new Callable<Object>() {
+            public String a() {
                 return Entity.this.getName();
             }
 
-            public Object call() throws Exception {
+            public Object call() {
                 return this.a();
             }
         });
-        crashreportsystemdetails.a("Entity's Exact location", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.locX), Double.valueOf(this.locY), Double.valueOf(this.locZ)}));
+        crashreportsystemdetails.a("Entity's Exact location", String.format("%.2f, %.2f, %.2f", this.locX, this.locY, this.locZ));
         crashreportsystemdetails.a("Entity's Block location", CrashReportSystemDetails.a(MathHelper.floor(this.locX), MathHelper.floor(this.locY), MathHelper.floor(this.locZ)));
-        crashreportsystemdetails.a("Entity's Momentum", String.format("%.2f, %.2f, %.2f", new Object[] { Double.valueOf(this.motX), Double.valueOf(this.motY), Double.valueOf(this.motZ)}));
-        crashreportsystemdetails.a("Entity's Rider", new Callable() {
-            public String a() throws Exception {
+        crashreportsystemdetails.a("Entity's Momentum", String.format("%.2f, %.2f, %.2f", this.motX, this.motY, this.motZ));
+        crashreportsystemdetails.a("Entity's Rider", new Callable<Object>() {
+            public String a() {
                 return Entity.this.passenger.toString();
             }
 
-            public Object call() throws Exception {
+            public Object call() {
                 return this.a();
             }
         });
-        crashreportsystemdetails.a("Entity's Vehicle", new Callable() {
-            public String a() throws Exception {
+        crashreportsystemdetails.a("Entity's Vehicle", new Callable<Object>() {
+            public String a() {
                 return Entity.this.vehicle.toString();
             }
 
-            public Object call() throws Exception {
+            public Object call() {
                 return this.a();
             }
         });
@@ -2224,7 +2216,7 @@ public abstract class Entity implements ICommandListener {
     }
 
     public void setCustomNameVisible(boolean flag) {
-        this.datawatcher.watch(3, Byte.valueOf((byte) (flag ? 1 : 0)));
+        this.datawatcher.watch(3, (byte) (flag ? 1 : 0));
     }
 
     public boolean getCustomNameVisible() {

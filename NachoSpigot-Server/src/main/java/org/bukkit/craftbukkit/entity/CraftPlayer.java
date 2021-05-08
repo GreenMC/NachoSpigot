@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.entity;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.commons.Constants;
@@ -68,12 +67,12 @@ import org.github.paperspigot.Title;
 
 @DelegateDeserialization(CraftOfflinePlayer.class)
 public class CraftPlayer extends CraftHumanEntity implements Player {
-    private long firstPlayed = 0;
+    private long firstPlayed;
     private long lastPlayed = 0;
     private boolean hasPlayedBefore = false;
     private final ConversationTracker conversationTracker = new ConversationTracker();
-    private final Set<String> channels = new HashSet<String>();
-    private final Set<UUID> hiddenPlayers = new HashSet<UUID>();
+    private final Set<String> channels = new HashSet<>();
+    private final Set<UUID> hiddenPlayers = new HashSet<>();
     private int hash = 0;
     private double health = 20;
     private boolean scaledHealth = false;
@@ -503,7 +502,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (getHandle().playerConnection == null) return;
 
         RenderData data = ((CraftMapView) map).render(this);
-        Collection<MapIcon> icons = new ArrayList<MapIcon>();
+        Collection<MapIcon> icons = new ArrayList<>();
         for (MapCursor cursor : data.cursors) {
             if (cursor.isVisible()) {
                 icons.add(new MapIcon(cursor.getRawType(), cursor.getX(), cursor.getY(), cursor.getDirection()));
@@ -1013,11 +1012,9 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
-
-        result.put("name", getName());
-
-        return result;
+        return new LinkedHashMap<String, Object>() {{
+            put("name", getName());
+        }};
     }
 
     @Override
@@ -1334,9 +1331,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (playerConnection == null) {
             throw new IllegalStateException("Cannot set scoreboard yet");
         }
-        if (playerConnection.isDisconnected()) {
-            // throw new IllegalStateException("Cannot set scoreboard for invalid CraftPlayer"); // Spigot - remove this as Mojang's semi asynchronous Netty implementation can lead to races
-        }
+
+//        if (playerConnection.isDisconnected()) {
+//             throw new IllegalStateException("Cannot set scoreboard for invalid CraftPlayer"); // Spigot - remove this as Mojang's semi asynchronous Netty implementation can lead to races
+//        }
 
         this.server.getScoreboardManager().setPlayerBoard(this, scoreboard);
     }
@@ -1381,7 +1379,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
     public void updateScaledHealth() {
         AttributeMapServer attributemapserver = (AttributeMapServer) getHandle().getAttributeMap();
-        Set set = attributemapserver.getAttributes();
+        Set<AttributeInstance> set = attributemapserver.getAttributes();
 
         injectScaledMaxHealth(set, true);
 
@@ -1393,7 +1391,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         getHandle().maxHealthCache = getMaxHealth();
     }
 
-    public void injectScaledMaxHealth(Collection collection, boolean force) {
+    public void injectScaledMaxHealth(Collection<AttributeInstance> collection, boolean force) {
         if (!scaledHealth && !force) {
             return;
         }
@@ -1544,7 +1542,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         @Override
         public Set<Player> getHiddenPlayers()
         {
-            Set<Player> ret = new HashSet<Player>();
+            Set<Player> ret = new HashSet<>();
             for ( UUID u : hiddenPlayers )
             {
                 ret.add( getServer().getPlayer( u ) );

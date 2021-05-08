@@ -39,7 +39,6 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
      */
     String getDisplayName();
 
-
     /**
      * Sets the "friendly" name to display of this player. This may include
      * color.
