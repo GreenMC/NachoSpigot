@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 /**
  */
 public class MetadataConversionTest {
-    private Plugin plugin = new TestPlugin("x");
+    private final Plugin plugin = new TestPlugin("x");
     private FixedMetadataValue subject;
 
     private void setSubject(Object value) {

@@ -7,7 +7,7 @@ import org.bukkit.plugin.TestPlugin;
 import org.junit.Test;
 
 public class MetadataValueAdapterTest {
-    private TestPlugin plugin = new TestPlugin("x");
+    private final TestPlugin plugin = new TestPlugin("x");
 
     @Test
     public void testAdapterBasics() {

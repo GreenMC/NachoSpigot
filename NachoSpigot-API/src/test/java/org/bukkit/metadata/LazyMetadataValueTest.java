@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class LazyMetadataValueTest {
     private LazyMetadataValue subject;
-    private TestPlugin plugin = new TestPlugin("x");
+    private final TestPlugin plugin = new TestPlugin("x");
 
     @Test
     public void testLazyInt() {

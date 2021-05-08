@@ -20,7 +20,6 @@ public interface BanList {
          * Banned player IP addresses
          */
         IP,
-        ;
     }
 
     /**

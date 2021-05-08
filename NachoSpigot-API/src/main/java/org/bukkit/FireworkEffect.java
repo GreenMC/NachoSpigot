@@ -40,7 +40,6 @@ public final class FireworkEffect implements ConfigurationSerializable {
          * A creeper-face effect.
          */
         CREEPER,
-        ;
     }
 
     /**

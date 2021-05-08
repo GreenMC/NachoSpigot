@@ -8,7 +8,7 @@ import org.bukkit.plugin.TestPlugin;
 import org.junit.Test;
 
 public class FixedMetadataValueTest {
-    private Plugin plugin = new TestPlugin("X");
+    private final Plugin plugin = new TestPlugin("X");
     private FixedMetadataValue subject;
 
     @Test

@@ -25,7 +25,7 @@ public class StringUtilTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void nullCollectionTest() {
-        StringUtil.copyPartialMatches("Token", ImmutableList.<String>of(), null);
+        StringUtil.copyPartialMatches("Token", ImmutableList.of(), null);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -35,7 +35,7 @@ public class StringUtilTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void nullTokenTest() {
-        StringUtil.copyPartialMatches(null, ImmutableList.<String>of(), new ArrayList<String>());
+        StringUtil.copyPartialMatches(null, ImmutableList.of(), new ArrayList<String>());
     }
 
     @Test

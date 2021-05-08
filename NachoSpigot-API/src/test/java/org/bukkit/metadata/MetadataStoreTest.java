@@ -12,8 +12,8 @@ import org.bukkit.plugin.TestPlugin;
 import org.junit.Test;
 
 public class MetadataStoreTest {
-    private Plugin pluginX = new TestPlugin("x");
-    private Plugin pluginY = new TestPlugin("y");
+    private final Plugin pluginX = new TestPlugin("x");
+    private final Plugin pluginY = new TestPlugin("y");
 
     StringMetadataStore subject = new StringMetadataStore();
 

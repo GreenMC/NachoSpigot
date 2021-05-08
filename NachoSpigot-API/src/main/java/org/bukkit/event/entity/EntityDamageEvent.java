@@ -271,7 +271,6 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
          * effect.
          */
         ABSORPTION,
-        ;
     }
 
     /**

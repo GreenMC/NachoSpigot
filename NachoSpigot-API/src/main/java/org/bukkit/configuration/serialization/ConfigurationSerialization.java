@@ -74,7 +74,7 @@ public class ConfigurationSerialization {
             ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
 
             if (result == null) {
-                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization: method returned null");
+                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method + "' of " + clazz + " for deserialization: method returned null");
             } else {
                 return result;
             }

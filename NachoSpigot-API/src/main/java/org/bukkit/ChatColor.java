@@ -349,7 +349,7 @@ public enum ChatColor{
                 ChatColor color = getByChar(c);
 
                 if (color != null) {
-                    result = color.toString() + result;
+                    result = color + result;
 
                     // Once we find a color or reset we can stop searching
                     if (color.isColor() || color.equals(RESET)) {
