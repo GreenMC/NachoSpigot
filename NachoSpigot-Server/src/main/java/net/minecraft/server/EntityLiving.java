@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import dev.cobblesword.nachospigot.commons.Constants;
+import io.github.greenmc.greenspigot.events.player.PlayerArmorChangeEvent;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
@@ -1483,13 +1486,25 @@ public abstract class EntityLiving extends Entity {
                 }
             }
 
-            for (int j = 0; j < 5; ++j)
+            EnumItemSlot[] aenumitemslot = EnumItemSlot.values();
+            int enumLength = aenumitemslot.length;
+
+            for (int j = 0; j < enumLength; ++j)
             {
+                EnumItemSlot enumitemslot = aenumitemslot[j];
                 ItemStack itemstack = this.h[j];
                 ItemStack itemstack1 = this.getEquipment(j);
 
                 if (!ItemStack.matches(itemstack1, itemstack))
                 {
+                    // Green start - Paper patch 176
+                    if (this instanceof EntityPlayer && enumitemslot.getType() == EnumItemSlot.Function.ARMOR) {
+                        final org.bukkit.inventory.ItemStack oldItem = CraftItemStack.asBukkitCopy(itemstack);
+                        final org.bukkit.inventory.ItemStack newItem = CraftItemStack.asBukkitCopy(itemstack1);
+                        PlayerArmorChangeEvent event = new PlayerArmorChangeEvent((Player) this.getBukkitEntity(), newItem, oldItem, PlayerArmorChangeEvent.SlotType.valueOf(enumitemslot.name()));
+                        Bukkit.getPluginManager().callEvent(event);
+                    }
+                    // Green end
                     ((WorldServer) this.world).getTracker().a(this, new PacketPlayOutEntityEquipment(this.getId(), j, itemstack1));
                     if (itemstack != null) {
                         this.c.a(itemstack.B());
